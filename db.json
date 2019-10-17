@@ -1,0 +1,91 @@
+{
+    "User": [
+        {
+            "id": 1,
+            "name": "Jill",
+            "hash": "blob",
+            "type": "Administrator"
+        },
+        {
+            "id": 2,
+            "name": "Bobbert",
+            "hash": "blob",
+            "type": "Host"
+        },
+        {
+            "id": 3,
+            "name": "Vince",
+            "hash": "blob",
+            "type": "Attendee"
+        }
+    ],
+    "Order": [
+        {
+            "id": 1,
+            "userID": 1,
+            "bbqID": 1,
+            "type": {
+                "tag": "HB",
+                "cheese": 1,
+                "meat": 1,
+                "doneness": 2
+            }
+        },
+        {
+            "id": 2,
+            "userID": 1,
+            "bbqID": 1,
+            "type": {
+                "tag": "HD",
+                "count": 2,
+                "burnt": "Y"
+            }
+        },
+        {
+            "id": 3,
+            "userID": 2,
+            "bbqID": 1,
+            "type": {
+                "tag": "HD",
+                "count": 1,
+                "burnt": "N"
+            }
+        },
+        {
+            "id": 4,
+            "userID": 3,
+            "bbqID": 2,
+            "type": {
+                "tag": "HB",
+                "cheese": 0,
+                "meat": 2,
+                "doneness": 1
+            }
+        },
+        {
+            "id": 5,
+            "userID": 2,
+            "bbqID": 3,
+            "type": {
+                "tag": "HB",
+                "cheese": 0,
+                "meat": 3,
+                "doneness": 3
+            }
+        }
+    ],
+    "BBQ": [
+        {
+            "id": 1,
+            "date": "2019-10-17T21:16:31.261Z"
+        },
+        {
+            "id": 2,
+            "date": "2014-01-01T23:28:56.782Z"
+        },
+        {
+            "id": 3,
+            "date": "2012-04-23T18:25:43.511Z"
+        }
+    ]
+}
