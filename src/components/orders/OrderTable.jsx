@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import * as orderEnums from "./orderEnums";
 
 const OrderTable = ({ orders, users }) => (
-  <table className="table">
+  <table className="table table-hover">
     <thead>
-      <tr>
+      <tr className="table-secondary">
         <th style={{ width: "10%" }}>Order ID</th>
         <th style={{ width: "10%" }}>BBQ ID</th>
         <th style={{ width: "30%" }}>Placed By</th>
