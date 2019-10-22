@@ -1,30 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { loadOrders } from "../../redux/actions/orderActions";
 import { loadUsers } from "../../redux/actions/userActions";
-import PropTypes from "prop-types";
 import Spinner from "../../Spinner";
 import OrderTable from "./OrderTable";
 
-const OrderHistory = (/*{ orders, loadOrders, ...props }*/) => {
-  const [orders, setOrders] = useState([]);
-  const [users, setUsers] = useState([]);
+const OrderHistory = () => {
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (orders.length === 0) {
-      // loadOrders().catch(error => {
-      //   alert("Loading courses failed: " + error);
-      // });
-      fetch("http://10.1.10.181:3001/Order/")
-        .then(k => k.json())
-        .then(k => setOrders(k));
-    }
-    if (users.length === 0) {
-      fetch("http://10.1.10.181:3001/User/")
-        .then(k => k.json())
-        .then(k => setUsers(k));
-    }
-  });
+  const orders = useSelector(state => state.orders);
+  if (orders.length === 0) dispatch(loadOrders());
+  const users = useSelector(state => state.users);
+  if (users.length === 0) dispatch(loadUsers());
 
   return (
     <div className="jumbotron">
@@ -38,26 +25,4 @@ const OrderHistory = (/*{ orders, loadOrders, ...props }*/) => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    orders: state.orders,
-    users: state.users
-  };
-}
-
-const mapDispatchToProps = {
-  loadOrders,
-  loadUsers
-};
-
-OrderHistory.propTypes = {
-  loadOrders: PropTypes.func.isRequired,
-  loadUsers: PropTypes.func.isRequired,
-  orders: PropTypes.array.isRequired,
-  users: PropTypes.array.isRequired
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OrderHistory);
+export default OrderHistory;
