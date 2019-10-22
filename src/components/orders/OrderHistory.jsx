@@ -5,7 +5,7 @@ import { loadUsers } from "../../redux/actions/userActions";
 import Spinner from "../../Spinner";
 import OrderTable from "./OrderTable";
 
-const OrderHistory = () => {
+export default function OrderHistory() {
   const dispatch = useDispatch();
 
   const orders = useSelector(state => state.orders);
@@ -23,6 +23,4 @@ const OrderHistory = () => {
       )}
     </div>
   );
-};
-
-export default OrderHistory;
+}

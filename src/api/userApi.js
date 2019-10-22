@@ -1,8 +1,11 @@
 import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = "http://10.1.10.181:3001/User/";
 
-export function getUsers() {
-  return fetch(baseUrl)
-    .then(handleResponse)
-    .catch(handleError);
+export async function getUsers() {
+  try {
+    let response = await fetch(baseUrl);
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
 }

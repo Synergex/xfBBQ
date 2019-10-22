@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import "./index.scss";
+import "bootswatch/dist/darkly/bootstrap.min.css";
 import App from "./App";
 import "./index.css";
 import configureStore from "./redux/configureStore";
