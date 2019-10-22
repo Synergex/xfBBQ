@@ -6,7 +6,7 @@ export default function OrderTable({ orders, users }) {
   return (
     <table className="table table-hover">
       <thead>
-        <tr className="table-secondary">
+        <tr className="table-primary">
           <th style={{ width: "10%" }}>Order ID</th>
           <th style={{ width: "10%" }}>BBQ ID</th>
           <th style={{ width: "30%" }}>Placed By</th>
@@ -16,7 +16,10 @@ export default function OrderTable({ orders, users }) {
       <tbody>
         {orders.map(order => {
           return (
-            <tr key={order.id}>
+            <tr
+              key={order.id}
+              className={order.id % 2 === 0 ? "table-secondary" : ""}
+            >
               <td>{order.id}</td>
               <td>{order.bbqID}</td>
               <td>{users.filter(user => order.userID === user.id)[0].name}</td>

@@ -5,7 +5,7 @@ export default function BBQTable({ bbqs }) {
   return (
     <table className="table table-hover">
       <thead>
-        <tr className="table-secondary">
+        <tr className="table-primary">
           <th style={{ width: "10%" }}>BBQ ID</th>
           <th>Date</th>
         </tr>
@@ -13,7 +13,10 @@ export default function BBQTable({ bbqs }) {
       <tbody>
         {bbqs.map(bbq => {
           return (
-            <tr key={bbq.id}>
+            <tr
+              key={bbq.id}
+              className={bbq.id % 2 === 0 ? "table-secondary" : ""}
+            >
               <td>{bbq.id}</td>
               <td>
                 <pre>{new Date(bbq.date).toString()}</pre>
