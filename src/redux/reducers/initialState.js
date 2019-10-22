@@ -1,5 +1,5 @@
 export default {
-  BBQs: [],
+  bbqs: [],
   users: [],
   orders: []
 };
