@@ -22,6 +22,15 @@ export default function Header() {
           </li>
           <li className="navbar-item">
             <NavLink
+              to="/UsersList"
+              activeStyle={activeStyle}
+              className="nav-link"
+            >
+              Users
+            </NavLink>
+          </li>
+          <li className="navbar-item">
+            <NavLink
               to="/OrderHistory"
               activeStyle={activeStyle}
               className="nav-link"
