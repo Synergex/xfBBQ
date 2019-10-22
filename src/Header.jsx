@@ -11,7 +11,6 @@ const Header = () => {
       </NavLink>
       <div id="navbarColor01" style={{}}>
         <ul className="navbar-nav mr-auto">
-          <li className="navbar-item"></li>
           <li className="navbar-item">
             <NavLink
               to="/CurrentOrder"
