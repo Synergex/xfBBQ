@@ -1,9 +1,9 @@
-import * as types from "./actionTypes";
+import * as type from "./actionTypes";
 import * as orderApi from "../../api/orderApi";
 import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 export function loadOrdersSuccess(orders) {
-  return { type: types.LOAD_ORDERS_SUCCESS, orders };
+  return { type: type.LOAD_ORDERS_SUCCESS, orders };
 }
 
 export function loadOrders() {

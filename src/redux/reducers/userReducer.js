@@ -1,9 +1,9 @@
 import initialState from "./initialState";
-import * as types from "../actions/actionTypes";
+import * as type from "../actions/actionTypes";
 
 export default function userReducer(state = initialState.users, action) {
-  switch (action.types) {
-    case types.LOAD_USERS_SUCCESS:
+  switch (action.type) {
+    case type.LOAD_USERS_SUCCESS:
       return action.users;
     default:
       return state;
