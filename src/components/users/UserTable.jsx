@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 export default function UserTable({ users }) {
   return (
@@ -23,28 +24,11 @@ export default function UserTable({ users }) {
               <td>{user.id}</td>
               <td>{user.name}</td>
               <td>{user.type}</td>
+              <td>{moment(user.joinDate).format("MM/DD/YYYY")}</td>
               <td>
-                <pre>
-                  {new Date(user.joinDate)
-                    .toString()
-                    .substring(
-                      4,
-                      new Date(user.joinDate).toString().indexOf("(") - 1
-                    )}
-                </pre>
-              </td>
-              <td>
-                <pre>
-                  {user.lastLoginDate === undefined
-                    ? "Never"
-                    : new Date(user.lastLoginDate)
-                        .toString()
-                        .substring(
-                          4,
-                          new Date(user.lastLoginDate).toString().indexOf("(") -
-                            1
-                        )}
-                </pre>
+                {user.lastLoginDate === undefined
+                  ? "Never"
+                  : moment(user.lastLoginDate).format("MM/DD/YYYY")}
               </td>
             </tr>
           );
