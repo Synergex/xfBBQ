@@ -22,6 +22,15 @@ export default function Header() {
           </li>
           <li className="navbar-item">
             <NavLink
+              to="/UserRegistrationForm"
+              activeStyle={activeStyle}
+              className="nav-link"
+            >
+              New User Registration
+            </NavLink>
+          </li>
+          <li className="navbar-item">
+            <NavLink
               to="/UsersList"
               activeStyle={activeStyle}
               className="nav-link"

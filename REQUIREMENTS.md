@@ -1,4 +1,18 @@
-# _xf_ BBQ
+# 𝘹𝘧BBQ
+
+## Database Tables
+
+### User Table
+
+|               |                                                 |
+| ------------- | ----------------------------------------------- |
+| id            | (PK) ID of user                                 |
+| name          | Name of user                                    |
+| hash          | Hashed password of user                         |
+| type          | Type of user (Administrator, Host, or Attendee) |
+| email         | Email of user                                   |
+| joinDate      | Timestamp of when the user joined               |
+| lastLoginDate | Timestamp of when the user last logged in       |
 
 ## User Requirements
 

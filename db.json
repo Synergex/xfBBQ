@@ -3,20 +3,29 @@
         {
             "id": 1,
             "name": "Jill",
-            "hash": "blob",
-            "type": "Administrator"
+            "hash": "$2a$13$uslXI3tLkSQ31.OqSLZMA.TVvjVcIdAiXEkb9YEhzSMnz27DgFrrm",
+            "type": "Administrator",
+            "email": "jill@coolcompany.internet",
+            "joinDate": "2019-10-17T21:16:31.261Z",
+            "lastLoginDate": "2019-10-31T20:20:32.520Z"
         },
         {
             "id": 2,
             "name": "Bobbert",
-            "hash": "blob",
-            "type": "Host"
+            "hash": "$2a$13$TPCWsnW/Gj6ZvAlCpiSMtOt7fzlA1P9vFmFx5bMJXQi9URkaj84Vm",
+            "type": "Host",
+            "email": "bobbert@robbert.bill",
+            "joinDate": "2014-01-01T23:28:56.782Z",
+            "lastLoginDate": "2019-10-17T21:16:31.261Z"
         },
         {
             "id": 3,
             "name": "Vince",
-            "hash": "blob",
-            "type": "Attendee"
+            "hash": "$2y$13$5.IAG25Bz2NDdQJ8SVAe4eFmZKQfNnv1FiswPJ52riVcJW1W2pdB2",
+            "type": "Attendee",
+            "email": "thisismy@email.com",
+            "joinDate": "2012-04-23T18:25:43.511Z",
+            "lastLoginDate": "2014-01-01T23:28:56.782Z"
         }
     ],
     "Order": [

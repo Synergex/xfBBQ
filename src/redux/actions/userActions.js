@@ -6,15 +6,32 @@ export function loadUsersSuccess(users) {
   return { type: type.LOAD_USERS_SUCCESS, users };
 }
 
+export function createUserSuccess(user) {
+  return { type: type.CREATE_USER_SUCCESS, user };
+}
+
 export function loadUsers() {
   return async function(dispatch) {
     dispatch(beginApiCall());
     try {
       const users = await userAPI.getUsers();
       dispatch(loadUsersSuccess(users));
-    } catch (e) {
-      dispatch(apiCallError(e));
-      throw e;
+    } catch (error) {
+      dispatch(apiCallError(error));
+      throw error;
+    }
+  };
+}
+
+export function saveUser(user) {
+  return async function(dispatch) {
+    dispatch(beginApiCall());
+    try {
+      const savedUser = await userAPI.saveUser(user);
+      dispatch(createUserSuccess(savedUser));
+    } catch (error) {
+      dispatch(apiCallError(error));
+      throw error;
     }
   };
 }

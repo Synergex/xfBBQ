@@ -9,3 +9,16 @@ export async function getUsers() {
     return handleError(error);
   }
 }
+
+export async function saveUser(user) {
+  try {
+    let response = await fetch(baseUrl + (user.id || ""), {
+      method: user.id ? "PUT" : "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(user)
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
