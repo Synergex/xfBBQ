@@ -37,7 +37,7 @@ export default function UserTable({ users }) {
                 <pre>
                   {user.lastLoginDate === undefined
                     ? "Never"
-                    : new Date(user.joinDate)
+                    : new Date(user.lastLoginDate)
                         .toString()
                         .substring(
                           4,
