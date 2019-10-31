@@ -40,6 +40,15 @@ export default function Header() {
           </li>
           <li className="navbar-item">
             <NavLink
+              to="/BBQRegistrationForm"
+              activeStyle={activeStyle}
+              className="nav-link"
+            >
+              Create New BBQ
+            </NavLink>
+          </li>
+          <li className="navbar-item">
+            <NavLink
               to="/BBQList"
               activeStyle={activeStyle}
               className="nav-link"

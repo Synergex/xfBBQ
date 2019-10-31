@@ -2,12 +2,12 @@ import * as type from "./actionTypes";
 import * as userAPI from "../../api/userApi";
 import { beginApiCall, apiCallError } from "./apiStatusActions";
 
-export function loadUsersSuccess(users) {
-  return { type: type.LOAD_USERS_SUCCESS, users };
-}
-
 export function createUserSuccess(user) {
   return { type: type.CREATE_USER_SUCCESS, user };
+}
+
+export function loadUsersSuccess(users) {
+  return { type: type.LOAD_USERS_SUCCESS, users };
 }
 
 export function loadUsers() {

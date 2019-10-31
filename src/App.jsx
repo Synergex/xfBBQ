@@ -10,6 +10,8 @@ import HomePage from "./components/home/HomePage";
 
 import UserRegistrationForm from "./components/users/UserRegistrationForm";
 import UserList from "./components/users/UsersList";
+
+import BBQRegistrationForm from "./components/bbq/BBQRegistrationForm";
 import BBQList from "./components/bbq/BBQList";
 import OrderHistory from "./components/orders/OrderHistory";
 
@@ -21,6 +23,7 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/UserRegistrationForm" component={UserRegistrationForm} />
         <Route path="/UsersList" component={UserList} />
+        <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
         <Route path="/BBQList" component={BBQList} />
         <Route path="/OrderHistory" component={OrderHistory} />
         <Route component={PageNotFound} />

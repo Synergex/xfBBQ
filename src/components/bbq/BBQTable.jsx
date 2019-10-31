@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 export default function BBQTable({ bbqs }) {
   return (
     <table className="table table-hover">
       <thead>
         <tr className="table-primary">
-          <th style={{ width: "10%" }}>BBQ ID</th>
-          <th>Date</th>
+          <th>BBQ ID</th>
+          <th>Date Created</th>
+          <th>Date Held On</th>
         </tr>
       </thead>
       <tbody>
@@ -18,9 +20,8 @@ export default function BBQTable({ bbqs }) {
               className={bbq.id % 2 === 0 ? "table-secondary" : ""}
             >
               <td>{bbq.id}</td>
-              <td>
-                <pre>{new Date(bbq.date).toString()}</pre>
-              </td>
+              <td>{moment(bbq.creationDate).format("MM/DD/YYYY")}</td>
+              <td>{moment(bbq.heldDate).format("MM/DD/YYYY")}</td>
             </tr>
           );
         })}
