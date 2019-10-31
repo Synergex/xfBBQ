@@ -9,6 +9,7 @@ export default function UserTable({ users }) {
         <tr className="table-primary">
           <th>User ID</th>
           <th>Name</th>
+          <th>Email</th>
           <th>Type</th>
           <th>Join Date</th>
           <th>Last Login Date</th>
@@ -23,6 +24,7 @@ export default function UserTable({ users }) {
             >
               <td>{user.id}</td>
               <td>{user.name}</td>
+              <td>{user.email}</td>
               <td>{user.type}</td>
               <td>{moment(user.joinDate).format("MM/DD/YYYY")}</td>
               <td>
