@@ -6,9 +6,11 @@ export default function UserTable({ users }) {
     <table className="table table-hover">
       <thead>
         <tr className="table-primary">
-          <th style={{ width: "10%" }}>User ID</th>
-          <th style={{ width: "30%" }}>Name</th>
+          <th>User ID</th>
+          <th>Name</th>
           <th>Type</th>
+          <th>Join Date</th>
+          <th>Last Login Date</th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +23,29 @@ export default function UserTable({ users }) {
               <td>{user.id}</td>
               <td>{user.name}</td>
               <td>{user.type}</td>
+              <td>
+                <pre>
+                  {new Date(user.joinDate)
+                    .toString()
+                    .substring(
+                      4,
+                      new Date(user.joinDate).toString().indexOf("(") - 1
+                    )}
+                </pre>
+              </td>
+              <td>
+                <pre>
+                  {user.lastLoginDate === undefined
+                    ? "Never"
+                    : new Date(user.joinDate)
+                        .toString()
+                        .substring(
+                          4,
+                          new Date(user.lastLoginDate).toString().indexOf("(") -
+                            1
+                        )}
+                </pre>
+              </td>
             </tr>
           );
         })}
