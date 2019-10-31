@@ -1,88 +1,91 @@
 {
-    "User": [
-        {
-            "id": 1,
-            "name": "Jill",
-            "hash": "$2a$13$uslXI3tLkSQ31.OqSLZMA.TVvjVcIdAiXEkb9YEhzSMnz27DgFrrm",
-            "type": "Administrator",
-            "email": "jill@coolcompany.internet",
-            "joinDate": "2019-10-17T21:16:31.261Z",
-            "lastLoginDate": "2019-10-31T20:20:32.520Z"
-        },
-        {
-            "id": 2,
-            "name": "Bobbert",
-            "hash": "$2a$13$TPCWsnW/Gj6ZvAlCpiSMtOt7fzlA1P9vFmFx5bMJXQi9URkaj84Vm",
-            "type": "Host",
-            "email": "bobbert@robbert.bill",
-            "joinDate": "2014-01-01T23:28:56.782Z",
-            "lastLoginDate": "2019-10-17T21:16:31.261Z"
-        },
-        {
-            "id": 3,
-            "name": "Vince",
-            "hash": "$2y$13$5.IAG25Bz2NDdQJ8SVAe4eFmZKQfNnv1FiswPJ52riVcJW1W2pdB2",
-            "type": "Attendee",
-            "email": "thisismy@email.com",
-            "joinDate": "2012-04-23T18:25:43.511Z",
-            "lastLoginDate": "2014-01-01T23:28:56.782Z"
-        }
-    ],
-    "Order": [
-        {
-            "id": 1,
-            "userID": 1,
-            "bbqID": 1,
-            "cheese": 1,
-            "meat": 1,
-            "doneness": 2,
-            "spicy": 1
-        },
-        {
-            "id": 2,
-            "userID": 1,
-            "bbqID": 1,
-            "count": 2,
-            "burnt": true
-        },
-        {
-            "id": 3,
-            "userID": 2,
-            "bbqID": 1,
-            "count": 1,
-            "burnt": false
-        },
-        {
-            "id": 4,
-            "userID": 3,
-            "bbqID": 2,
-            "cheese": 0,
-            "meat": 2,
-            "doneness": 1,
-            "spicy": 0
-        },
-        {
-            "id": 5,
-            "userID": 2,
-            "bbqID": 3,
-            "cheese": 2,
-            "meat": 3,
-            "doneness": 3,
-            "spicy": 2
-        }
-    ],
-    "BBQ": [
-        {
-            "id": 1,
-            "date": "2019-10-17T21:16:31.261Z"
-        },
-        {
-            "id": 2,
-            "date": "2014-01-01T23:28:56.782Z"
-        },
-        {
-            "id": 3,
-            "date": "2012-04-23T18:25:43.511Z"
-        }
-    ]
+  "User": [
+    {
+      "id": 1,
+      "name": "Jill",
+      "hash": "$2a$13$uslXI3tLkSQ31.OqSLZMA.TVvjVcIdAiXEkb9YEhzSMnz27DgFrrm",
+      "type": "Administrator",
+      "email": "jill@coolcompany.internet",
+      "joinDate": "2019-10-17T21:16:31.261Z",
+      "lastLoginDate": "2019-10-31T20:20:32.520Z"
+    },
+    {
+      "id": 2,
+      "name": "Bobbert",
+      "hash": "$2a$13$TPCWsnW/Gj6ZvAlCpiSMtOt7fzlA1P9vFmFx5bMJXQi9URkaj84Vm",
+      "type": "Host",
+      "email": "bobbert@robbert.bill",
+      "joinDate": "2014-01-01T23:28:56.782Z",
+      "lastLoginDate": "2019-10-17T21:16:31.261Z"
+    },
+    {
+      "id": 3,
+      "name": "Vince",
+      "hash": "$2y$13$5.IAG25Bz2NDdQJ8SVAe4eFmZKQfNnv1FiswPJ52riVcJW1W2pdB2",
+      "type": "Attendee",
+      "email": "thisismy@email.com",
+      "joinDate": "2012-04-23T18:25:43.511Z",
+      "lastLoginDate": "2014-01-01T23:28:56.782Z"
+    }
+  ],
+  "Order": [
+    {
+      "id": 1,
+      "userID": 1,
+      "bbqID": 1,
+      "cheese": 1,
+      "meat": 1,
+      "doneness": 2,
+      "spicy": 1
+    },
+    {
+      "id": 2,
+      "userID": 1,
+      "bbqID": 1,
+      "count": 2,
+      "burnt": true
+    },
+    {
+      "id": 3,
+      "userID": 2,
+      "bbqID": 1,
+      "count": 1,
+      "burnt": false
+    },
+    {
+      "id": 4,
+      "userID": 3,
+      "bbqID": 2,
+      "cheese": 0,
+      "meat": 2,
+      "doneness": 1,
+      "spicy": 0
+    },
+    {
+      "id": 5,
+      "userID": 2,
+      "bbqID": 3,
+      "cheese": 2,
+      "meat": 3,
+      "doneness": 3,
+      "spicy": 2
+    }
+  ],
+  "BBQ": [
+    {
+      "id": 1,
+      "creationDate": "2019-10-17T21:16:31.261Z",
+      "heldDate": "2019-10-31T20:20:32.520Z"
+    },
+    {
+      "id": 2,
+      "creationDate": "2014-01-01T23:28:56.782Z",
+      "heldDate": "2019-10-17T21:16:31.261Z"
+    },
+    {
+      "id": 3,
+      "creationDate": "2012-04-23T18:25:43.511Z",
+      "heldDate": "2014-01-01T23:28:56.782Z"
+    }
+  ]
 }
