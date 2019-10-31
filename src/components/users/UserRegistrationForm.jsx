@@ -3,13 +3,10 @@ import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
 import UserRegistrationFormToRedux from "./UserRegistrationFormToRedux";
 import { useHistory } from "react-router-dom";
+import sleep from "../../sleep";
 
 export default function UserRegistrationForm() {
   const history = useHistory();
-
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
 
   async function onSubmit() {
     await sleep(250);
