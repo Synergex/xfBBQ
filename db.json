@@ -36,21 +36,26 @@
       "cheese": 1,
       "meat": 1,
       "doneness": 2,
-      "spicy": 1
+      "spicy": 1,
+      "orderDate": "2011-10-18T00:05:12.511Z"
     },
     {
       "id": 2,
       "userID": 1,
       "bbqID": 1,
+      "type": 1,
       "count": 2,
-      "burnt": true
+      "burnt": true,
+      "orderDate": "2013-12-26T01:05:34.367Z"
     },
     {
       "id": 3,
       "userID": 2,
       "bbqID": 1,
+      "type": 2,
       "count": 1,
-      "burnt": false
+      "burnt": false,
+      "orderDate": "2016-09-21T00:05:46.128Z"
     },
     {
       "id": 4,
@@ -59,7 +64,8 @@
       "cheese": 0,
       "meat": 2,
       "doneness": 1,
-      "spicy": 0
+      "spicy": 0,
+      "orderDate": "2017-10-26T00:05:58.024Z"
     },
     {
       "id": 5,
@@ -68,7 +74,8 @@
       "cheese": 2,
       "meat": 3,
       "doneness": 3,
-      "spicy": 2
+      "spicy": 2,
+      "orderDate": "2019-10-31T00:06:09.703Z"
     }
   ],
   "BBQ": [
