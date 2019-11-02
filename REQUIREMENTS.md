@@ -4,15 +4,41 @@
 
 ### User Table
 
-|               |                                                 |
+| Property Name | Description                                     |
 | ------------- | ----------------------------------------------- |
-| id            | (PK) ID of user                                 |
+| (PK) id       | ID of user                                      |
 | name          | Name of user                                    |
 | hash          | Hashed password of user                         |
 | type          | Type of user (Administrator, Host, or Attendee) |
 | email         | Email of user                                   |
 | joinDate      | Timestamp of when the user joined               |
 | lastLoginDate | Timestamp of when the user last logged in       |
+
+### BBQ Table
+
+| Property Name | Description                               |
+| ------------- | ----------------------------------------- |
+| (PK) id       | ID of BBQ                                 |
+| creationDate  | Timestamp of when BBQ was created         |
+| heldDate      | Timestamp of when BBQ is going to be held |
+
+### Order Table
+
+| Property Name | Description                                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------------- |
+| (PK) id       | ID of order                                                                                           |
+| (FK) userID   | (FK to User.id) ID of user who ordered                                                                |
+| (FK) bbqID    | (FK to BBQ.id) ID of BBQ this order pertains to                                                       |
+| orderDate     | Timestamp of order creation                                                                           |
+| - Hamburger - | ---                                                                                                   |
+| meat          | What burger meat (1: Beef, 2: Turkey, 3: Vegetarian, 4: Special)                                      |
+| cheese        | Amount of cheese slices                                                                               |
+| doneness      | Temperature of burger meat (1: Rare, ..., 5: Well Done, 6: Special). N.B. Only Beef burgers have this |
+| spicy         | Pungency of burger                                                                                    |
+| - Hotdog -    | ---                                                                                                   |
+| type          | Hotdog type (1: Normal, 2: Hot Link, 3: Sausage, 4: Special)                                          |
+| count         | Amount of hotdogs                                                                                     |
+| burnt         | Whether the hotdog is to be burnt or not                                                              |
 
 ## User Requirements
 

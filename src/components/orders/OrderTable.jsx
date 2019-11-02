@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as orderEnums from "./orderEnums";
+import moment from "moment";
 
 export default function OrderTable({ orders, users }) {
   return (
@@ -9,7 +10,8 @@ export default function OrderTable({ orders, users }) {
         <tr className="table-primary">
           <th style={{ width: "10%" }}>Order ID</th>
           <th style={{ width: "10%" }}>BBQ ID</th>
-          <th style={{ width: "30%" }}>Placed By</th>
+          <th style={{ width: "20%" }}>Order Date</th>
+          <th>Placed By</th>
           <th>Order</th>
         </tr>
       </thead>
@@ -22,11 +24,13 @@ export default function OrderTable({ orders, users }) {
             >
               <td>{order.id}</td>
               <td>{order.bbqID}</td>
+              <td>{moment(order.orderDate).format("MM/DD/YYYY")}</td>
               <td>{users.filter(user => order.userID === user.id)[0].name}</td>
               <td>
                 <pre>
                   {order.cheese > -1
-                    ? orderEnums.meatType[order.meat] +
+                    ? "Hamburger:\r\n" +
+                      orderEnums.meatType[order.meat] +
                       (order.meat === 1
                         ? "\r\n" + orderEnums.beefDoneness[order.doneness]
                         : "") +
@@ -34,7 +38,9 @@ export default function OrderTable({ orders, users }) {
                       order.cheese +
                       "\r\nSpicy: " +
                       order.spicy
-                    : "Hotdog: " +
+                    : "Hotdog:\r\n" +
+                      orderEnums.hotdogType[order.type] +
+                      "\r\nCount: " +
                       order.count +
                       "\r\nBurnt: " +
                       (order.burnt ? "Yes" : "No")}

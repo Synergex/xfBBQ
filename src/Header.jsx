@@ -58,6 +58,15 @@ export default function Header() {
           </li>
           <li className="navbar-item">
             <NavLink
+              to="/NewOrderForm"
+              activeStyle={activeStyle}
+              className="nav-link"
+            >
+              Place an Order
+            </NavLink>
+          </li>
+          <li className="navbar-item">
+            <NavLink
               to="/OrderHistory"
               activeStyle={activeStyle}
               className="nav-link"

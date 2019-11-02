@@ -9,3 +9,16 @@ export async function getOrders() {
     return handleError(error);
   }
 }
+
+export async function saveOrder(order) {
+  try {
+    let response = await fetch(baseUrl + (order.id || ""), {
+      method: order.id ? "PUT" : "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(order)
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}

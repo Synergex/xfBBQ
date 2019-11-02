@@ -7,6 +7,13 @@ export const beefDoneness = {
   6: "Special"
 };
 
+export const hotdogType = {
+  1: "Normal",
+  2: "Hot Link",
+  3: "Sausage",
+  4: "Special"
+};
+
 export const meatType = {
   1: "Beef",
   2: "Turkey",

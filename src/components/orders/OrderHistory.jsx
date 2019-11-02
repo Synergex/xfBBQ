@@ -9,7 +9,8 @@ export default function OrderHistory() {
   const dispatch = useDispatch();
 
   const orders = useSelector(state => state.orders);
-  if (orders.length === 0) dispatch(loadOrders());
+  if (orders.length === 0 || (orders.length !== 0 && orders[0].id !== 1))
+    dispatch(loadOrders());
   const users = useSelector(state => state.users);
   if (users.length === 0) dispatch(loadUsers());
 
