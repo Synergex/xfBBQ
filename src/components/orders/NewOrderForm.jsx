@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import NewOrderFormToRedux from "./NewOrderFormToRedux";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import sleep from "../../sleep";
+import sleep from "../../scripts/sleep";
 import { loadUsers } from "../../redux/actions/userActions";
 import { loadBBQs } from "../../redux/actions/bbqActions";
 

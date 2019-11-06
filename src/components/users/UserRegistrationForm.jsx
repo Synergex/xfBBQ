@@ -3,7 +3,7 @@ import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
 import UserRegistrationFormToRedux from "./UserRegistrationFormToRedux";
 import { useHistory } from "react-router-dom";
-import sleep from "../../sleep";
+import sleep from "../../scripts/sleep";
 
 export default function UserRegistrationForm() {
   const history = useHistory();
