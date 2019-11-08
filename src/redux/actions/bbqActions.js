@@ -1,5 +1,5 @@
 import * as type from "./actionTypes";
-import * as bbqAPI from "../../api/bbqAPI";
+import * as bbqAPI from "../../api/bbqApi";
 import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 export function createBBQSuccess(bbq) {
