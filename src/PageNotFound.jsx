@@ -1,6 +1,8 @@
 import React from "react";
 
 export default function PageNotFound() {
+  document.title = "𝘹𝘧BBQ";
+
   return (
     <div className="jumbotron">
       <h1>Let me beef frank...</h1>

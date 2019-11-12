@@ -5,6 +5,8 @@ import Spinner from "../../Spinner";
 import BBQTable from "./BBQTable";
 
 export default function BBQList() {
+  document.title = "𝘹𝘧BBQ - BBQs";
+
   const dispatch = useDispatch();
 
   const bbqs = useSelector(state => state.bbqs);

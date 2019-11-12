@@ -6,6 +6,8 @@ import Spinner from "../../Spinner";
 import OrderTable from "./OrderTable";
 
 export default function OrderHistory() {
+  document.title = "𝘹𝘧BBQ - Order History";
+
   const dispatch = useDispatch();
 
   const orders = useSelector(state => state.orders);

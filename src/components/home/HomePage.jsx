@@ -1,6 +1,8 @@
 import React from "react";
 
 export default function HomePage() {
+  document.title = "𝘹𝘧BBQ";
+
   return (
     <div className="jumbotron">
       <h1>

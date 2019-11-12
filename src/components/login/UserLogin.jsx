@@ -8,6 +8,8 @@ import { loginUser } from "../../redux/actions/loginActions";
 import * as bcrypt from "bcryptjs";
 
 export default function LoginPage() {
+  document.title = "𝘹𝘧BBQ - Login";
+
   const history = useHistory();
   const dispatch = useDispatch();
 

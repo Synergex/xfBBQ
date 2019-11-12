@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import sleep from "../../scripts/sleep";
 
 export default function UserRegistrationForm() {
+  document.title = "𝘹𝘧BBQ - New User Registration";
+
   const history = useHistory();
 
   async function onSubmit() {

@@ -5,6 +5,8 @@ import Spinner from "../../Spinner";
 import UserTable from "./UserTable";
 
 export default function UserList() {
+  document.title = "𝘹𝘧BBQ - Users";
+
   const dispatch = useDispatch();
 
   const users = useSelector(state => state.users);

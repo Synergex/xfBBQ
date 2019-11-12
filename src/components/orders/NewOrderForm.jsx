@@ -9,6 +9,8 @@ import { loadUsers } from "../../redux/actions/userActions";
 import { loadBBQs } from "../../redux/actions/bbqActions";
 
 export default function NewOrderForm() {
+  document.title = "𝘹𝘧BBQ - Place an Order";
+
   const history = useHistory();
   const dispatch = useDispatch();
 
