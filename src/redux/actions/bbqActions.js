@@ -1,5 +1,5 @@
 import * as type from "./actionTypes";
-import * as bbqAPI from "../../api/bbqApi";
+import * as bbqApi from "../../api/bbqApi";
 import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 export function createBBQSuccess(bbq) {
@@ -14,7 +14,7 @@ export function loadBBQs() {
   return async function(dispatch) {
     dispatch(beginApiCall());
     try {
-      const bbqs = await bbqAPI.getBBQs();
+      const bbqs = await bbqApi.getBBQs();
       dispatch(loadBBQsSuccess(bbqs));
     } catch (e) {
       dispatch(apiCallError(e));
@@ -27,7 +27,7 @@ export function saveBBQ(bbq) {
   return async function(dispatch) {
     dispatch(beginApiCall());
     try {
-      const savedBBQ = await bbqAPI.saveBBQ(bbq);
+      const savedBBQ = await bbqApi.saveBBQ(bbq);
       dispatch(createBBQSuccess(savedBBQ));
     } catch (error) {
       dispatch(apiCallError(error));

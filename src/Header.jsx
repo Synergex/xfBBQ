@@ -1,10 +1,19 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import isEmpty from "./scripts/isEmpty";
 
 export default function Header() {
   const activeStyle = { color: "#5bffd5" };
+  const login = useSelector(state => state.login);
 
-  return (
+  return isEmpty(login) ? (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <NavLink to="/" exact className="navbar-brand">
+        <i>xf</i>BBQ
+      </NavLink>
+    </nav>
+  ) : (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <NavLink to="/" exact className="navbar-brand">
         <i>xf</i>BBQ

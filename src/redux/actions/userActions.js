@@ -6,8 +6,16 @@ export function createUserSuccess(user) {
   return { type: type.CREATE_USER_SUCCESS, user };
 }
 
+export function updateUserSuccess(user) {
+  return { type: type.UPDATE_USER_SUCCESS, user };
+}
+
 export function loadUsersSuccess(users) {
   return { type: type.LOAD_USERS_SUCCESS, users };
+}
+
+export function loadUserSuccess(user) {
+  return { type: type.LOAD_USER_SUCCESS, user };
 }
 
 export function loadUsers() {
@@ -28,7 +36,9 @@ export function saveUser(user) {
     dispatch(beginApiCall());
     try {
       const savedUser = await userAPI.saveUser(user);
-      dispatch(createUserSuccess(savedUser));
+      user.id
+        ? dispatch(updateUserSuccess(savedUser))
+        : dispatch(createUserSuccess(savedUser));
     } catch (error) {
       dispatch(apiCallError(error));
       throw error;
