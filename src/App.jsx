@@ -30,7 +30,7 @@ export default function App() {
         <Switch>
           <Route component={LoginPage} />
         </Switch>
-      ) : (
+      ) : login.type === "Administrator" ? (
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route
@@ -40,6 +40,22 @@ export default function App() {
           <Route path="/UsersList" component={UserList} />
           <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
           <Route path="/BBQList" component={BBQList} />
+          <Route path="/NewOrderForm" component={NewOrderForm} />
+          <Route path="/OrderHistory" component={OrderHistory} />
+          <Route component={PageNotFound} />
+        </Switch>
+      ) : login.type !== "Attendee" ? (
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
+          <Route path="/BBQList" component={BBQList} />
+          <Route path="/NewOrderForm" component={NewOrderForm} />
+          <Route path="/OrderHistory" component={OrderHistory} />
+          <Route component={PageNotFound} />
+        </Switch>
+      ) : (
+        <Switch>
+          <Route exact path="/" component={HomePage} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
           <Route component={PageNotFound} />
