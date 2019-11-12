@@ -14,10 +14,6 @@ export function loadUsersSuccess(users) {
   return { type: type.LOAD_USERS_SUCCESS, users };
 }
 
-export function loadUserSuccess(user) {
-  return { type: type.LOAD_USER_SUCCESS, user };
-}
-
 export function loadUsers() {
   return async function(dispatch) {
     dispatch(beginApiCall());
