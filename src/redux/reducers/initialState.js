@@ -1,5 +1,5 @@
 export default {
-  loggedInUser: {},
+  login: {},
   bbqs: [],
   users: [],
   orders: []
