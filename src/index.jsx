@@ -4,16 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 import "bootswatch/dist/darkly/bootstrap.min.css";
 import App from "./App";
 import "./index.css";
-import configureStore from "./redux/configureStore";
+import { store, persistor } from "./redux/configureStore";
 import { Provider } from "react-redux";
-
-const store = configureStore();
+import { PersistGate } from "redux-persist/integration/react";
+import Spinner from "./Spinner";
 
 render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <PersistGate loading={<Spinner />} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById("app")
 );
