@@ -112,6 +112,15 @@ export default function Header() {
                   Order History
                 </NavLink>
               </li>
+              <li className="navbar-item">
+                <NavLink
+                  to="/Logout"
+                  activeStyle={activeStyle}
+                  className="nav-link"
+                >
+                  Logout
+                </NavLink>
+              </li>
             </ul>
           </div>
         </>

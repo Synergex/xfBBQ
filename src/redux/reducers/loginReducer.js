@@ -6,7 +6,7 @@ export default function loginReducer(state = initialState.login, action) {
     case type.LOGIN_USER_SUCCESS:
       return action.login;
     case type.LOGOUT_USER_SUCCESS:
-      return { ...state, login: initialState.login };
+      return {};
     default:
       return state;
   }

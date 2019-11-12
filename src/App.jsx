@@ -20,6 +20,8 @@ import BBQList from "./components/bbq/BBQList";
 import NewOrderForm from "./components/orders/NewOrderForm";
 import OrderHistory from "./components/orders/OrderHistory";
 
+import LogoutPage from "./components/login/UserLogout";
+
 export default function App() {
   const login = useSelector(state => state.login);
 
@@ -42,6 +44,7 @@ export default function App() {
           <Route path="/BBQList" component={BBQList} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
+          <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>
       ) : login.type !== "Attendee" ? (
@@ -51,6 +54,7 @@ export default function App() {
           <Route path="/BBQList" component={BBQList} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
+          <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>
       ) : (
@@ -58,6 +62,7 @@ export default function App() {
           <Route exact path="/" component={HomePage} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
+          <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>
       )}
