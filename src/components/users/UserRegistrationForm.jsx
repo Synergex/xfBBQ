@@ -1,17 +1,30 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
-import UserRegistrationFormToRedux from "./UserRegistrationFormToRedux";
 import { useHistory } from "react-router-dom";
-import sleep from "../../scripts/sleep";
+import { useDispatch } from "react-redux";
+import * as bcrypt from "bcryptjs";
+import { saveUser } from "../../redux/actions/userActions";
 
 export default function UserRegistrationForm() {
   document.title = "𝘹𝘧BBQ - New User Registration";
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  async function onSubmit() {
-    await sleep(250);
+  async function onSubmit(values) {
+    bcrypt.genSalt(15, function(err, salt) {
+      bcrypt.hash(values.hash, salt, function(err, hash) {
+        dispatch(
+          saveUser({
+            ...values,
+            hash,
+            joinDate: new Date().toJSON()
+          })
+        );
+      });
+    });
+
     toast.success("Added user successfully");
     history.push("/UsersList");
   }
@@ -23,7 +36,6 @@ export default function UserRegistrationForm() {
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
-            <UserRegistrationFormToRedux />
             <div className="form-group">
               <label>Name:</label>
               <div>

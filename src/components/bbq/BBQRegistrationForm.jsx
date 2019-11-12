@@ -1,17 +1,26 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
-import BBQRegistrationFormToRedux from "./BBQRegistrationFormToRedux";
 import { useHistory } from "react-router-dom";
-import sleep from "../../scripts/sleep";
+import { saveBBQ } from "../../redux/actions/bbqActions";
+import { useDispatch } from "react-redux";
+import moment from "moment";
 
 export default function BBQRegistrationForm() {
   document.title = "𝘹𝘧BBQ - Create New BBQ";
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  async function onSubmit() {
-    await sleep(250);
+  async function onSubmit(values) {
+    dispatch(
+      saveBBQ({
+        ...values,
+        heldDate: moment(values.heldDate).toJSON(),
+        creationDate: new Date().toJSON()
+      })
+    );
+
     toast.success("Added BBQ successfully");
     history.push("/BBQList");
   }
@@ -23,7 +32,6 @@ export default function BBQRegistrationForm() {
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
-            <BBQRegistrationFormToRedux />
             <div className="form-group">
               <label>Date to be held:</label>
               <div>

@@ -1,12 +1,11 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
-import NewOrderFormToRedux from "./NewOrderFormToRedux";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import sleep from "../../scripts/sleep";
 import { loadUsers } from "../../redux/actions/userActions";
 import { loadBBQs } from "../../redux/actions/bbqActions";
+import { saveOrder } from "../../redux/actions/orderActions";
 
 export default function NewOrderForm() {
   document.title = "𝘹𝘧BBQ - Place an Order";
@@ -14,8 +13,140 @@ export default function NewOrderForm() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  async function onSubmit() {
-    await sleep(250);
+  function beefDoneness(doneness) {
+    switch (doneness) {
+      case "beef1Rare":
+        return 1;
+      case "beef2Rare":
+        return 1;
+      case "beef1MedRare":
+        return 2;
+      case "beef2MedRare":
+        return 2;
+      case "beef1Medium":
+        return 3;
+      case "beef2Medium":
+        return 3;
+      case "beef1MediumWell":
+        return 4;
+      case "beef2MediumWell":
+        return 4;
+      case "beef1WellDone":
+        return 5;
+      case "beef2WellDone":
+        return 5;
+      default:
+        return 6;
+    }
+  }
+
+  async function onSubmit(values) {
+    // Beef
+    if (values.beefBurger !== "beef0") {
+      dispatch(
+        saveOrder({
+          orderDate: new Date().toJSON(),
+          userID: parseInt(values.userID),
+          bbqID: values.bbqID,
+          meat: 1,
+          doneness: beefDoneness(values.beef1Done),
+          cheese:
+            values.beef1Cheese || values.beef1Cheese !== undefined ? 1 : 0,
+          spicy: values.beef1Spicy || values.beef1Spicy !== undefined ? 1 : 0
+        })
+      );
+
+      if (values.beefBurger === "beef2") {
+        dispatch(
+          saveOrder({
+            orderDate: new Date().toJSON(),
+            userID: parseInt(values.userID),
+            bbqID: values.bbqID,
+            meat: 1,
+            doneness: beefDoneness(values.beef2Done),
+            cheese:
+              values.beef2Cheese || values.beef2Cheese !== undefined ? 1 : 0,
+            spicy: values.beef2Spicy || values.beef2Spicy !== undefined ? 1 : 0
+          })
+        );
+      }
+    }
+
+    // Turkey
+    if (values.turkeyBurger !== "turkey0") {
+      dispatch(
+        saveOrder({
+          orderDate: new Date().toJSON(),
+          userID: parseInt(values.userID),
+          bbqID: values.bbqID,
+          meat: 2,
+          cheese:
+            values.turkey1Cheese || values.turkey1Cheese !== undefined ? 1 : 0,
+          spicy:
+            values.turkey1Spicy || values.turkey1Spicy !== undefined ? 1 : 0
+        })
+      );
+
+      if (values.turkeyBurger === "turkey2") {
+        dispatch(
+          saveOrder({
+            orderDate: new Date().toJSON(),
+            userID: parseInt(values.userID),
+            bbqID: values.bbqID,
+            meat: 2,
+            cheese:
+              values.turkey2Cheese || values.turkey2Cheese !== undefined
+                ? 1
+                : 0,
+            spicy:
+              values.turkey2Spicy || values.turkey2Spicy !== undefined ? 1 : 0
+          })
+        );
+      }
+    }
+
+    // Veg
+    if (values.vegBurger !== "veg0") {
+      dispatch(
+        saveOrder({
+          orderDate: new Date().toJSON(),
+          userID: parseInt(values.userID),
+          bbqID: values.bbqID,
+          meat: 3,
+          cheese: values.veg1Cheese || values.veg1Cheese !== undefined ? 1 : 0,
+          spicy: values.veg1Spicy || values.veg1Spicy !== undefined ? 1 : 0
+        })
+      );
+
+      if (values.vegBurger === "veg2") {
+        dispatch(
+          saveOrder({
+            orderDate: new Date().toJSON(),
+            userID: parseInt(values.userID),
+            bbqID: values.bbqID,
+            meat: 3,
+            cheese:
+              values.veg2Cheese || values.veg2Cheese !== undefined ? 1 : 0,
+            spicy: values.veg2Spicy || values.veg2Spicy !== undefined ? 1 : 0
+          })
+        );
+      }
+    }
+
+    // Hotdog
+    if (values.hotdogAmount !== "hotdog0") {
+      dispatch(
+        saveOrder({
+          orderDate: new Date().toJSON(),
+          userID: parseInt(values.userID),
+          bbqID: values.bbqID,
+          type: 1,
+          count: values.hotdogAmount === "hotdog2" ? 2 : 1,
+          burnt: values.hotdogBurnt
+        })
+      );
+    }
+
     toast.success("Added order successfully");
     history.push("/OrderHistory");
   }
@@ -39,7 +170,6 @@ export default function NewOrderForm() {
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
-            <NewOrderFormToRedux />
             <div className="form-group">
               <h4>Who&apos;s Ordering?</h4>
               <div>
