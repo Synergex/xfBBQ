@@ -16,7 +16,7 @@ export default function UserRegistrationForm() {
   const login = useSelector(state => state.login);
 
   async function onSubmit(values) {
-    bcrypt.genSalt(15, function(err, salt) {
+    bcrypt.genSalt(13, function(err, salt) {
       bcrypt.hash(values.hash, salt, function(err, hash) {
         dispatch(
           saveUser({
@@ -30,7 +30,8 @@ export default function UserRegistrationForm() {
     });
 
     toast.success("Added user successfully");
-    history.push("/UsersList");
+    if (!isEmpty(login)) history.push("/UsersList");
+    else history.push("/Login");
   }
 
   return (
