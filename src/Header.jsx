@@ -23,7 +23,7 @@ export default function Header() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
           <div
             className="collapse navbar-collapse"
@@ -66,7 +66,7 @@ export default function Header() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
           <div
             className="collapse navbar-collapse"
@@ -151,8 +151,11 @@ export default function Header() {
                   Order History
                 </NavLink>
               </li>
+            </ul>
+            <ul className="navbar-nav mr-auto navbar-right">
               <li className="navbar-item">
                 <NavLink
+                  pullRight
                   to="/Logout"
                   activeStyle={activeStyle}
                   className="nav-link"
