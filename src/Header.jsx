@@ -156,7 +156,6 @@ export default function Header() {
               <ul className="navbar-nav mr-auto navbar-right">
                 <li className="navbar-item">
                   <NavLink
-                    pullRight
                     to="/Logout"
                     activeStyle={activeStyle}
                     className="nav-link"
