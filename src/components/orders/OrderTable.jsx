@@ -17,7 +17,8 @@ export default function OrderTable({ orders, users, login }) {
       </thead>
       <tbody>
         {orders.map(order => {
-          if (login.type === "Attendee" && login.id !== order.userID) return;
+          if (login.type === "Attendee" && login.id !== order.userID)
+            return <></>;
           return (
             <tr
               key={order.id}
