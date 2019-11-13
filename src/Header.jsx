@@ -152,18 +152,20 @@ export default function Header() {
                 </NavLink>
               </li>
             </ul>
-            <ul className="navbar-nav mr-auto navbar-right">
-              <li className="navbar-item">
-                <NavLink
-                  pullRight
-                  to="/Logout"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  Logout
-                </NavLink>
-              </li>
-            </ul>
+            <div className="text-left text-lg-right">
+              <ul className="navbar-nav mr-auto navbar-right">
+                <li className="navbar-item">
+                  <NavLink
+                    pullRight
+                    to="/Logout"
+                    activeStyle={activeStyle}
+                    className="nav-link"
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
           </div>
         </>
       )}
