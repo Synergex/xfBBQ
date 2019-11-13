@@ -9,6 +9,7 @@ export default function OrderHistory() {
   document.title = "𝘹𝘧BBQ - Order History";
 
   const dispatch = useDispatch();
+  const login = useSelector(state => state.login);
 
   const orders = useSelector(state => state.orders);
   if (orders.length === 0 || (orders.length !== 0 && orders[0].id !== 1))
@@ -22,7 +23,7 @@ export default function OrderHistory() {
       {orders.length <= 0 || users.length <= 0 ? (
         <Spinner />
       ) : (
-        <OrderTable orders={orders} users={users} />
+        <OrderTable orders={orders} users={users} login={login} />
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import * as orderEnums from "./orderEnums";
 import moment from "moment";
 
-export default function OrderTable({ orders, users }) {
+export default function OrderTable({ orders, users, login }) {
   return (
     <table className="table table-hover">
       <thead>
@@ -17,6 +17,7 @@ export default function OrderTable({ orders, users }) {
       </thead>
       <tbody>
         {orders.map(order => {
+          if (login.type === "Attendee" && login.id !== order.userID) return;
           return (
             <tr
               key={order.id}
@@ -55,6 +56,7 @@ export default function OrderTable({ orders, users }) {
 }
 
 OrderTable.propTypes = {
+  login: PropTypes.object.isRequired,
   orders: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired
 };
