@@ -10,9 +10,48 @@ export default function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       {isEmpty(login) ? (
-        <NavLink to="/" exact className="navbar-brand">
-          <i>xf</i>BBQ
-        </NavLink>
+        <>
+          <NavLink to="/" exact className="navbar-brand">
+            <i>xf</i>BBQ
+          </NavLink>
+          <button
+            className="navbar-toggler collapsed"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div
+            className="collapse navbar-collapse"
+            id="navbarColor01"
+            style={{}}
+          >
+            <ul className="navbar-nav mr-auto">
+              <li className="navbar-item">
+                <NavLink
+                  to="/Login"
+                  activeStyle={activeStyle}
+                  className="nav-link"
+                >
+                  Login
+                </NavLink>
+              </li>
+              <li className="navbar-item">
+                <NavLink
+                  to="/UserRegistrationForm"
+                  activeStyle={activeStyle}
+                  className="nav-link"
+                >
+                  User Registration
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </>
       ) : (
         <>
           <NavLink to="/" exact className="navbar-brand">

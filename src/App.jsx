@@ -30,7 +30,13 @@ export default function App() {
       <Header />
       {isEmpty(login) ? (
         <Switch>
-          <Route component={LoginPage} />
+          <Route exact path="/" component={HomePage} />
+          <Route
+            path="/UserRegistrationForm"
+            component={UserRegistrationForm}
+          />
+          <Route path="/Login" component={LoginPage} />
+          <Route component={PageNotFound} />
         </Switch>
       ) : login.type === "Administrator" ? (
         <Switch>

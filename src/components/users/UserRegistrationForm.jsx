@@ -2,15 +2,18 @@ import React from "react";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as bcrypt from "bcryptjs";
 import { saveUser } from "../../redux/actions/userActions";
+import isEmpty from "./../../scripts/isEmpty";
 
 export default function UserRegistrationForm() {
   document.title = "𝘹𝘧BBQ - New User Registration";
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const login = useSelector(state => state.login);
 
   async function onSubmit(values) {
     bcrypt.genSalt(15, function(err, salt) {
@@ -19,7 +22,8 @@ export default function UserRegistrationForm() {
           saveUser({
             ...values,
             hash,
-            joinDate: new Date().toJSON()
+            joinDate: new Date().toJSON(),
+            type: values.type === undefined ? "Attendee" : values.type
           })
         );
       });
@@ -72,17 +76,27 @@ export default function UserRegistrationForm() {
                 />
               </div>
             </div>
-            <div className="form-group">
-              <label>Type:</label>
-              <div>
-                <Field name="type" component="select" className="form-control">
-                  <option />
-                  <option value="Administrator">Administrator</option>
-                  <option value="Host">Host</option>
-                  <option value="Attendee">Attendee</option>
-                </Field>
+
+            {!isEmpty(login) && login.type === "Administrator" ? (
+              <div className="form-group">
+                <label>Type:</label>
+                <div>
+                  <Field
+                    name="type"
+                    component="select"
+                    className="form-control"
+                  >
+                    <option />
+                    <option value="Administrator">Administrator</option>
+                    <option value="Host">Host</option>
+                    <option value="Attendee">Attendee</option>
+                  </Field>
+                </div>
               </div>
-            </div>
+            ) : (
+              <></>
+            )}
+
             <div>
               <button
                 type="submit"
