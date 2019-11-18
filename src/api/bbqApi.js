@@ -10,6 +10,15 @@ export async function getBBQs() {
   }
 }
 
+export async function deleteBBQ(bbqID) {
+  try {
+    let response = await fetch(baseUrl + bbqID, { method: "DELETE" });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
 export async function saveBBQ(bbq) {
   try {
     let response = await fetch(baseUrl + (bbq.id || ""), {

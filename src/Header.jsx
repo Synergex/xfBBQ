@@ -116,7 +116,7 @@ export default function Header() {
                       activeStyle={activeStyle}
                       className="nav-link"
                     >
-                      Create New BBQ
+                      BBQ Registration
                     </NavLink>
                   </li>
                   <li className="navbar-item">

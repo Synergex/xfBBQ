@@ -22,3 +22,12 @@ export async function saveOrder(order) {
     return handleError(error);
   }
 }
+
+export async function deleteOrder(orderID) {
+  try {
+    let response = await fetch(baseUrl + orderID, { method: "DELETE" });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}

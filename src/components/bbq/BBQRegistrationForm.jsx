@@ -5,30 +5,44 @@ import { useHistory } from "react-router-dom";
 import { saveBBQ } from "../../redux/actions/bbqActions";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import PropTypes from "prop-types";
 
-export default function BBQRegistrationForm() {
-  document.title = "𝘹𝘧BBQ - Create New BBQ";
-
+export default function BBQRegistrationForm({ ...props }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const bbq = props.location.state;
+  const bbqPresent = bbq !== null && bbq !== undefined;
+  document.title = bbqPresent
+    ? "𝘹𝘧BBQ - Modify Existing BBQ"
+    : "𝘹𝘧BBQ - Create New BBQ";
+
   async function onSubmit(values) {
     dispatch(
-      saveBBQ({
-        ...values,
-        heldDate: moment(values.heldDate).toJSON(),
-        creationDate: new Date().toJSON()
-      })
+      saveBBQ(
+        bbqPresent
+          ? { ...bbq, heldDate: moment(values.heldDate).toJSON() }
+          : {
+              ...values,
+              heldDate: moment(values.heldDate).toJSON(),
+              creationDate: new Date().toJSON()
+            }
+      )
     );
 
-    toast.success("Added BBQ successfully");
+    toast.info(bbqPresent ? "Modifying BBQ..." : "Adding BBQ...");
     history.push("/BBQList");
   }
 
   return (
     <div className="jumbotron">
-      <h2>Create BBQ</h2>
+      {bbqPresent ? <h2>Modify Existing BBQ</h2> : <h2>Create BBQ</h2>}
       <Form
+        initialValues={
+          bbqPresent
+            ? { heldDate: moment(bbq.heldDate).format("YYYY-MM-DD") }
+            : {}
+        }
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
@@ -67,3 +81,7 @@ export default function BBQRegistrationForm() {
     </div>
   );
 }
+
+BBQRegistrationForm.propTypes = {
+  location: PropTypes.object.isRequired
+};
