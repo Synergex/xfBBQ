@@ -22,7 +22,7 @@ export default function LoginPage() {
 
     bcrypt.compare(values.password, userArr[1], function(err, result) {
       if (result) {
-        toast.success("Welcome to 𝘹𝘧BBQ, " + user.name);
+        toast("Welcome to 𝘹𝘧BBQ, " + user.name);
         dispatch(
           loginUser({
             ...user,

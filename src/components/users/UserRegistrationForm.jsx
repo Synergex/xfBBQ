@@ -6,12 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import * as bcrypt from "bcryptjs";
 import { saveUser } from "../../redux/actions/userActions";
 import isEmpty from "./../../scripts/isEmpty";
+import PropTypes from "prop-types";
 
-export default function UserRegistrationForm() {
-  document.title = "𝘹𝘧BBQ - New User Registration";
-
+export default function UserRegistrationForm({ ...props }) {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const user = props.location.state;
+  const userPresent = user !== null && user !== undefined;
+  document.title = userPresent
+    ? "𝘹𝘧BBQ - Modify Existing User"
+    : "𝘹𝘧BBQ - New User Registration";
 
   const login = useSelector(state => state.login);
 
@@ -19,25 +24,40 @@ export default function UserRegistrationForm() {
     bcrypt.genSalt(13, function(err, salt) {
       bcrypt.hash(values.hash, salt, function(err, hash) {
         dispatch(
-          saveUser({
-            ...values,
-            hash,
-            joinDate: new Date().toJSON(),
-            type: values.type === undefined ? "Attendee" : values.type
-          })
+          saveUser(
+            userPresent
+              ? {
+                  ...values,
+                  type: values.type,
+                  hash,
+                  id: user.id,
+                  joinDate: user.joinDate,
+                  lastLoginDate: user.lastLoginDate
+                }
+              : {
+                  ...values,
+                  hash,
+                  joinDate: new Date().toJSON(),
+                  type: values.type === undefined ? "Attendee" : values.type
+                }
+          )
         );
       });
     });
 
-    toast.success("Added user successfully");
-    if (!isEmpty(login)) history.push("/UsersList");
-    else history.push("/Login");
+    toast.info(userPresent ? "Modifying user..." : "Adding user...");
+    history.push(isEmpty(login) ? "/Login" : "/UsersList");
   }
 
   return (
     <div className="jumbotron">
       <h2>User Registration</h2>
       <Form
+        initialValues={
+          userPresent
+            ? { name: user.name, email: user.email, type: user.type }
+            : {}
+        }
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
@@ -121,3 +141,7 @@ export default function UserRegistrationForm() {
     </div>
   );
 }
+
+UserRegistrationForm.propTypes = {
+  location: PropTypes.object.isRequired
+};

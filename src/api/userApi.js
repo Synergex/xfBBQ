@@ -10,6 +10,15 @@ export async function getUsers() {
   }
 }
 
+export async function deleteUser(userID) {
+  try {
+    let response = await fetch(baseUrl + userID, { method: "DELETE" });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
 export async function saveUser(user) {
   try {
     let response = await fetch(baseUrl + (user.id || ""), {

@@ -5,6 +5,8 @@ export default function userReducer(state = initialState.users, action) {
   switch (action.type) {
     case type.CREATE_USER_SUCCESS:
       return [...state, { ...action.user }];
+    case type.DELETE_USER_SUCCESS:
+      return state.filter(user => user.id !== action.user.id);
     case type.UPDATE_USER_SUCCESS:
       return state.map(user =>
         user.id === action.user.id ? action.user : user
