@@ -7,9 +7,14 @@ import { loadOrders, deleteOrder } from "../../redux/actions/orderActions";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
+let ranOnce = false;
 export default function BBQTable({ bbqs }) {
   const dispatch = useDispatch();
   const orders = useSelector(state => state.orders);
+  if (!ranOnce) {
+    dispatch(loadOrders());
+    ranOnce = true;
+  }
 
   return (
     <>
@@ -62,7 +67,6 @@ export default function BBQTable({ bbqs }) {
                             toast.info("Deleting BBQ " + bbq.id + "...");
                             dispatch(deleteBBQ(bbq));
 
-                            dispatch(loadOrders());
                             orders.forEach(order => {
                               if (order.bbqID === bbq.id)
                                 dispatch(deleteOrder(order));
