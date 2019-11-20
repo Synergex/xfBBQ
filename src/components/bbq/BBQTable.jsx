@@ -42,7 +42,7 @@ export default function BBQTable({ bbqs }) {
                     <>
                       <Link
                         to={{
-                          pathname: "/BBQRegistrationForm/",
+                          pathname: "/BBQRegistrationForm",
                           state: bbq
                         }}
                       >
