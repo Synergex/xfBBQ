@@ -27,10 +27,7 @@ function AlphaOrderForm() {
               duplicateCard(myArray, item);
             }}
           >
-            <span
-              className="fa fa-copy
-"
-            />
+            <img src={require("./images/icon-duplicateBurger.png")} alt="D" />
           </button>
         );
         break;
@@ -57,10 +54,6 @@ function AlphaOrderForm() {
               .click()
           }
         />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        />
         <button
           id={"expandCard" + item.foodFlavor + item.id}
           style={{ visibility: "hidden", display: "none" }}
@@ -85,7 +78,7 @@ function AlphaOrderForm() {
                 removeFood(myArray, item);
               }}
             >
-              <span className="fa fa-close" />
+              <img src={require("./images/icon-removeBurger.png")} alt="R" />
             </button>
             {duplicateButton}
           </div>
