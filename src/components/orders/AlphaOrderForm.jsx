@@ -160,7 +160,10 @@ function AlphaOrderForm() {
         }
       }
     }
-    myArray.splice(myArray.findIndex(k => k.key === item.key), 1);
+    myArray.splice(
+      myArray.findIndex(k => k.key === item.key),
+      1
+    );
     setArray([...myArray]);
   }
 
@@ -183,8 +186,7 @@ function AlphaOrderForm() {
                 item.foodAttributes.burnt = false;
                 myArray[
                   myArray.findIndex(k => k.key === item.key)
-                ].foodAttributes.burnt =
-                  item.foodAttributes.burnt;
+                ].foodAttributes.burnt = item.foodAttributes.burnt;
                 setArray([...myArray]);
               }}
             >
@@ -200,8 +202,7 @@ function AlphaOrderForm() {
                 item.foodAttributes.burnt = true;
                 myArray[
                   myArray.findIndex(k => k.key === item.key)
-                ].foodAttributes.burnt =
-                  item.foodAttributes.burnt;
+                ].foodAttributes.burnt = item.foodAttributes.burnt;
                 setArray([...myArray]);
               }}
             >
@@ -223,8 +224,7 @@ function AlphaOrderForm() {
                 item.foodAttributes.quantity = 1;
                 myArray[
                   myArray.findIndex(k => k.key === item.key)
-                ].foodAttributes.quantity =
-                  item.foodAttributes.quantity;
+                ].foodAttributes.quantity = item.foodAttributes.quantity;
                 setArray([...myArray]);
               }}
             >
@@ -240,8 +240,7 @@ function AlphaOrderForm() {
                 item.foodAttributes.quantity = 2;
                 myArray[
                   myArray.findIndex(k => k.key === item.key)
-                ].foodAttributes.quantity =
-                  item.foodAttributes.quantity;
+                ].foodAttributes.quantity = item.foodAttributes.quantity;
                 setArray([...myArray]);
               }}
             >
@@ -274,8 +273,7 @@ function AlphaOrderForm() {
                   item.foodAttributes.doneness = "Rare";
                   myArray[
                     myArray.findIndex(k => k.key === item.key)
-                  ].foodAttributes.doneness =
-                    item.foodAttributes.doneness;
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setArray([...myArray]);
                 }}
               >
@@ -291,8 +289,7 @@ function AlphaOrderForm() {
                   item.foodAttributes.doneness = "MedRare";
                   myArray[
                     myArray.findIndex(k => k.key === item.key)
-                  ].foodAttributes.doneness =
-                    item.foodAttributes.doneness;
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setArray([...myArray]);
                 }}
               >
@@ -308,8 +305,7 @@ function AlphaOrderForm() {
                   item.foodAttributes.doneness = "Medium";
                   myArray[
                     myArray.findIndex(k => k.key === item.key)
-                  ].foodAttributes.doneness =
-                    item.foodAttributes.doneness;
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setArray([...myArray]);
                 }}
               >
@@ -325,8 +321,7 @@ function AlphaOrderForm() {
                   item.foodAttributes.doneness = "MediumWell";
                   myArray[
                     myArray.findIndex(k => k.key === item.key)
-                  ].foodAttributes.doneness =
-                    item.foodAttributes.doneness;
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setArray([...myArray]);
                 }}
               >
@@ -342,8 +337,7 @@ function AlphaOrderForm() {
                   item.foodAttributes.doneness = "Well";
                   myArray[
                     myArray.findIndex(k => k.key === item.key)
-                  ].foodAttributes.doneness =
-                    item.foodAttributes.doneness;
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setArray([...myArray]);
                 }}
               >
@@ -367,8 +361,7 @@ function AlphaOrderForm() {
                   item.foodAttributes.cheese = !item.foodAttributes.cheese;
                   myArray[
                     myArray.findIndex(k => k.key === item.key)
-                  ].foodAttributes.cheese =
-                    item.foodAttributes.cheese;
+                  ].foodAttributes.cheese = item.foodAttributes.cheese;
                   setArray([...myArray]);
                 }}
                 id={item.foodFlavor + item.id + "Cheese"}
@@ -390,8 +383,7 @@ function AlphaOrderForm() {
                   item.foodAttributes.spice = !item.foodAttributes.spice;
                   myArray[
                     myArray.findIndex(k => k.key === item.key)
-                  ].foodAttributes.spice =
-                    item.foodAttributes.spice;
+                  ].foodAttributes.spice = item.foodAttributes.spice;
                   setArray([...myArray]);
                 }}
                 id={item.foodFlavor + item.id + "Spice"}
