@@ -13,9 +13,12 @@ export default function UserRegistrationForm({ ...props }) {
   const dispatch = useDispatch();
 
   const user = props.location.state;
+  const userRecovery = user.recovery;
   const userPresent = user !== null && user !== undefined;
   document.title = userPresent
-    ? "𝘹𝘧BBQ - Modify Existing User"
+    ? userRecovery
+      ? "𝘹𝘧BBQ - Recover User"
+      : "𝘹𝘧BBQ - Modify Existing User"
     : "𝘹𝘧BBQ - New User Registration";
 
   const login = useSelector(state => state.login);
@@ -45,13 +48,25 @@ export default function UserRegistrationForm({ ...props }) {
       });
     });
 
-    toast.info(userPresent ? "Modifying user..." : "Adding user...");
-    history.push(isEmpty(login) ? "/Login" : "/UsersList");
+    toast.info(
+      userPresent
+        ? userRecovery
+          ? "Recovering user..."
+          : "Modifying user..."
+        : "Adding user..."
+    );
+    history.push(isEmpty(login) || userRecovery ? "/Login" : "/UsersList");
   }
 
   return (
     <div className="jumbotron">
-      <h2>User Registration</h2>
+      <h2>
+        {userPresent
+          ? userRecovery
+            ? "User Recovery"
+            : "User Modification"
+          : "User Registration"}
+      </h2>
       <Form
         initialValues={
           userPresent
@@ -86,7 +101,7 @@ export default function UserRegistrationForm({ ...props }) {
               </div>
             </div>
             <div className="form-group">
-              <label>Password:</label>
+              <label>{userRecovery ? "New Password:" : "Password:"}</label>
               <div>
                 <Field
                   name="hash"

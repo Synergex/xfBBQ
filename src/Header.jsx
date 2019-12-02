@@ -49,6 +49,15 @@ export default function Header() {
                   User Registration
                 </NavLink>
               </li>
+              <li className="navbar-item">
+                <NavLink
+                  to="/AccountRecovery"
+                  activeStyle={activeStyle}
+                  className="nav-link"
+                >
+                  Account Recovery
+                </NavLink>
+              </li>
             </ul>
           </div>
         </>

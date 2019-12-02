@@ -1,54 +1,48 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUsers } from "../../redux/actions/userActions";
 import { Field, Form } from "react-final-form";
+import * as bcrypt from "bcryptjs";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loadUsers, saveUser } from "../../redux/actions/userActions";
-import { loginUser } from "../../redux/actions/loginActions";
-import * as bcrypt from "bcryptjs";
 
-export default function LoginPage() {
-  document.title = "𝘹𝘧BBQ - Login";
+export default function RecoveryCode() {
+  document.title = "𝘹𝘧BBQ - Account Recovery";
 
-  const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const users = useSelector(state => state.users);
   if (users.length === 0) dispatch(loadUsers());
 
   async function onSubmit(values) {
     const userArr = values.userArray.split(",");
-    const user = users[parseInt(userArr[0]) - 1];
 
-    bcrypt.compare(values.password, userArr[1], function(err, result) {
+    bcrypt.compare(values.recoveryCode, userArr[7], function(err, result) {
       if (result) {
-        toast("Welcome to 𝘹𝘧BBQ, " + user.name);
-        dispatch(
-          loginUser({
-            ...user,
-            lastLoginDate: new Date().toJSON()
-          })
-        );
-        dispatch(
-          saveUser({
-            ...user,
-            lastLoginDate: new Date().toJSON()
-          })
-        );
-        history.push("/");
-      } else toast.error("Unable to login to 𝘹𝘧BBQ. Try again.");
+        history.push("/UserRegistrationForm", {
+          id: userArr[0],
+          name: userArr[1],
+          hash: userArr[2],
+          type: userArr[3],
+          email: userArr[4],
+          joinDate: userArr[5],
+          lastLoginDate: userArr[6],
+          recovery: true
+        });
+      } else toast.error("Bad recovery code. Try again.");
     });
   }
 
   return (
     <div className="jumbotron">
-      <h2>Login</h2>
+      <h2>Account Recovery</h2>
       <Form
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <h4>Who&apos;s logging in?</h4>
+              <h5>Select a name:</h5>
               <div>
                 <Field
                   name="userArray"
@@ -58,7 +52,21 @@ export default function LoginPage() {
                 >
                   <option />
                   {users.map(user => (
-                    <option key={user.id} value={[user.id, user.hash]}>
+                    <option
+                      key={user.id}
+                      value={[
+                        [
+                          user.id,
+                          user.name,
+                          user.hash,
+                          user.type,
+                          user.email,
+                          user.joinDate,
+                          user.lastLoginDate,
+                          user.recoveryCode
+                        ]
+                      ]}
+                    >
                       {user.name}
                     </option>
                   ))}
@@ -66,14 +74,14 @@ export default function LoginPage() {
               </div>
               <br />
               <div className="form-group">
-                <label>Password:</label>
+                <label>Recovery Code:</label>
                 <div>
                   <Field
-                    name="password"
+                    name="recoveryCode"
                     className="form-control"
                     component="input"
                     type="password"
-                    placeholder="Password"
+                    placeholder="Recovery Code"
                   />
                 </div>
               </div>
@@ -93,13 +101,6 @@ export default function LoginPage() {
                 onClick={form.reset}
               >
                 Reset Form
-              </button>{" "}
-              <button
-                type="button"
-                className="btn btn-info float-right"
-                onClick={() => history.push("/AccountRecovery")}
-              >
-                Account Recovery
               </button>
             </div>
           </form>

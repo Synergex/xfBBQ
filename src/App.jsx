@@ -11,6 +11,8 @@ import PageNotFound from "./PageNotFound";
 import LoginPage from "./components/login/UserLogin";
 import HomePage from "./components/home/HomePage";
 
+import AccountRecoveryPage from "./components/login/AccountRecovery";
+import RecoveryCode from "./components/login/RecoveryCode";
 import UserRegistrationForm from "./components/users/UserRegistrationForm";
 import UserList from "./components/users/UsersList";
 
@@ -36,6 +38,8 @@ export default function App() {
             component={UserRegistrationForm}
           />
           <Route path="/Login" component={LoginPage} />
+          <Route path="/AccountRecovery" component={AccountRecoveryPage} />
+          <Route path="/RecoveryCode" component={RecoveryCode} />
           <Route component={PageNotFound} />
         </Switch>
       ) : login.type === "Administrator" ? (
