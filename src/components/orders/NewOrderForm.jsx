@@ -1,820 +1,519 @@
-import React from "react";
-import { Field, Form } from "react-final-form";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loadUsers } from "../../redux/actions/userActions";
-import { loadBBQs } from "../../redux/actions/bbqActions";
-import { saveOrder } from "../../redux/actions/orderActions";
+﻿import React, { useState } from "react";
+import "./orders.css";
 
-export default function NewOrderForm() {
-  document.title = "𝘹𝘧BBQ - Place an Order";
+const maxFoods = 2;
+let counter = 0;
+function NewOrderForm() {
+  const [myArray, setArray] = useState([]);
 
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  function beefDoneness(doneness) {
-    switch (doneness) {
-      case "beef1Rare":
-        return 1;
-      case "beef2Rare":
-        return 1;
-      case "beef1MedRare":
-        return 2;
-      case "beef2MedRare":
-        return 2;
-      case "beef1Medium":
-        return 3;
-      case "beef2Medium":
-        return 3;
-      case "beef1MediumWell":
-        return 4;
-      case "beef2MediumWell":
-        return 4;
-      case "beef1WellDone":
-        return 5;
-      case "beef2WellDone":
-        return 5;
+  function drawCard(myArray, item) {
+    //See if it is a burger or something else and call accordingly
+    let cardData;
+    let duplicateButton = "";
+    switch (item.foodCategory) {
+      case "Burger":
+        cardData = addBurger(item);
+        duplicateButton = (
+          <button
+            className={
+              SetDuplicateButton(myArray, item) === true
+                ? "d-none"
+                : "close pr-2 pl-2"
+            }
+            title="Add a copy of this order"
+            id={item.foodItem + item.foodValue + "DuplicateOrderButton"}
+            disabled={SetDuplicateButton(myArray, item)}
+            onClick={() => {
+              duplicateCard(myArray, item);
+            }}
+          >
+            <img src={require("./images/icon-duplicateBurger.png")} alt="D" />
+          </button>
+        );
+        break;
+      case "Hotdog":
+        cardData = addHotDog(item);
+        break;
       default:
-        return 6;
+        alert("making and undefined food item in drawCard()");
+        break;
     }
+
+    return (
+      <div
+        className="card bg-secondary m-2 pt-2 pb-2 collapse"
+        id={item.foodFlavor + item.id}
+        key={item.key}
+      >
+        <img
+          src={require("./images/spacer.png")}
+          alt=""
+          onLoad={() =>
+            document
+              .getElementById("expandCard" + item.foodFlavor + item.id)
+              .click()
+          }
+        />
+        <button
+          id={"expandCard" + item.foodFlavor + item.id}
+          style={{ visibility: "hidden", display: "none" }}
+          type="button"
+          data-toggle="collapse"
+          data-target={"#" + item.foodFlavor + item.id}
+          aria-expanded="false"
+        />
+        <div className="row">
+          <div className="col">
+            <h4 className="pl-2">
+              {item.foodFlavor + " " + item.foodCategory}
+            </h4>
+          </div>
+          <div className="col-2">
+            <button
+              type="button"
+              className="close pr-2 pl-2"
+              aria-label="Close"
+              title="Remove from your order"
+              onClick={() => {
+                removeFood(myArray, item);
+              }}
+            >
+              <img src={require("./images/icon-removeBurger.png")} alt="R" />
+            </button>
+            {duplicateButton}
+          </div>
+        </div>
+        {cardData}
+      </div>
+    );
   }
 
-  async function onSubmit(values) {
-    // Beef
-    if (values.beefBurger !== "beef0") {
-      dispatch(
-        saveOrder({
-          orderDate: new Date().toJSON(),
-          userID: parseInt(values.userID),
-          bbqID: values.bbqID,
-          meat: 1,
-          doneness: beefDoneness(values.beef1Done),
-          cheese:
-            values.beef1Cheese || values.beef1Cheese !== undefined ? 1 : 0,
-          spicy: values.beef1Spicy || values.beef1Spicy !== undefined ? 1 : 0
+  function duplicateCard(myArray, item) {
+    counter++;
+    var idCounter = 1;
+    for (var i = 0; i < myArray.length; ++i) {
+      if (
+        myArray[i].foodFlavor + myArray[i].foodCategory ===
+        item.foodFlavor + item.foodCategory
+      )
+        idCounter++;
+    }
+    myArray.splice(
+      myArray
+        .map(function(e) {
+          return e.key;
         })
-      );
-
-      if (values.beefBurger === "beef2") {
-        dispatch(
-          saveOrder({
-            orderDate: new Date().toJSON(),
-            userID: parseInt(values.userID),
-            bbqID: values.bbqID,
-            meat: 1,
-            doneness: beefDoneness(values.beef2Done),
-            cheese:
-              values.beef2Cheese || values.beef2Cheese !== undefined ? 1 : 0,
-            spicy: values.beef2Spicy || values.beef2Spicy !== undefined ? 1 : 0
-          })
-        );
+        .indexOf(item.key),
+      0,
+      {
+        key: counter,
+        id: idCounter,
+        foodFlavor: item.foodFlavor,
+        foodCategory: item.foodCategory,
+        foodAttributes: { ...item.foodAttributes }
       }
-    }
-
-    // Turkey
-    if (values.turkeyBurger !== "turkey0") {
-      dispatch(
-        saveOrder({
-          orderDate: new Date().toJSON(),
-          userID: parseInt(values.userID),
-          bbqID: values.bbqID,
-          meat: 2,
-          cheese:
-            values.turkey1Cheese || values.turkey1Cheese !== undefined ? 1 : 0,
-          spicy:
-            values.turkey1Spicy || values.turkey1Spicy !== undefined ? 1 : 0
-        })
-      );
-
-      if (values.turkeyBurger === "turkey2") {
-        dispatch(
-          saveOrder({
-            orderDate: new Date().toJSON(),
-            userID: parseInt(values.userID),
-            bbqID: values.bbqID,
-            meat: 2,
-            cheese:
-              values.turkey2Cheese || values.turkey2Cheese !== undefined
-                ? 1
-                : 0,
-            spicy:
-              values.turkey2Spicy || values.turkey2Spicy !== undefined ? 1 : 0
-          })
-        );
-      }
-    }
-
-    // Veg
-    if (values.vegBurger !== "veg0") {
-      dispatch(
-        saveOrder({
-          orderDate: new Date().toJSON(),
-          userID: parseInt(values.userID),
-          bbqID: values.bbqID,
-          meat: 3,
-          cheese: values.veg1Cheese || values.veg1Cheese !== undefined ? 1 : 0,
-          spicy: values.veg1Spicy || values.veg1Spicy !== undefined ? 1 : 0
-        })
-      );
-
-      if (values.vegBurger === "veg2") {
-        dispatch(
-          saveOrder({
-            orderDate: new Date().toJSON(),
-            userID: parseInt(values.userID),
-            bbqID: values.bbqID,
-            meat: 3,
-            cheese:
-              values.veg2Cheese || values.veg2Cheese !== undefined ? 1 : 0,
-            spicy: values.veg2Spicy || values.veg2Spicy !== undefined ? 1 : 0
-          })
-        );
-      }
-    }
-
-    // Hotdog
-    if (values.hotdogAmount !== "hotdog0") {
-      dispatch(
-        saveOrder({
-          orderDate: new Date().toJSON(),
-          userID: parseInt(values.userID),
-          bbqID: values.bbqID,
-          type: 1,
-          count: values.hotdogAmount === "hotdog2" ? 2 : 1,
-          burnt: values.hotdogBurnt
-        })
-      );
-    }
-
-    toast.success("Added order successfully");
-    history.push("/OrderHistory");
+    );
+    setArray([...myArray]);
   }
 
-  const bbqs = useSelector(state => state.bbqs);
-  if (bbqs.length === 0) dispatch(loadBBQs());
-  const users = useSelector(state => state.users);
-  if (users.length === 0) dispatch(loadUsers());
+  function addFood(myArray, foodFlavor, foodCategory) {
+    //More or less, this should probably be a helper function to call duplicate Card or something like that.
+    counter++;
+    let foodAttributes;
+    if (foodCategory === "Burger") {
+      foodAttributes = { cheese: false, spice: false };
+      if (foodFlavor === "Beef") foodAttributes.doneness = "Medium";
+    }
+    if (foodCategory === "Hotdog") {
+      foodAttributes = { burnt: false, quantity: 1 };
+    }
 
-  return (
-    <div className="jumbotron">
-      <h2>Place an Order</h2>
-      <Form
-        initialValues={{
-          beefBurger: "beef0",
-          turkeyBurger: "turkey0",
-          vegBurger: "veg0",
-          hotdogAmount: "hotdog0",
-          bbqID: bbqs.length !== 0 ? bbqs[bbqs.length - 1].id : 0
-        }}
-        onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <h4>Who&apos;s Ordering?</h4>
-              <div>
-                <Field
-                  name="userID"
-                  component="select"
-                  required
-                  className="custom-select"
-                >
-                  <option />
-                  {users.map(user => (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
-                    </option>
-                  ))}
-                </Field>
+    var idCounter = 1;
+    for (var i = 0; i < myArray.length; ++i) {
+      if (
+        myArray[i].foodFlavor + myArray[i].foodCategory ===
+        foodFlavor + foodCategory
+      )
+        idCounter++;
+    }
+
+    setArray([
+      {
+        key: counter,
+        id: idCounter,
+        foodFlavor: foodFlavor,
+        foodCategory: foodCategory,
+        foodAttributes: foodAttributes
+      },
+      ...myArray
+    ]);
+  }
+
+  function removeFood(myArray, item) {
+    for (let index = 0; index < myArray.length; index++) {
+      if (
+        myArray[index].foodFlavor + myArray[index].foodCategory ===
+        item.foodFlavor + item.foodCategory
+      ) {
+        if (myArray[index].id > item.id) {
+          myArray[index].id--;
+        }
+      }
+    }
+    myArray.splice(
+      myArray.findIndex(k => k.key === item.key),
+      1
+    );
+    setArray([...myArray]);
+  }
+
+  function addHotDog(item) {
+    return (
+      <>
+        <div className="col-12">
+          How would you like your Hotdog?
+          <div
+            className="btn-group btn-vertical btn-group-toggle pt-2 pb-2"
+            data-toggle="buttons"
+          >
+            <div
+              className={
+                item.foodAttributes.burnt === false
+                  ? "btn btn-primary"
+                  : "btn btn-light"
+              }
+              onClick={() => {
+                item.foodAttributes.burnt = false;
+                myArray[
+                  myArray.findIndex(k => k.key === item.key)
+                ].foodAttributes.burnt = item.foodAttributes.burnt;
+                setArray([...myArray]);
+              }}
+            >
+              Standard
+            </div>
+            <div
+              className={
+                item.foodAttributes.burnt === true
+                  ? "btn btn-primary"
+                  : "btn btn-light"
+              }
+              onClick={() => {
+                item.foodAttributes.burnt = true;
+                myArray[
+                  myArray.findIndex(k => k.key === item.key)
+                ].foodAttributes.burnt = item.foodAttributes.burnt;
+                setArray([...myArray]);
+              }}
+            >
+              Charred
+            </div>
+          </div>
+          How many would you like?
+          <div
+            className="btn-group btn-vertical btn-group-toggle pt-2 pb-2"
+            data-toggle="buttons"
+          >
+            <div
+              className={
+                item.foodAttributes.quantity === 1
+                  ? "btn btn-primary"
+                  : "btn btn-light"
+              }
+              onClick={() => {
+                item.foodAttributes.quantity = 1;
+                myArray[
+                  myArray.findIndex(k => k.key === item.key)
+                ].foodAttributes.quantity = item.foodAttributes.quantity;
+                setArray([...myArray]);
+              }}
+            >
+              1
+            </div>
+            <div
+              className={
+                item.foodAttributes.quantity === 2
+                  ? "btn btn-primary"
+                  : "btn btn-light"
+              }
+              onClick={() => {
+                item.foodAttributes.quantity = 2;
+                myArray[
+                  myArray.findIndex(k => k.key === item.key)
+                ].foodAttributes.quantity = item.foodAttributes.quantity;
+                setArray([...myArray]);
+              }}
+            >
+              2
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  function addBurger(item) {
+    let donenessQuestion = "";
+    if (item.foodFlavor === "Beef") {
+      donenessQuestion = (
+        <>
+          How would you like your burger cooked?
+          <div className="row pt-3 pb-3">
+            <div
+              className="btn-group btn-vertical btn-group-toggle col-12"
+              data-toggle="buttons"
+            >
+              <div
+                className={
+                  item.foodAttributes.doneness === "Rare"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  item.foodAttributes.doneness = "Rare";
+                  myArray[
+                    myArray.findIndex(k => k.key === item.key)
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
+                  setArray([...myArray]);
+                }}
+              >
+                Rare
+              </div>
+              <div
+                className={
+                  item.foodAttributes.doneness === "MedRare"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  item.foodAttributes.doneness = "MedRare";
+                  myArray[
+                    myArray.findIndex(k => k.key === item.key)
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
+                  setArray([...myArray]);
+                }}
+              >
+                Medium Rare
+              </div>
+              <div
+                className={
+                  item.foodAttributes.doneness === "Medium"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  item.foodAttributes.doneness = "Medium";
+                  myArray[
+                    myArray.findIndex(k => k.key === item.key)
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
+                  setArray([...myArray]);
+                }}
+              >
+                Medium
+              </div>
+              <div
+                className={
+                  item.foodAttributes.doneness === "MediumWell"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  item.foodAttributes.doneness = "MediumWell";
+                  myArray[
+                    myArray.findIndex(k => k.key === item.key)
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
+                  setArray([...myArray]);
+                }}
+              >
+                Medium Well
+              </div>
+              <div
+                className={
+                  item.foodAttributes.doneness === "Well"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  item.foodAttributes.doneness = "Well";
+                  myArray[
+                    myArray.findIndex(k => k.key === item.key)
+                  ].foodAttributes.doneness = item.foodAttributes.doneness;
+                  setArray([...myArray]);
+                }}
+              >
+                Well Done
               </div>
             </div>
-            <h4>Hamburgers</h4>
-            <div className="form-group">
-              <label>
-                How many <b>beef</b> burgers?
-              </label>
-              <table className="table">
-                <thead>
-                  <tr className="table-info">
-                    <th style={{ width: "10%" }}>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          name="beefBurger"
-                          component="input"
-                          id="beef0"
-                          value="beef0"
-                        />
-                        <label className="custom-control-label" htmlFor="beef0">
-                          0
-                        </label>
-                      </div>
-                    </th>
-                    <th style={{ width: "45%" }}>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          name="beefBurger"
-                          component="input"
-                          value="beef1"
-                          id="beef1"
-                        />
-                        <label className="custom-control-label" htmlFor="beef1">
-                          1
-                        </label>
-                      </div>
-                    </th>
-                    <th>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          id="beef2"
-                          name="beefBurger"
-                          component="input"
-                          value="beef2"
-                        />
-                        <label className="custom-control-label" htmlFor="beef2">
-                          2
-                        </label>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td />
-                    <td>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef1Rare"
-                          type="radio"
-                          name="beef1Done"
-                          component="input"
-                          value="beef1Rare"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef1Rare"
-                        >
-                          Rare
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef1MedRare"
-                          type="radio"
-                          name="beef1Done"
-                          component="input"
-                          value="beef1MedRare"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef1MedRare"
-                        >
-                          Medium Rare
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef1Medium"
-                          type="radio"
-                          name="beef1Done"
-                          component="input"
-                          value="beef1Medium"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef1Medium"
-                        >
-                          Medium
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef1MediumWell"
-                          type="radio"
-                          name="beef1Done"
-                          component="input"
-                          value="beef1MediumWell"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef1MediumWell"
-                        >
-                          Medium Well
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef1WellDone"
-                          type="radio"
-                          name="beef1Done"
-                          component="input"
-                          value="beef1WellDone"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef1WellDone"
-                        >
-                          Well Done
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef2Rare"
-                          type="radio"
-                          name="beef2Done"
-                          component="input"
-                          value="beef2Rare"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef2Rare"
-                        >
-                          Rare
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef2MedRare"
-                          type="radio"
-                          name="beef2Done"
-                          component="input"
-                          value="beef2MedRare"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef2MedRare"
-                        >
-                          Medium Rare
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef2Medium"
-                          type="radio"
-                          name="beef2Done"
-                          component="input"
-                          value="beef2Medium"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef2Medium"
-                        >
-                          Medium
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef2MediumWell"
-                          type="radio"
-                          name="beef2Done"
-                          component="input"
-                          value="beef2MediumWell"
-                        />{" "}
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef2MediumWell"
-                        >
-                          Medium Well
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          className="custom-control-input"
-                          id="beef2WellDone"
-                          type="radio"
-                          name="beef2Done"
-                          component="input"
-                          value="beef2WellDone"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef2WellDone"
-                        >
-                          Well Done
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td />
-                    <td>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          name="beef1Cheese"
-                          id="beef1Cheese"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef1Cheese"
-                        >
-                          Cheese
-                        </label>
-                      </div>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          name="beef1Spicy"
-                          id="beef1Spicy"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef1Spicy"
-                        >
-                          Spice
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          id="beef2Cheese"
-                          name="beef2Cheese"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef2Cheese"
-                        >
-                          Cheese
-                        </label>
-                      </div>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          id="beef2Spicy"
-                          name="beef2Spicy"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="beef2Spicy"
-                        >
-                          Spice
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="form-group">
-              <label>
-                How many <b>turkey</b> burgers?
-              </label>
-              <table className="table">
-                <thead>
-                  <tr className="table-info">
-                    <th style={{ width: "10%" }}>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          name="turkeyBurger"
-                          component="input"
-                          id="turkey0"
-                          value="turkey0"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="turkey0"
-                        >
-                          0
-                        </label>
-                      </div>
-                    </th>
-                    <th style={{ width: "45%" }}>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          name="turkeyBurger"
-                          component="input"
-                          value="turkey1"
-                          id="turkey1"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="turkey1"
-                        >
-                          1
-                        </label>
-                      </div>
-                    </th>
-                    <th>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          id="turkey2"
-                          name="turkeyBurger"
-                          component="input"
-                          value="turkey2"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="turkey2"
-                        >
-                          2
-                        </label>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td />
-                    <td>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          name="turkey1Cheese"
-                          id="turkey1Cheese"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="turkey1Cheese"
-                        >
-                          Cheese
-                        </label>
-                      </div>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          name="turkey1Spicy"
-                          id="turkey1Spicy"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="turkey1Spicy"
-                        >
-                          Spice
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          id="turkey2Cheese"
-                          name="turkey2Cheese"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="turkey2Cheese"
-                        >
-                          Cheese
-                        </label>
-                      </div>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          id="turkey2Spicy"
-                          name="turkey2Spicy"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="turkey2Spicy"
-                        >
-                          Spice
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="form-group">
-              <label>
-                How many <b>vegetarian</b> burgers?
-              </label>
-              <table className="table">
-                <thead>
-                  <tr className="table-info">
-                    <th style={{ width: "10%" }}>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          name="vegBurger"
-                          component="input"
-                          id="veg0"
-                          value="veg0"
-                        />
-                        <label className="custom-control-label" htmlFor="veg0">
-                          0
-                        </label>
-                      </div>
-                    </th>
-                    <th style={{ width: "45%" }}>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          name="vegBurger"
-                          component="input"
-                          value="veg1"
-                          id="veg1"
-                        />
-                        <label className="custom-control-label" htmlFor="veg1">
-                          1
-                        </label>
-                      </div>
-                    </th>
-                    <th>
-                      <div className="custom-control custom-radio">
-                        <Field
-                          type="radio"
-                          className="custom-control-input"
-                          id="veg2"
-                          name="vegBurger"
-                          component="input"
-                          value="veg2"
-                        />
-                        <label className="custom-control-label" htmlFor="veg2">
-                          2
-                        </label>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td />
-                    <td>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          name="veg1Cheese"
-                          id="veg1Cheese"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="veg1Cheese"
-                        >
-                          Cheese
-                        </label>
-                      </div>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          name="veg1Spicy"
-                          id="veg1Spicy"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="veg1Spicy"
-                        >
-                          Spice
-                        </label>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          id="veg2Cheese"
-                          name="veg2Cheese"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="veg2Cheese"
-                        >
-                          Cheese
-                        </label>
-                      </div>
-                      <div className="custom-control custom-checkbox">
-                        <Field
-                          className="custom-control-input"
-                          id="veg2Spicy"
-                          name="veg2Spicy"
-                          component="input"
-                          type="checkbox"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="veg2Spicy"
-                        >
-                          Spice
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <h4>Hotdogs</h4>
-            <label>How many hotdogs?</label>
-            <div className="custom-control custom-radio">
-              <Field
-                type="radio"
-                id="hotdog0"
-                name="hotdogAmount"
-                className="custom-control-input"
-                value="hotdog0"
-                component="input"
-              />
-              <label className="custom-control-label" htmlFor="hotdog0">
-                0
-              </label>
-            </div>
-            <div className="custom-control custom-radio">
-              <Field
-                type="radio"
-                id="hotdog1"
-                name="hotdogAmount"
-                className="custom-control-input"
-                value="hotdog1"
-                component="input"
-              />
-              <label className="custom-control-label" htmlFor="hotdog1">
-                1
-              </label>
-            </div>
-            <div className="custom-control custom-radio">
-              <Field
-                type="radio"
-                id="hotdog2"
-                name="hotdogAmount"
-                className="custom-control-input"
-                value="hotdog2"
-                component="input"
-              />
-              <label className="custom-control-label" htmlFor="hotdog2">
-                2
-              </label>
-            </div>
-            <br />
-            <div className="custom-control custom-checkbox">
-              <Field
-                className="custom-control-input"
-                id="hotdogBurnt"
-                name="hotdogBurnt"
-                component="input"
+          </div>
+        </>
+      );
+    }
+    return (
+      <>
+        <div className="col-12">
+          What would you like added to your burger?
+          <div className="row pt-3 pb-3">
+            <div className="yellowtoggleButton checkboxButton col-sm-6 col-12">
+              <input
+                className=""
                 type="checkbox"
+                onClick={() => {
+                  item.foodAttributes.cheese = !item.foodAttributes.cheese;
+                  myArray[
+                    myArray.findIndex(k => k.key === item.key)
+                  ].foodAttributes.cheese = item.foodAttributes.cheese;
+                  setArray([...myArray]);
+                }}
+                id={item.foodFlavor + item.id + "Cheese"}
+                value="Cheese"
+                defaultChecked={item.foodAttributes.cheese}
               />
-              <label className="custom-control-label" htmlFor="hotdogBurnt">
-                I want them <i>really</i> well done
+              <label
+                className="form-check-label btn btn-block btn-light btn-lg"
+                htmlFor={item.foodFlavor + item.id + "Cheese"}
+              >
+                Cheese
               </label>
             </div>
-            <br />
-            <div>
-              <button
-                type="submit"
-                disabled={pristine || submitting}
-                className="btn btn-primary"
+            <div className="redToggleButton checkboxButton col-sm-6 col-12">
+              <input
+                className=""
+                type="checkbox"
+                onClick={() => {
+                  item.foodAttributes.spice = !item.foodAttributes.spice;
+                  myArray[
+                    myArray.findIndex(k => k.key === item.key)
+                  ].foodAttributes.spice = item.foodAttributes.spice;
+                  setArray([...myArray]);
+                }}
+                id={item.foodFlavor + item.id + "Spice"}
+                value="Spice"
+                defaultChecked={item.foodAttributes.spice}
+              />
+              <label
+                className="form-check-label btn btn btn-block btn-light btn-lg"
+                htmlFor={item.foodFlavor + item.id + "Spice"}
               >
-                Submit
-              </button>{" "}
+                Spicy
+              </label>
+            </div>
+          </div>
+          {donenessQuestion}
+        </div>
+      </>
+    );
+  }
+
+  //These two functions are really similar. They could probably be turned into the same thing.
+  function SetDuplicateButton(myArray, item) {
+    var counter = 1;
+    for (var i = 0; i < myArray.length; ++i) {
+      if (
+        myArray[i].foodFlavor + myArray[i].foodCategory ===
+          item.foodFlavor + item.foodCategory &&
+        myArray[i].key !== item.key
+      )
+        counter++;
+      if (counter === maxFoods) return true;
+    }
+    return false;
+  }
+  function SetAddFoodButton(myArray, foodFlavor, foodCategory) {
+    var counter = 0;
+    for (var i = 0; i < myArray.length; ++i) {
+      if (
+        myArray[i].foodFlavor + myArray[i].foodCategory ===
+        foodFlavor + foodCategory
+      )
+        counter++;
+      if (counter === maxFoods) return true;
+      if (foodCategory === "Hotdog" && counter === 1) return true;
+    }
+    return false;
+  }
+
+  return (
+    <>
+      <div className="row">
+        <div className="col-6">
+          <div className="dropdown p-2">
+            <button
+              className="btn btn-lg btn-primary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Add food
+            </button>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <button
-                type="button"
-                disabled={pristine || submitting}
-                className="btn btn-secondary"
-                onClick={form.reset}
+                className="dropdown-item lead"
+                id="addBeefButton"
+                disabled={SetAddFoodButton(myArray, "Beef", "Burger")}
+                onClick={() => addFood(myArray, "Beef", "Burger")}
               >
-                Reset Form
+                Beef Burger
+              </button>
+              <button
+                className="dropdown-item lead"
+                disabled={SetAddFoodButton(myArray, "Turkey", "Burger")}
+                id="addTurkeyButton"
+                onClick={() => addFood(myArray, "Turkey", "Burger")}
+              >
+                Turkey Burger
+              </button>
+              <button
+                className="dropdown-item lead"
+                id="addVeggieButton"
+                disabled={SetAddFoodButton(myArray, "Veggie", "Burger")}
+                onClick={() => addFood(myArray, "Veggie", "Burger")}
+              >
+                Veggie Burger
+              </button>
+              <div className="dropdown-divider" />
+              <button
+                className="dropdown-item lead"
+                id="addHotdogButton"
+                disabled={SetAddFoodButton(myArray, "Pork", "Hotdog")}
+                onClick={() => addFood(myArray, "Pork", "Hotdog")}
+              >
+                Hotdog
               </button>
             </div>
-          </form>
-        )}
-      />
-    </div>
+          </div>
+        </div>
+        <div className="col-6 text-right">
+          <div className=" p-2">
+            <button
+              className={
+                myArray.length === 0
+                  ? "btn btn-lg btn-secondary"
+                  : "btn btn-lg btn-success"
+              }
+              disabled={myArray.length === 0 ? true : false}
+              type="button"
+              id="submitOrderButton"
+            >
+              Submit Order
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {myArray.map(item => (
+        <div key={item.key}>
+          {drawCard(myArray, item)}
+          <p />
+        </div>
+      ))}
+
+      <pre style={{ fontSize: 12, textAlign: "left" }}>
+        {JSON.stringify(myArray, null, 2)}
+      </pre>
+    </>
   );
 }
+
+export default NewOrderForm;
