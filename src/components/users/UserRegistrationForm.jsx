@@ -13,7 +13,8 @@ export default function UserRegistrationForm({ ...props }) {
   const dispatch = useDispatch();
 
   const user = props.location.state;
-  const userRecovery = user.recovery;
+  const userRecovery =
+    user !== null && user !== undefined ? user.recovery : null;
   const userPresent = user !== null && user !== undefined;
   document.title = userPresent
     ? userRecovery
