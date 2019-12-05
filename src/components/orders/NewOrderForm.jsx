@@ -9,7 +9,8 @@ import { saveOrder } from "../../redux/actions/orderActions";
 
 const maxFoods = 2;
 let counter = 0;
-function NewOrderForm() {
+
+export default function NewOrderForm() {
   document.title = "𝘹𝘧BBQ - Place an Order";
 
   const [orderCardArray, setOrderCardArray] = useState([]);
@@ -653,5 +654,3 @@ function NewOrderForm() {
     </div>
   );
 }
-
-export default NewOrderForm;
