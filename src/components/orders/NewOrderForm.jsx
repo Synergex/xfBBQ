@@ -1,10 +1,40 @@
 ﻿import React, { useState } from "react";
 import "./orders.css";
+import { Form } from "react-final-form";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loadBBQs } from "../../redux/actions/bbqActions";
+import { saveOrder } from "../../redux/actions/orderActions";
 
 const maxFoods = 2;
 let counter = 0;
 function NewOrderForm() {
-  const [myArray, setArray] = useState([]);
+  document.title = "𝘹𝘧BBQ - Place an Order";
+
+  const [orderCardArray, setOrderCardArray] = useState([]);
+  const login = useSelector(state => state.login);
+  const bbqs = useSelector(state => state.bbqs);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  if (bbqs.length === 0) dispatch(loadBBQs());
+
+  function beefDoneness(doneness) {
+    switch (doneness) {
+      case "Rare":
+        return 1;
+      case "MedRare":
+        return 2;
+      case "Med":
+        return 3;
+      case "MedWell":
+        return 4;
+      case "Well":
+        return 5;
+      default:
+        return 6;
+    }
+  }
 
   function drawCard(myArray, item) {
     //See if it is a burger or something else and call accordingly
@@ -15,6 +45,7 @@ function NewOrderForm() {
         cardData = addBurger(item);
         duplicateButton = (
           <button
+            type="button"
             className={
               SetDuplicateButton(myArray, item) === true
                 ? "d-none"
@@ -41,27 +72,10 @@ function NewOrderForm() {
 
     return (
       <div
-        className="card bg-secondary m-2 pt-2 pb-2 collapse"
+        className="card bg-secondary mt-2 mb-2 pt-2 pb-2"
         id={item.foodFlavor + item.id}
         key={item.key}
       >
-        <img
-          src={require("./images/spacer.png")}
-          alt=""
-          onLoad={() =>
-            document
-              .getElementById("expandCard" + item.foodFlavor + item.id)
-              .click()
-          }
-        />
-        <button
-          id={"expandCard" + item.foodFlavor + item.id}
-          style={{ visibility: "hidden", display: "none" }}
-          type="button"
-          data-toggle="collapse"
-          data-target={"#" + item.foodFlavor + item.id}
-          aria-expanded="false"
-        />
         <div className="row">
           <div className="col">
             <h4 className="pl-2">
@@ -113,7 +127,7 @@ function NewOrderForm() {
         foodAttributes: { ...item.foodAttributes }
       }
     );
-    setArray([...myArray]);
+    setOrderCardArray([...myArray]);
   }
 
   function addFood(myArray, foodFlavor, foodCategory) {
@@ -122,7 +136,7 @@ function NewOrderForm() {
     let foodAttributes;
     if (foodCategory === "Burger") {
       foodAttributes = { cheese: false, spice: false };
-      if (foodFlavor === "Beef") foodAttributes.doneness = "Medium";
+      if (foodFlavor === "Beef") foodAttributes.doneness = "Med";
     }
     if (foodCategory === "Hotdog") {
       foodAttributes = { burnt: false, quantity: 1 };
@@ -137,7 +151,7 @@ function NewOrderForm() {
         idCounter++;
     }
 
-    setArray([
+    setOrderCardArray([
       {
         key: counter,
         id: idCounter,
@@ -164,7 +178,7 @@ function NewOrderForm() {
       myArray.findIndex(k => k.key === item.key),
       1
     );
-    setArray([...myArray]);
+    setOrderCardArray([...myArray]);
   }
 
   function addHotDog(item) {
@@ -184,10 +198,10 @@ function NewOrderForm() {
               }
               onClick={() => {
                 item.foodAttributes.burnt = false;
-                myArray[
-                  myArray.findIndex(k => k.key === item.key)
+                orderCardArray[
+                  orderCardArray.findIndex(k => k.key === item.key)
                 ].foodAttributes.burnt = item.foodAttributes.burnt;
-                setArray([...myArray]);
+                setOrderCardArray([...orderCardArray]);
               }}
             >
               Standard
@@ -200,10 +214,10 @@ function NewOrderForm() {
               }
               onClick={() => {
                 item.foodAttributes.burnt = true;
-                myArray[
-                  myArray.findIndex(k => k.key === item.key)
+                orderCardArray[
+                  orderCardArray.findIndex(k => k.key === item.key)
                 ].foodAttributes.burnt = item.foodAttributes.burnt;
-                setArray([...myArray]);
+                setOrderCardArray([...orderCardArray]);
               }}
             >
               Charred
@@ -222,10 +236,10 @@ function NewOrderForm() {
               }
               onClick={() => {
                 item.foodAttributes.quantity = 1;
-                myArray[
-                  myArray.findIndex(k => k.key === item.key)
+                orderCardArray[
+                  orderCardArray.findIndex(k => k.key === item.key)
                 ].foodAttributes.quantity = item.foodAttributes.quantity;
-                setArray([...myArray]);
+                setOrderCardArray([...orderCardArray]);
               }}
             >
               1
@@ -238,10 +252,10 @@ function NewOrderForm() {
               }
               onClick={() => {
                 item.foodAttributes.quantity = 2;
-                myArray[
-                  myArray.findIndex(k => k.key === item.key)
+                orderCardArray[
+                  orderCardArray.findIndex(k => k.key === item.key)
                 ].foodAttributes.quantity = item.foodAttributes.quantity;
-                setArray([...myArray]);
+                setOrderCardArray([...orderCardArray]);
               }}
             >
               2
@@ -271,10 +285,10 @@ function NewOrderForm() {
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "Rare";
-                  myArray[
-                    myArray.findIndex(k => k.key === item.key)
+                  orderCardArray[
+                    orderCardArray.findIndex(k => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
-                  setArray([...myArray]);
+                  setOrderCardArray([...orderCardArray]);
                 }}
               >
                 Rare
@@ -287,42 +301,42 @@ function NewOrderForm() {
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "MedRare";
-                  myArray[
-                    myArray.findIndex(k => k.key === item.key)
+                  orderCardArray[
+                    orderCardArray.findIndex(k => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
-                  setArray([...myArray]);
+                  setOrderCardArray([...orderCardArray]);
                 }}
               >
                 Medium Rare
               </div>
               <div
                 className={
-                  item.foodAttributes.doneness === "Medium"
+                  item.foodAttributes.doneness === "Med"
                     ? "btn btn-primary"
                     : "btn btn-light"
                 }
                 onClick={() => {
-                  item.foodAttributes.doneness = "Medium";
-                  myArray[
-                    myArray.findIndex(k => k.key === item.key)
+                  item.foodAttributes.doneness = "Med";
+                  orderCardArray[
+                    orderCardArray.findIndex(k => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
-                  setArray([...myArray]);
+                  setOrderCardArray([...orderCardArray]);
                 }}
               >
                 Medium
               </div>
               <div
                 className={
-                  item.foodAttributes.doneness === "MediumWell"
+                  item.foodAttributes.doneness === "MedWell"
                     ? "btn btn-primary"
                     : "btn btn-light"
                 }
                 onClick={() => {
-                  item.foodAttributes.doneness = "MediumWell";
-                  myArray[
-                    myArray.findIndex(k => k.key === item.key)
+                  item.foodAttributes.doneness = "MedWell";
+                  orderCardArray[
+                    orderCardArray.findIndex(k => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
-                  setArray([...myArray]);
+                  setOrderCardArray([...orderCardArray]);
                 }}
               >
                 Medium Well
@@ -335,10 +349,10 @@ function NewOrderForm() {
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "Well";
-                  myArray[
-                    myArray.findIndex(k => k.key === item.key)
+                  orderCardArray[
+                    orderCardArray.findIndex(k => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
-                  setArray([...myArray]);
+                  setOrderCardArray([...orderCardArray]);
                 }}
               >
                 Well Done
@@ -359,10 +373,10 @@ function NewOrderForm() {
                 type="checkbox"
                 onClick={() => {
                   item.foodAttributes.cheese = !item.foodAttributes.cheese;
-                  myArray[
-                    myArray.findIndex(k => k.key === item.key)
+                  orderCardArray[
+                    orderCardArray.findIndex(k => k.key === item.key)
                   ].foodAttributes.cheese = item.foodAttributes.cheese;
-                  setArray([...myArray]);
+                  setOrderCardArray([...orderCardArray]);
                 }}
                 id={item.foodFlavor + item.id + "Cheese"}
                 value="Cheese"
@@ -381,10 +395,10 @@ function NewOrderForm() {
                 type="checkbox"
                 onClick={() => {
                   item.foodAttributes.spice = !item.foodAttributes.spice;
-                  myArray[
-                    myArray.findIndex(k => k.key === item.key)
+                  orderCardArray[
+                    orderCardArray.findIndex(k => k.key === item.key)
                   ].foodAttributes.spice = item.foodAttributes.spice;
-                  setArray([...myArray]);
+                  setOrderCardArray([...orderCardArray]);
                 }}
                 id={item.foodFlavor + item.id + "Spice"}
                 value="Spice"
@@ -432,87 +446,211 @@ function NewOrderForm() {
     return false;
   }
 
-  return (
-    <>
-      <div className="row">
-        <div className="col-6">
-          <div className="dropdown p-2">
-            <button
-              className="btn btn-lg btn-primary dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Add food
-            </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <button
-                className="dropdown-item lead"
-                id="addBeefButton"
-                disabled={SetAddFoodButton(myArray, "Beef", "Burger")}
-                onClick={() => addFood(myArray, "Beef", "Burger")}
-              >
-                Beef Burger
-              </button>
-              <button
-                className="dropdown-item lead"
-                disabled={SetAddFoodButton(myArray, "Turkey", "Burger")}
-                id="addTurkeyButton"
-                onClick={() => addFood(myArray, "Turkey", "Burger")}
-              >
-                Turkey Burger
-              </button>
-              <button
-                className="dropdown-item lead"
-                id="addVeggieButton"
-                disabled={SetAddFoodButton(myArray, "Veggie", "Burger")}
-                onClick={() => addFood(myArray, "Veggie", "Burger")}
-              >
-                Veggie Burger
-              </button>
-              <div className="dropdown-divider" />
-              <button
-                className="dropdown-item lead"
-                id="addHotdogButton"
-                disabled={SetAddFoodButton(myArray, "Pork", "Hotdog")}
-                onClick={() => addFood(myArray, "Pork", "Hotdog")}
-              >
-                Hotdog
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col-6 text-right">
-          <div className=" p-2">
-            <button
-              className={
-                myArray.length === 0
-                  ? "btn btn-lg btn-secondary"
-                  : "btn btn-lg btn-success"
-              }
-              disabled={myArray.length === 0 ? true : false}
-              type="button"
-              id="submitOrderButton"
-            >
-              Submit Order
-            </button>
-          </div>
-        </div>
-      </div>
+  async function onSubmit() {
+    let orders = [];
+    const orderDate = new Date().toJSON();
+    const userID = login.id;
+    const bbqID = bbqs.length === 0 ? 0 : bbqs[bbqs.length - 1].id;
 
-      {myArray.map(item => (
+    if (
+      window.confirm(
+        "Make sure your order is correct before submitting.\r\nIs this what you want to order?\r\n" +
+          orderCardArray
+            .map(item => {
+              if (item.foodCategory === "Burger") {
+                switch (item.foodFlavor) {
+                  case "Beef":
+                    orders.push({
+                      orderDate,
+                      userID,
+                      bbqID,
+                      meat: 1,
+                      doneness: beefDoneness(item.foodAttributes.doneness),
+                      cheese: item.foodAttributes.cheese ? "1" : "0",
+                      spicy: item.foodAttributes.spice ? "1" : "0"
+                    });
+
+                    return (
+                      "\r\n• Beef Burger:\r\n  - Cheese: " +
+                      (item.foodAttributes.cheese ? "Yes" : "No") +
+                      "\r\n  - Spice: " +
+                      (item.foodAttributes.spice ? "Yes" : "No") +
+                      "\r\n  - Doneness: " +
+                      item.foodAttributes.doneness
+                    );
+                  case "Turkey":
+                    orders.push({
+                      orderDate,
+                      userID,
+                      bbqID,
+                      meat: 2,
+                      cheese: item.foodAttributes.cheese ? "1" : "0",
+                      spicy: item.foodAttributes.spice ? "1" : "0"
+                    });
+
+                    return (
+                      "\r\n• Turkey Burger:\r\n  - Cheese: " +
+                      (item.foodAttributes.cheese ? "Yes" : "No") +
+                      "\r\n  - Spice: " +
+                      (item.foodAttributes.spice ? "Yes" : "No")
+                    );
+                  case "Veggie":
+                    orders.push({
+                      orderDate,
+                      userID,
+                      bbqID,
+                      meat: 3,
+                      doneness: beefDoneness(item.foodAttributes.doneness),
+                      cheese: item.foodAttributes.cheese ? "1" : "0",
+                      spicy: item.foodAttributes.spice ? "1" : "0"
+                    });
+
+                    return (
+                      "\r\n• Veggie Burger:\r\n  - Cheese: " +
+                      (item.foodAttributes.cheese ? "Yes" : "No") +
+                      "\r\n  - Spice: " +
+                      (item.foodAttributes.spice ? "Yes" : "No")
+                    );
+                  default:
+                    return "";
+                }
+              } else {
+                orders.push({
+                  orderDate,
+                  userID,
+                  bbqID,
+                  type: 1,
+                  doneness: beefDoneness(item.foodAttributes.doneness),
+                  count: item.foodAttributes.quantity,
+                  burnt: item.foodAttributes.burnt ? "Yes" : "No"
+                });
+
+                return (
+                  "\r\n• Hotdogs:\r\n  - Burnt: " +
+                  (item.foodAttributes.burnt ? "Yes" : "No") +
+                  "\r\n  - Amount: " +
+                  item.foodAttributes.quantity
+                );
+              }
+            })
+            .join("")
+      )
+    ) {
+      toast.info("Creating orders...");
+      orders.forEach(order => dispatch(saveOrder(order)));
+      history.push("/OrderHistory");
+    }
+  }
+
+  return (
+    <div className="jumbotron">
+      <h2>Place an Order</h2>
+      <Form
+        onSubmit={onSubmit}
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-6">
+                <div className="dropdown">
+                  <button
+                    className="btn btn-lg btn-primary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Add food
+                  </button>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <button
+                      className="dropdown-item lead"
+                      id="addBeefButton"
+                      disabled={SetAddFoodButton(
+                        orderCardArray,
+                        "Beef",
+                        "Burger"
+                      )}
+                      onClick={() => addFood(orderCardArray, "Beef", "Burger")}
+                      type="button"
+                    >
+                      Beef Burger
+                    </button>
+                    <button
+                      className="dropdown-item lead"
+                      disabled={SetAddFoodButton(
+                        orderCardArray,
+                        "Turkey",
+                        "Burger"
+                      )}
+                      id="addTurkeyButton"
+                      onClick={() =>
+                        addFood(orderCardArray, "Turkey", "Burger")
+                      }
+                      type="button"
+                    >
+                      Turkey Burger
+                    </button>
+                    <button
+                      className="dropdown-item lead"
+                      id="addVeggieButton"
+                      disabled={SetAddFoodButton(
+                        orderCardArray,
+                        "Veggie",
+                        "Burger"
+                      )}
+                      onClick={() =>
+                        addFood(orderCardArray, "Veggie", "Burger")
+                      }
+                      type="button"
+                    >
+                      Veggie Burger
+                    </button>
+                    <div className="dropdown-divider" />
+                    <button
+                      className="dropdown-item lead"
+                      id="addHotdogButton"
+                      disabled={SetAddFoodButton(
+                        orderCardArray,
+                        "Pork",
+                        "Hotdog"
+                      )}
+                      onClick={() => addFood(orderCardArray, "Pork", "Hotdog")}
+                      type="button"
+                    >
+                      Hotdog
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 text-right">
+                <button
+                  className={
+                    orderCardArray.length === 0
+                      ? "btn btn-lg btn-secondary"
+                      : "btn btn-lg btn-success"
+                  }
+                  disabled={orderCardArray.length === 0 ? true : false}
+                  type="submit"
+                  id="submitOrderButton"
+                >
+                  Submit Order
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+      />
+      {orderCardArray.map(item => (
         <div key={item.key}>
-          {drawCard(myArray, item)}
+          {drawCard(orderCardArray, item)}
           <p />
         </div>
       ))}
-
-      <pre style={{ fontSize: 12, textAlign: "left" }}>
-        {JSON.stringify(myArray, null, 2)}
-      </pre>
-    </>
+    </div>
   );
 }
 
