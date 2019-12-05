@@ -205,7 +205,7 @@ export default function NewOrderForm() {
                 setOrderCardArray([...orderCardArray]);
               }}
             >
-              Standard
+              Normal
             </div>
             <div
               className={
@@ -221,7 +221,7 @@ export default function NewOrderForm() {
                 setOrderCardArray([...orderCardArray]);
               }}
             >
-              Charred
+              Burnt
             </div>
           </div>
           How many would you like?
@@ -409,7 +409,7 @@ export default function NewOrderForm() {
                 className="form-check-label btn btn btn-block btn-light btn-lg"
                 htmlFor={item.foodFlavor + item.id + "Spice"}
               >
-                Spicy
+                Spice
               </label>
             </div>
           </div>
@@ -614,12 +614,8 @@ export default function NewOrderForm() {
                     <button
                       className="dropdown-item lead"
                       id="addHotdogButton"
-                      disabled={SetAddFoodButton(
-                        orderCardArray,
-                        "Pork",
-                        "Hotdog"
-                      )}
-                      onClick={() => addFood(orderCardArray, "Pork", "Hotdog")}
+                      disabled={SetAddFoodButton(orderCardArray, "", "Hotdog")}
+                      onClick={() => addFood(orderCardArray, "", "Hotdog")}
                       type="button"
                     >
                       Hotdog
