@@ -5,6 +5,7 @@ import { loadUsers } from "../../redux/actions/userActions";
 import Spinner from "../../Spinner";
 import OrderTable from "./OrderTable";
 
+let ranOnce = false;
 export default function OrderHistory() {
   document.title = "𝘹𝘧BBQ - Order History";
 
@@ -12,10 +13,12 @@ export default function OrderHistory() {
   const login = useSelector(state => state.login);
 
   const orders = useSelector(state => state.orders);
-  if (orders.length === 0 || (orders.length !== 0 && orders[0].id !== 1))
-    dispatch(loadOrders());
   const users = useSelector(state => state.users);
-  if (users.length === 0) dispatch(loadUsers());
+  if (!ranOnce) {
+    dispatch(loadOrders());
+    dispatch(loadUsers());
+    ranOnce = true;
+  }
 
   return (
     <div className="jumbotron">

@@ -17,6 +17,11 @@ export function loadOrdersSuccess(orders) {
   return { type: type.LOAD_ORDERS_SUCCESS, orders };
 }
 
+export function updateOrderSuccess(order) {
+  toast.success("Updated order " + order.id);
+  return { type: type.UPDATE_ORDER_SUCCESS, order };
+}
+
 export function loadOrders() {
   return async function(dispatch) {
     dispatch(beginApiCall());
@@ -35,7 +40,9 @@ export function saveOrder(order) {
     dispatch(beginApiCall());
     try {
       const savedOrder = await orderApi.saveOrder(order);
-      dispatch(createOrderSuccess(savedOrder));
+      order.id
+        ? dispatch(updateOrderSuccess(savedOrder))
+        : dispatch(createOrderSuccess(savedOrder));
     } catch (error) {
       dispatch(apiCallError(error));
       throw error;
