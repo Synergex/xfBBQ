@@ -67,7 +67,7 @@ export default function NewOrderForm() {
         cardData = addHotDog(item);
         break;
       default:
-        alert("making and undefined food item in drawCard()");
+        alert("making an undefined food item in drawCard()");
         break;
     }
 
@@ -523,7 +523,7 @@ export default function NewOrderForm() {
                   type: 1,
                   doneness: beefDoneness(item.foodAttributes.doneness),
                   count: item.foodAttributes.quantity,
-                  burnt: item.foodAttributes.burnt ? "Yes" : "No"
+                  burnt: item.foodAttributes.burnt
                 });
 
                 return (
