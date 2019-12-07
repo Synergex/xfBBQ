@@ -83,15 +83,6 @@ export default function Header() {
             style={{}}
           >
             <ul className="navbar-nav mr-auto">
-              <li className="navbar-item">
-                <NavLink
-                  to="/CurrentOrder"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  Current Order
-                </NavLink>
-              </li>
               {login.type === "Administrator" ? (
                 <>
                   <li className="navbar-item">
