@@ -24,7 +24,7 @@ export default function BBQTable({ bbqs }) {
             <th>BBQ ID</th>
             <th>Date Created</th>
             <th>Date Held On</th>
-            <th style={{ width: "15%" }}>Actions</th>
+            <th style={{ width: "20%" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -80,7 +80,7 @@ export default function BBQTable({ bbqs }) {
                       </button>
                     </>
                   ) : (
-                    <></>
+                    <i>No actions available</i>
                   )}
                 </td>
               </tr>

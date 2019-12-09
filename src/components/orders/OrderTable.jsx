@@ -110,7 +110,7 @@ export default function OrderTable({ orders, users, login }) {
                     </button>
                   </>
                 ) : (
-                  <></>
+                  <i>No actions available</i>
                 )}
               </td>
             </tr>
