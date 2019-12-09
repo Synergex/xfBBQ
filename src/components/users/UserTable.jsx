@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 let ranOnce = false;
 export default function UserTable({ users }) {
   const dispatch = useDispatch();
+  const login = useSelector(state => state.login);
   const orders = useSelector(state => state.orders);
   if (!ranOnce) {
     dispatch(loadOrders());
@@ -58,30 +59,37 @@ export default function UserTable({ users }) {
                       📝
                     </span>
                   </button>
-                </Link>{" "}
-                <button
-                  type="button"
-                  className="btn btn-danger btn-sm"
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to delete this user?\r\nDeleting this user will also delete all orders this user has ever made."
-                      )
-                    ) {
-                      toast.info("Deleting User " + user.id + "...");
-                      dispatch(deleteUser(user));
+                </Link>
+                {login.id === user.id ? (
+                  <></>
+                ) : (
+                  <>
+                    {" "}
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            "Are you sure you want to delete this user?\r\nDeleting this user will also delete all orders this user has ever made."
+                          )
+                        ) {
+                          toast.info("Deleting User " + user.id + "...");
+                          dispatch(deleteUser(user));
 
-                      orders.forEach(order => {
-                        if (order.userID === user.id)
-                          dispatch(deleteOrder(order));
-                      });
-                    }
-                  }}
-                >
-                  <span role="img" aria-label="delete">
-                    🗑️
-                  </span>
-                </button>
+                          orders.forEach(order => {
+                            if (order.userID === user.id)
+                              dispatch(deleteOrder(order));
+                          });
+                        }
+                      }}
+                    >
+                      <span role="img" aria-label="delete">
+                        🗑️
+                      </span>
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           );
