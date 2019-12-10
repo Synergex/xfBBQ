@@ -4,6 +4,7 @@ import { loadOrders } from "../../redux/actions/orderActions";
 import { loadUsers } from "../../redux/actions/userActions";
 import Spinner from "../../Spinner";
 import OrderTable from "./OrderTable";
+import { Link } from "react-router-dom";
 
 let ranOnce = false;
 export default function OrderHistory() {
@@ -26,7 +27,17 @@ export default function OrderHistory() {
       {orders.length <= 0 || users.length <= 0 ? (
         <Spinner />
       ) : (
-        <OrderTable orders={orders} users={users} login={login} />
+        <>
+          <Link to="/NewOrderForm">
+            <div className="text-right">
+              <button type="button" className="btn btn-primary">
+                New Order
+              </button>
+            </div>
+            <p />
+          </Link>
+          <OrderTable orders={orders} users={users} login={login} />
+        </>
       )}
     </div>
   );
