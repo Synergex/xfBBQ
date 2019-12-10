@@ -20,7 +20,6 @@ import BBQRegistrationForm from "./components/bbq/BBQRegistrationForm";
 import BBQList from "./components/bbq/BBQList";
 
 import NewOrderForm from "./components/orders/NewOrderForm";
-import EditOrderForm from "./components/orders/EditOrderForm";
 import OrderHistory from "./components/orders/OrderHistory";
 
 import LogoutPage from "./components/login/UserLogout";
@@ -54,7 +53,6 @@ export default function App() {
           <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
           <Route path="/BBQList" component={BBQList} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
-          <Route path="/EditOrderForm" component={EditOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
@@ -65,7 +63,6 @@ export default function App() {
           <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
           <Route path="/BBQList" component={BBQList} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
-          <Route path="/EditOrderForm" component={EditOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
@@ -74,7 +71,6 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
-          <Route path="/EditOrderForm" component={EditOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />

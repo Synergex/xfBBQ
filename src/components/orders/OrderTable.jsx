@@ -13,6 +13,7 @@ export default function OrderTable({ orders, users, login }) {
   const bbqs = useSelector(state => state.bbqs);
   if (bbqs.length === 0) dispatch(loadBBQs());
 
+  let rowCounter = 0;
   return (
     <table className="table table-hover">
       <thead>
@@ -32,7 +33,7 @@ export default function OrderTable({ orders, users, login }) {
           return (
             <tr
               key={order.id}
-              className={order.id % 2 === 0 ? "table-secondary" : ""}
+              className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
             >
               <td>{order.id}</td>
               <td>{order.bbqID}</td>
@@ -80,8 +81,12 @@ export default function OrderTable({ orders, users, login }) {
                   <>
                     <Link
                       to={{
-                        pathname: "/EditOrderForm",
-                        state: order
+                        pathname: "/NewOrderForm",
+                        state: orders.filter(
+                          orderIter =>
+                            order.userID === orderIter.userID &&
+                            order.bbqID === orderIter.bbqID
+                        )
                       }}
                     >
                       <button type="button" className="btn btn-primary btn-sm">

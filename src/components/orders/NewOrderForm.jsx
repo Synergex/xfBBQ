@@ -5,15 +5,64 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadBBQs } from "../../redux/actions/bbqActions";
-import { saveOrder } from "../../redux/actions/orderActions";
+import { saveOrder, deleteOrder } from "../../redux/actions/orderActions";
+import PropTypes from "prop-types";
 
-const maxFoods = 2;
 let counter = 0;
-
-export default function NewOrderForm() {
+export default function NewOrderForm({ ...props }) {
   document.title = "𝘹𝘧BBQ - Place an Order";
 
-  const [orderCardArray, setOrderCardArray] = useState([]);
+  let beefCount = 0;
+  let turkeyCount = 0;
+  let vegCount = 0;
+
+  const ordersToEdit = props.location.state;
+  const [orderCardArray, setOrderCardArray] = useState(
+    ordersToEdit === null
+      ? []
+      : ordersToEdit.map(order => {
+          if (order.cheese === undefined) {
+            return {
+              key: Math.random() * 1000000000000000000,
+              id: 1,
+              foodFlavor: "",
+              foodCategory: "Hotdog",
+              foodAttributes: {
+                burnt: order.burnt ? true : false,
+                quantity: order.count
+              },
+              orderID: order.id
+            };
+          } else {
+            return {
+              key: Math.random() * 1000000000000000000,
+              id:
+                order.meat === 1
+                  ? ++beefCount
+                  : order.meat === 2
+                  ? ++turkeyCount
+                  : ++vegCount,
+              foodFlavor:
+                order.meat === 1
+                  ? "Beef"
+                  : order.meat === 2
+                  ? "Turkey"
+                  : "Veggie",
+              foodCategory: "Burger",
+              foodAttributes: {
+                cheese: order.cheese >= 1 ? true : false,
+                spice: order.spicy >= 1 ? true : false,
+                doneness:
+                  order.doneness === undefined
+                    ? ""
+                    : numberToDoneness(order.doneness)
+              },
+              orderID: order.id
+            };
+          }
+        })
+  );
+
   const login = useSelector(state => state.login);
   const bbqs = useSelector(state => state.bbqs);
   const history = useHistory();
@@ -36,6 +85,22 @@ export default function NewOrderForm() {
         return 6;
     }
   }
+  function numberToDoneness(number) {
+    switch (number) {
+      case 1:
+        return "Rare";
+      case 2:
+        return "MedRare";
+      case 3:
+        return "Med";
+      case 4:
+        return "MedWell";
+      case 5:
+        return "Well";
+      default:
+        return "";
+    }
+  }
 
   function drawCard(myArray, item) {
     //See if it is a burger or something else and call accordingly
@@ -47,14 +112,9 @@ export default function NewOrderForm() {
         duplicateButton = (
           <button
             type="button"
-            className={
-              SetDuplicateButton(myArray, item) === true
-                ? "d-none"
-                : "close pr-2 pl-2"
-            }
+            className="close pr-2 pl-2"
             title="Add a copy of this order"
             id={item.foodItem + item.foodValue + "DuplicateOrderButton"}
-            disabled={SetDuplicateButton(myArray, item)}
             onClick={() => {
               duplicateCard(myArray, item);
             }}
@@ -73,7 +133,10 @@ export default function NewOrderForm() {
 
     return (
       <div
-        className="card bg-secondary mt-2 mb-2 pt-2 pb-2"
+        className={
+          "card bg-secondary mt-2 mb-2 pt-2 pb-2" +
+          (item.delete === undefined ? "" : " d-none")
+        }
         id={item.foodFlavor + item.id}
         key={item.key}
       >
@@ -168,17 +231,17 @@ export default function NewOrderForm() {
     for (let index = 0; index < myArray.length; index++) {
       if (
         myArray[index].foodFlavor + myArray[index].foodCategory ===
-        item.foodFlavor + item.foodCategory
-      ) {
-        if (myArray[index].id > item.id) {
-          myArray[index].id--;
-        }
-      }
+          item.foodFlavor + item.foodCategory &&
+        myArray[index].id > item.id
+      )
+        myArray[index].id--;
     }
-    myArray.splice(
-      myArray.findIndex(k => k.key === item.key),
-      1
-    );
+
+    const arrayIndex = myArray.findIndex(k => k.key === item.key);
+    if (myArray[arrayIndex].orderID === undefined)
+      myArray.splice(arrayIndex, 1);
+    else myArray[arrayIndex].delete = true;
+
     setOrderCardArray([...myArray]);
   }
 
@@ -419,34 +482,6 @@ export default function NewOrderForm() {
     );
   }
 
-  //These two functions are really similar. They could probably be turned into the same thing.
-  function SetDuplicateButton(myArray, item) {
-    var counter = 1;
-    for (var i = 0; i < myArray.length; ++i) {
-      if (
-        myArray[i].foodFlavor + myArray[i].foodCategory ===
-          item.foodFlavor + item.foodCategory &&
-        myArray[i].key !== item.key
-      )
-        counter++;
-      if (counter === maxFoods) return true;
-    }
-    return false;
-  }
-  function SetAddFoodButton(myArray, foodFlavor, foodCategory) {
-    var counter = 0;
-    for (var i = 0; i < myArray.length; ++i) {
-      if (
-        myArray[i].foodFlavor + myArray[i].foodCategory ===
-        foodFlavor + foodCategory
-      )
-        counter++;
-      if (counter === maxFoods) return true;
-      if (foodCategory === "Hotdog" && counter === 1) return true;
-    }
-    return false;
-  }
-
   async function onSubmit() {
     let orders = [];
     const orderDate = new Date().toJSON();
@@ -467,12 +502,16 @@ export default function NewOrderForm() {
                       bbqID,
                       meat: 1,
                       doneness: beefDoneness(item.foodAttributes.doneness),
-                      cheese: item.foodAttributes.cheese ? "1" : "0",
-                      spicy: item.foodAttributes.spice ? "1" : "0"
+                      cheese: item.foodAttributes.cheese ? 1 : 0,
+                      spicy: item.foodAttributes.spice ? 1 : 0,
+                      id: item.orderID === undefined ? "" : item.orderID,
+                      delete: item.delete ? true : ""
                     });
 
                     return (
-                      "\r\n• Beef Burger:\r\n  - Cheese: " +
+                      "\r\n• " +
+                      (item.delete ? "REMOVE " : "") +
+                      "Beef Burger:\r\n  - Cheese: " +
                       (item.foodAttributes.cheese ? "Yes" : "No") +
                       "\r\n  - Spice: " +
                       (item.foodAttributes.spice ? "Yes" : "No") +
@@ -485,12 +524,16 @@ export default function NewOrderForm() {
                       userID,
                       bbqID,
                       meat: 2,
-                      cheese: item.foodAttributes.cheese ? "1" : "0",
-                      spicy: item.foodAttributes.spice ? "1" : "0"
+                      cheese: item.foodAttributes.cheese ? 1 : 0,
+                      spicy: item.foodAttributes.spice ? 1 : 0,
+                      id: item.orderID === undefined ? "" : item.orderID,
+                      delete: item.delete ? true : ""
                     });
 
                     return (
-                      "\r\n• Turkey Burger:\r\n  - Cheese: " +
+                      "\r\n• " +
+                      (item.delete ? "REMOVE " : "") +
+                      "Turkey Burger:\r\n  - Cheese: " +
                       (item.foodAttributes.cheese ? "Yes" : "No") +
                       "\r\n  - Spice: " +
                       (item.foodAttributes.spice ? "Yes" : "No")
@@ -502,12 +545,16 @@ export default function NewOrderForm() {
                       bbqID,
                       meat: 3,
                       doneness: beefDoneness(item.foodAttributes.doneness),
-                      cheese: item.foodAttributes.cheese ? "1" : "0",
-                      spicy: item.foodAttributes.spice ? "1" : "0"
+                      cheese: item.foodAttributes.cheese ? 1 : 0,
+                      spicy: item.foodAttributes.spice ? 1 : 0,
+                      id: item.orderID === undefined ? "" : item.orderID,
+                      delete: item.delete ? true : ""
                     });
 
                     return (
-                      "\r\n• Veggie Burger:\r\n  - Cheese: " +
+                      "\r\n• " +
+                      (item.delete ? "REMOVE " : "") +
+                      "Veggie Burger:\r\n  - Cheese: " +
                       (item.foodAttributes.cheese ? "Yes" : "No") +
                       "\r\n  - Spice: " +
                       (item.foodAttributes.spice ? "Yes" : "No")
@@ -523,11 +570,15 @@ export default function NewOrderForm() {
                   type: 1,
                   doneness: beefDoneness(item.foodAttributes.doneness),
                   count: item.foodAttributes.quantity,
-                  burnt: item.foodAttributes.burnt
+                  burnt: item.foodAttributes.burnt,
+                  id: item.orderID === undefined ? "" : item.orderID,
+                  delete: item.delete ? true : ""
                 });
 
                 return (
-                  "\r\n• Hotdogs:\r\n  - Burnt: " +
+                  "\r\n• " +
+                  (item.delete ? "REMOVE " : "") +
+                  "Hotdogs:\r\n  - Burnt: " +
                   (item.foodAttributes.burnt ? "Yes" : "No") +
                   "\r\n  - Amount: " +
                   item.foodAttributes.quantity
@@ -537,8 +588,13 @@ export default function NewOrderForm() {
             .join("")
       )
     ) {
-      toast.info("Creating orders...");
-      orders.forEach(order => dispatch(saveOrder(order)));
+      toast.info(
+        (ordersToEdit === null ? "Creating " : "Editing ") + "orders..."
+      );
+      orders.forEach(order => {
+        if (order.delete) dispatch(deleteOrder(order));
+        else dispatch(saveOrder(order));
+      });
       history.push("/OrderHistory");
     }
   }
@@ -570,11 +626,6 @@ export default function NewOrderForm() {
                     <button
                       className="dropdown-item lead"
                       id="addBeefButton"
-                      disabled={SetAddFoodButton(
-                        orderCardArray,
-                        "Beef",
-                        "Burger"
-                      )}
                       onClick={() => addFood(orderCardArray, "Beef", "Burger")}
                       type="button"
                     >
@@ -582,11 +633,6 @@ export default function NewOrderForm() {
                     </button>
                     <button
                       className="dropdown-item lead"
-                      disabled={SetAddFoodButton(
-                        orderCardArray,
-                        "Turkey",
-                        "Burger"
-                      )}
                       id="addTurkeyButton"
                       onClick={() =>
                         addFood(orderCardArray, "Turkey", "Burger")
@@ -598,11 +644,6 @@ export default function NewOrderForm() {
                     <button
                       className="dropdown-item lead"
                       id="addVeggieButton"
-                      disabled={SetAddFoodButton(
-                        orderCardArray,
-                        "Veggie",
-                        "Burger"
-                      )}
                       onClick={() =>
                         addFood(orderCardArray, "Veggie", "Burger")
                       }
@@ -614,7 +655,6 @@ export default function NewOrderForm() {
                     <button
                       className="dropdown-item lead"
                       id="addHotdogButton"
-                      disabled={SetAddFoodButton(orderCardArray, "", "Hotdog")}
                       onClick={() => addFood(orderCardArray, "", "Hotdog")}
                       type="button"
                     >
@@ -650,3 +690,7 @@ export default function NewOrderForm() {
     </div>
   );
 }
+
+NewOrderForm.propTypes = {
+  location: PropTypes.object.isRequired
+};
