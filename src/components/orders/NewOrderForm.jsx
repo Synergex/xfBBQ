@@ -18,7 +18,7 @@ export default function NewOrderForm({ ...props }) {
 
   const ordersToEdit = props.location.state;
   const [orderCardArray, setOrderCardArray] = useState(
-    ordersToEdit === null
+    ordersToEdit === null || ordersToEdit === undefined
       ? []
       : ordersToEdit.map(order => {
           if (order.cheese === undefined) {
