@@ -16,6 +16,7 @@ export default function BBQTable({ bbqs }) {
     ranOnce = true;
   }
 
+  let rowCounter = 0;
   return (
     <>
       <table className="table table-hover">
@@ -32,7 +33,7 @@ export default function BBQTable({ bbqs }) {
             return (
               <tr
                 key={bbq.id}
-                className={bbq.id % 2 === 0 ? "table-secondary" : ""}
+                className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
               >
                 <td>{bbq.id}</td>
                 <td>{moment(bbq.creationDate).format("MM/DD/YYYY")}</td>

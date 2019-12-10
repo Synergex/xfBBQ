@@ -17,6 +17,7 @@ export default function UserTable({ users }) {
     ranOnce = true;
   }
 
+  let rowCounter = 0;
   return (
     <table className="table table-hover">
       <thead>
@@ -35,7 +36,7 @@ export default function UserTable({ users }) {
           return (
             <tr
               key={user.id}
-              className={user.id % 2 === 0 ? "table-secondary" : ""}
+              className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
             >
               <td>{user.id}</td>
               <td>{user.name}</td>
