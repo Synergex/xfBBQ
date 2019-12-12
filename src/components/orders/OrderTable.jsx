@@ -13,12 +13,44 @@ export default function OrderTable({ orders, users, login }) {
   const bbqs = useSelector(state => state.bbqs);
   if (bbqs.length === 0) dispatch(loadBBQs());
 
+  // Turn individual orders into an array of orders
+  let modifiedOrders = orders.map(order => {
+    return {
+      ...order,
+      theirOrders: [
+        {
+          meat: order.meat,
+          cheese: order.cheese,
+          doneness: order.doneness,
+          spicy: order.spicy,
+          type: order.type,
+          count: order.count,
+          burnt: order.burnt
+        }
+      ]
+    };
+  });
+
+  // Combine orders together
+  for (let index = modifiedOrders.length - 1; index >= 0; index--) {
+    const prevIndex = index - 1;
+    if (
+      prevIndex >= 0 &&
+      modifiedOrders[index].bbqID === modifiedOrders[prevIndex].bbqID &&
+      modifiedOrders[index].userID === modifiedOrders[prevIndex].userID
+    ) {
+      modifiedOrders[prevIndex].theirOrders = modifiedOrders[
+        prevIndex
+      ].theirOrders.concat(modifiedOrders[index].theirOrders);
+      modifiedOrders.splice(index, 1);
+    }
+  }
+
   let rowCounter = 0;
   return (
     <table className="table table-hover">
       <thead>
         <tr className="table-primary">
-          <th style={{ width: "10%" }}>Order ID</th>
           <th style={{ width: "10%" }}>BBQ</th>
           <th>Order Date</th>
           <th>Placed By</th>
@@ -27,7 +59,7 @@ export default function OrderTable({ orders, users, login }) {
         </tr>
       </thead>
       <tbody>
-        {orders.map(order => {
+        {modifiedOrders.map(order => {
           if (login.type === "Attendee" && login.id !== order.userID)
             return <></>;
           return (
@@ -35,42 +67,49 @@ export default function OrderTable({ orders, users, login }) {
               key={order.id}
               className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
             >
-              <td>{order.id}</td>
               <td>{order.bbqID}</td>
               <td>{moment(order.orderDate).format("MM/DD/YYYY")}</td>
               <td>{users.filter(user => order.userID === user.id)[0].name}</td>
               <td>
-                {order.cheese > -1 ? (
-                  <>
-                    {"Hamburger: "}
-                    {orderEnums.meatType[order.meat]}
-                    {order.meat === 1 ? (
-                      <>
-                        <br />
-                        {orderEnums.beefDoneness[order.doneness]}
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    <br />
-                    {"Cheese: "}
-                    {order.cheese}
-                    <br />
-                    {"Spicy: "}
-                    {order.spicy}
-                  </>
-                ) : (
-                  <>
-                    {"Hotdog: "}
-                    {orderEnums.hotdogType[order.type]}
-                    <br />
-                    {"Count: "}
-                    {order.count}
-                    <br />
-                    {"Burnt: "}
-                    {order.burnt ? "Yes" : "No"}
-                  </>
-                )}
+                {order.theirOrders.map(theirOrder => {
+                  return theirOrder.cheese > -1 ? (
+                    <>
+                      {"Hamburger: "}
+                      {orderEnums.meatType[theirOrder.meat]}
+                      {theirOrder.meat === 1 ? (
+                        <>
+                          <br />
+                          {orderEnums.beefDoneness[theirOrder.doneness]}
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      <br />
+                      {"Cheese: "}
+                      {theirOrder.cheese}
+                      <br />
+                      {"Spicy: "}
+                      {theirOrder.spicy}
+                      <br />
+                      {"=========="}
+                      <br />
+                    </>
+                  ) : (
+                    <>
+                      {"Hotdog: "}
+                      {orderEnums.hotdogType[theirOrder.type]}
+                      <br />
+                      {"Count: "}
+                      {theirOrder.count}
+                      <br />
+                      {"Burnt: "}
+                      {theirOrder.burnt ? "Yes" : "No"}
+                      <br />
+                      {"=========="}
+                      <br />
+                    </>
+                  );
+                })}
               </td>
               <td>
                 {bbqs.length > 0 &&

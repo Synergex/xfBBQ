@@ -5,6 +5,7 @@ import { loadUsers } from "../../redux/actions/userActions";
 import Spinner from "../../Spinner";
 import OrderTable from "./OrderTable";
 import { Link } from "react-router-dom";
+import _ from "lodash";
 
 let ranOnce = false;
 export default function OrderHistory() {
@@ -36,7 +37,11 @@ export default function OrderHistory() {
             </div>
             <p />
           </Link>
-          <OrderTable orders={orders} users={users} login={login} />
+          <OrderTable
+            orders={_.sortBy(orders, ["bbqID", "userID", "id"])}
+            users={users}
+            login={login}
+          />
         </>
       )}
     </div>
