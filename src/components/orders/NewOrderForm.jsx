@@ -488,7 +488,7 @@ export default function NewOrderForm({ ...props }) {
     let orders = [];
     const orderDate = new Date().toJSON();
     const userID =
-      ordersToEdit[0].userID === undefined ? login.id : ordersToEdit[0].userID;
+      ordersToEdit === undefined ? login.id : ordersToEdit[0].userID;
     const bbqID = bbqs.length === 0 ? 0 : bbqs[bbqs.length - 1].id;
 
     if (
