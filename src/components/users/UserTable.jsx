@@ -19,7 +19,7 @@ export default function UserTable({ users }) {
 
   let rowCounter = 0;
   return (
-    <table className="table table-hover">
+    <table className="table">
       <thead>
         <tr className="table-primary">
           <th>User ID</th>

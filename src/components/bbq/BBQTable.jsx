@@ -19,7 +19,7 @@ export default function BBQTable({ bbqs }) {
   let rowCounter = 0;
   return (
     <>
-      <table className="table table-hover">
+      <table className="table">
         <thead>
           <tr className="table-primary">
             <th>BBQ ID</th>

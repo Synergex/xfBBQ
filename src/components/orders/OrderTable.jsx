@@ -48,7 +48,7 @@ export default function OrderTable({ orders, users, login }) {
 
   let rowCounter = 0;
   return (
-    <table className="table table-hover">
+    <table className="table">
       <thead>
         <tr className="table-primary">
           <th style={{ width: "10%" }}>BBQ</th>
