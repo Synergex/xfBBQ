@@ -75,58 +75,119 @@ export default function UserRegistrationForm({ ...props }) {
             : {}
         }
         onSubmit={onSubmit}
+        validate={values => {
+          const errors = {};
+
+          if (!values.name)
+            errors.name = <p className="text-danger">Required</p>;
+          if (!values.email)
+            errors.email = <p className="text-danger">Required</p>;
+          if (!values.hash)
+            errors.hash = <p className="text-danger">Required</p>;
+          if (!values.hash2)
+            errors.hash2 = <p className="text-danger">Required</p>;
+          else if (values.hash !== values.hash2)
+            errors.hash2 = (
+              <p className="text-danger">Passwords do not match</p>
+            );
+          if (!values.type)
+            errors.type = <p className="text-danger">Required</p>;
+
+          return Object.keys(errors).length ? errors : undefined;
+        }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Name:</label>
-              <div>
-                <Field
-                  name="name"
-                  className="form-control"
-                  component="input"
-                  type="text"
-                  placeholder="Name"
-                />
-              </div>
+              <Field name="name">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Name:</label>
+                    <input
+                      {...input}
+                      type="text"
+                      placeholder="Name"
+                      className="form-control"
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
             <div className="form-group">
-              <label>Email:</label>
-              <div>
-                <Field
-                  name="email"
-                  className="form-control"
-                  component="input"
-                  type="email"
-                  placeholder="Email"
-                />
-              </div>
+              <Field name="email">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Email:</label>
+                    <input
+                      {...input}
+                      type="email"
+                      placeholder="Email"
+                      className="form-control"
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
             <div className="form-group">
-              <label>{userRecovery ? "New Password:" : "Password:"}</label>
-              <div>
-                <Field
-                  name="hash"
-                  className="form-control"
-                  component="input"
-                  type="password"
-                  placeholder="Password"
-                />
-              </div>
+              <Field name="hash">
+                {({ input, meta }) => (
+                  <div>
+                    <label>
+                      {userRecovery ? "New Password:" : "Password:"}
+                    </label>
+                    <input
+                      {...input}
+                      type="password"
+                      placeholder="Password"
+                      className="form-control"
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="form-group">
+              <Field name="hash2">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Confirm Password:</label>
+                    <input
+                      {...input}
+                      type="password"
+                      placeholder="Confirm Password"
+                      className="form-control"
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
 
             {!isEmpty(login) && login.type === "Administrator" ? (
               <div className="form-group">
-                <label>Type:</label>
                 <div>
-                  <Field
-                    name="type"
-                    component="select"
-                    className="form-control"
-                  >
-                    <option />
-                    <option value="Administrator">Administrator</option>
-                    <option value="Host">Host</option>
-                    <option value="Attendee">Attendee</option>
+                  <Field name="type">
+                    {({ input, meta }) => (
+                      <div>
+                        <label>Type:</label>
+                        <select
+                          {...input}
+                          type="select"
+                          className="form-control"
+                        >
+                          <option value="" disabled>
+                            Pick an Account Type
+                          </option>
+                          <option value="Administrator">Administrator</option>
+                          <option value="Host">Host</option>
+                          <option value="Attendee">Attendee</option>
+                        </select>
+                        {meta.error && meta.touched && (
+                          <span>{meta.error}</span>
+                        )}
+                      </div>
+                    )}
                   </Field>
                 </div>
               </div>
