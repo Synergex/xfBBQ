@@ -31,7 +31,8 @@ export default function NewOrderForm({ ...props }) {
                 burnt: order.burnt ? true : false,
                 quantity: order.count
               },
-              orderID: order.id
+              orderID: order.id,
+              userID: order.userID
             };
           } else {
             return {
@@ -57,7 +58,8 @@ export default function NewOrderForm({ ...props }) {
                     ? ""
                     : numberToDoneness(order.doneness)
               },
-              orderID: order.id
+              orderID: order.id,
+              userID: order.userID
             };
           }
         })
@@ -485,7 +487,8 @@ export default function NewOrderForm({ ...props }) {
   async function onSubmit() {
     let orders = [];
     const orderDate = new Date().toJSON();
-    const userID = login.id;
+    const userID =
+      ordersToEdit[0].userID === undefined ? login.id : ordersToEdit[0].userID;
     const bbqID = bbqs.length === 0 ? 0 : bbqs[bbqs.length - 1].id;
 
     if (
