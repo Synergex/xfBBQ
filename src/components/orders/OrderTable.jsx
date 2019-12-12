@@ -25,7 +25,8 @@ export default function OrderTable({ orders, users, login }) {
           spicy: order.spicy,
           type: order.type,
           count: order.count,
-          burnt: order.burnt
+          burnt: order.burnt,
+          key: order.id
         }
       ]
     };
@@ -73,7 +74,7 @@ export default function OrderTable({ orders, users, login }) {
               <td>
                 {order.theirOrders.map(theirOrder => {
                   return theirOrder.cheese > -1 ? (
-                    <>
+                    <div key={theirOrder.key}>
                       {"Hamburger: "}
                       {orderEnums.meatType[theirOrder.meat]}
                       {theirOrder.meat === 1 ? (
@@ -93,9 +94,9 @@ export default function OrderTable({ orders, users, login }) {
                       <br />
                       {"=========="}
                       <br />
-                    </>
+                    </div>
                   ) : (
-                    <>
+                    <div key={theirOrder.key}>
                       {"Hotdog: "}
                       {orderEnums.hotdogType[theirOrder.type]}
                       <br />
@@ -107,7 +108,7 @@ export default function OrderTable({ orders, users, login }) {
                       <br />
                       {"=========="}
                       <br />
-                    </>
+                    </div>
                   );
                 })}
               </td>
@@ -144,7 +145,13 @@ export default function OrderTable({ orders, users, login }) {
                           )
                         ) {
                           toast.info("Deleting order " + order.id + "...");
-                          dispatch(deleteOrder(order));
+                          orders
+                            .filter(
+                              orderIter =>
+                                order.userID === orderIter.userID &&
+                                order.bbqID === orderIter.bbqID
+                            )
+                            .forEach(order => dispatch(deleteOrder(order)));
                         }
                       }}
                     >
