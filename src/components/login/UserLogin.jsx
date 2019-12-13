@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUsers, saveUser } from "../../redux/actions/userActions";
 import { loginUser } from "../../redux/actions/loginActions";
@@ -42,41 +42,68 @@ export default function LoginPage() {
 
   return (
     <div className="jumbotron">
+      <Link to="/UserRegistrationForm">
+        <button type="button" className="btn btn-info float-right">
+          Account Recovery
+        </button>
+      </Link>
       <h2>Login</h2>
       <Form
         onSubmit={onSubmit}
+        validate={values => {
+          const errors = {};
+
+          if (!values.userArray)
+            errors.userArray = <p className="text-danger">Required</p>;
+          if (!values.password)
+            errors.password = <p className="text-danger">Required</p>;
+
+          return Object.keys(errors).length ? errors : undefined;
+        }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <h4>Who&apos;s logging in?</h4>
-              <div>
-                <Field
-                  name="userArray"
-                  component="select"
-                  required
-                  className="custom-select"
-                >
-                  <option />
-                  {users.map(user => (
-                    <option key={user.id} value={[user.id, user.hash]}>
-                      {user.name}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <br />
-              <div className="form-group">
-                <label>Password:</label>
-                <div>
-                  <Field
-                    name="password"
-                    className="form-control"
-                    component="input"
-                    type="password"
-                    placeholder="Password"
-                  />
-                </div>
-              </div>
+              <Field name="userArray" required>
+                {({ input, meta }) => (
+                  <div>
+                    <label>Name:</label>
+                    <select
+                      {...input}
+                      type="select"
+                      className="custom-select"
+                      required
+                    >
+                      <option value="" disabled>
+                        Select a name
+                      </option>
+                      {users.map(user => (
+                        <option key={user.id} value={[user.id, user.hash]}>
+                          {user.name}
+                        </option>
+                      ))}
+                    </select>
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+            </div>
+
+            <div className="form-group">
+              <Field name="password" required>
+                {({ input, meta }) => (
+                  <div>
+                    <label>Password:</label>
+                    <input
+                      {...input}
+                      type="password"
+                      placeholder="Password"
+                      className="form-control"
+                      required
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
             <div>
               <button
@@ -93,13 +120,6 @@ export default function LoginPage() {
                 onClick={form.reset}
               >
                 Reset Form
-              </button>{" "}
-              <button
-                type="button"
-                className="btn btn-info float-right"
-                onClick={() => history.push("/AccountRecovery")}
-              >
-                Account Recovery
               </button>
             </div>
           </form>
