@@ -53,8 +53,8 @@ export default function OrderTable({ orders, users, login }) {
       <thead>
         <tr className="table-primary">
           <th style={{ width: "10%" }}>BBQ</th>
-          <th>Order Date</th>
           <th>Placed By</th>
+          <th>Order Date</th>
           <th>Order</th>
           <th style={{ width: "15%" }}>Actions</th>
         </tr>
@@ -69,8 +69,8 @@ export default function OrderTable({ orders, users, login }) {
               className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
             >
               <td>{order.bbqID}</td>
-              <td>{moment(order.orderDate).format("MM/DD/YYYY")}</td>
               <td>{users.filter(user => order.userID === user.id)[0].name}</td>
+              <td>{moment(order.orderDate).format("MM/DD/YYYY")}</td>
               <td>
                 {order.theirOrders.map(theirOrder => {
                   return theirOrder.cheese > -1 ? (
