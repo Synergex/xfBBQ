@@ -16,22 +16,13 @@ export default function UserList() {
 
   return (
     <div className="jumbotron">
+      <Link to="/UserRegistrationForm">
+        <button type="button" className="btn btn-primary float-right">
+          New User
+        </button>
+      </Link>
       <h2>Users</h2>
-      {users.length <= 0 ? (
-        <Spinner />
-      ) : (
-        <>
-          <Link to="/UserRegistrationForm">
-            <div className="text-right">
-              <button type="button" className="btn btn-primary">
-                New User
-              </button>
-            </div>
-            <p />
-          </Link>
-          <UserTable users={users} />
-        </>
-      )}
+      {users.length <= 0 ? <Spinner /> : <UserTable users={users} />}
     </div>
   );
 }

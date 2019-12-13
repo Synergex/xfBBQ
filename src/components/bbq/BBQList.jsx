@@ -15,22 +15,13 @@ export default function BBQList() {
 
   return (
     <div className="jumbotron">
+      <Link to="/BBQRegistrationForm">
+        <button type="button" className="btn btn-primary float-right">
+          New BBQ
+        </button>
+      </Link>
       <h2>BBQs</h2>
-      {bbqs.length <= 0 ? (
-        <Spinner />
-      ) : (
-        <>
-          <Link to="/BBQRegistrationForm">
-            <div className="text-right">
-              <button type="button" className="btn btn-primary">
-                New BBQ
-              </button>
-            </div>
-            <p />
-          </Link>
-          <BBQTable bbqs={bbqs} />
-        </>
-      )}
+      {bbqs.length <= 0 ? <Spinner /> : <BBQTable bbqs={bbqs} />}
     </div>
   );
 }

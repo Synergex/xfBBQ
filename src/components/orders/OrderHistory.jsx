@@ -24,25 +24,20 @@ export default function OrderHistory() {
 
   return (
     <div className="jumbotron">
+      <Link to="/NewOrderForm">
+        <button type="button" className="btn btn-primary float-right">
+          New Order
+        </button>
+      </Link>
       <h2>Orders</h2>
       {orders.length <= 0 || users.length <= 0 ? (
         <Spinner />
       ) : (
-        <>
-          <Link to="/NewOrderForm">
-            <div className="text-right">
-              <button type="button" className="btn btn-primary">
-                New Order
-              </button>
-            </div>
-            <p />
-          </Link>
-          <OrderTable
-            orders={_.sortBy(orders, ["bbqID", "userID", "id"])}
-            users={users}
-            login={login}
-          />
-        </>
+        <OrderTable
+          orders={_.sortBy(orders, ["bbqID", "userID", "id"])}
+          users={users}
+          login={login}
+        />
       )}
     </div>
   );
