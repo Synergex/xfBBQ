@@ -178,7 +178,7 @@ export default function UserRegistrationForm({ ...props }) {
                         <select
                           {...input}
                           type="select"
-                          className="form-control"
+                          className="custom-select"
                           required
                         >
                           <option value="" disabled>
