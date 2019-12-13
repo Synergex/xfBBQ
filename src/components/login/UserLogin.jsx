@@ -63,7 +63,7 @@ export default function LoginPage() {
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <Field name="userArray" required>
+              <Field name="userArray">
                 {({ input, meta }) => (
                   <div>
                     <label>Name:</label>
@@ -89,7 +89,7 @@ export default function LoginPage() {
             </div>
 
             <div className="form-group">
-              <Field name="password" required>
+              <Field name="password">
                 {({ input, meta }) => (
                   <div>
                     <label>Password:</label>
