@@ -39,52 +39,73 @@ export default function RecoveryCode() {
       <h2>Account Recovery</h2>
       <Form
         onSubmit={onSubmit}
+        validate={values => {
+          const errors = {};
+
+          if (!values.userArray)
+            errors.userArray = <p className="text-danger">Required</p>;
+          if (!values.recoveryCode)
+            errors.recoveryCode = <p className="text-danger">Required</p>;
+
+          return Object.keys(errors).length ? errors : undefined;
+        }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <h5>Select a name:</h5>
-              <div>
-                <Field
-                  name="userArray"
-                  component="select"
-                  required
-                  className="custom-select"
-                >
-                  <option />
-                  {users.map(user => (
-                    <option
-                      key={user.id}
-                      value={[
-                        [
-                          user.id,
-                          user.name,
-                          user.hash,
-                          user.type,
-                          user.email,
-                          user.joinDate,
-                          user.lastLoginDate,
-                          user.recoveryCode
-                        ]
-                      ]}
+              <Field name="userArray">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Name:</label>
+                    <select
+                      {...input}
+                      type="select"
+                      className="custom-select"
+                      required
                     >
-                      {user.name}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <br />
-              <div className="form-group">
-                <label>Recovery Code:</label>
-                <div>
-                  <Field
-                    name="recoveryCode"
-                    className="form-control"
-                    component="input"
-                    type="password"
-                    placeholder="Recovery Code"
-                  />
-                </div>
-              </div>
+                      <option value="" disabled>
+                        Select a name
+                      </option>
+                      {users.map(user => (
+                        <option
+                          key={user.id}
+                          value={[
+                            [
+                              user.id,
+                              user.name,
+                              user.hash,
+                              user.type,
+                              user.email,
+                              user.joinDate,
+                              user.lastLoginDate,
+                              user.recoveryCode
+                            ]
+                          ]}
+                        >
+                          {user.name}
+                        </option>
+                      ))}
+                    </select>
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="form-group">
+              <Field name="recoveryCode">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Recovery Code:</label>
+                    <input
+                      {...input}
+                      type="password"
+                      placeholder="Recovery Code"
+                      className="form-control"
+                      required
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
             <div>
               <button

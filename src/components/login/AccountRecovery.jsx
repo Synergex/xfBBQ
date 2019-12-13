@@ -59,28 +59,43 @@ export default function AccountRecoveryPage() {
       <h2>Account Recovery</h2>
       <Form
         onSubmit={onSubmit}
+        validate={values => {
+          const errors = {};
+
+          if (!values.userArray)
+            errors.userArray = <p className="text-danger">Required</p>;
+
+          return Object.keys(errors).length ? errors : undefined;
+        }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <h5>Select a name:</h5>
-              <div>
-                <Field
-                  name="userArray"
-                  component="select"
-                  required
-                  className="custom-select"
-                >
-                  <option />
-                  {users.map(user => (
-                    <option
-                      key={user.id}
-                      value={[user.id, user.name, user.email]}
+              <Field name="userArray">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Name:</label>
+                    <select
+                      {...input}
+                      type="select"
+                      className="custom-select"
+                      required
                     >
-                      {user.name}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+                      <option value="" disabled>
+                        Select a name
+                      </option>
+                      {users.map(user => (
+                        <option
+                          key={user.id}
+                          value={[user.id, user.name, user.email]}
+                        >
+                          {user.name}
+                        </option>
+                      ))}
+                    </select>
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
             <button
               type="submit"
