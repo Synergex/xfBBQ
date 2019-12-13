@@ -107,6 +107,7 @@ export default function UserRegistrationForm({ ...props }) {
                       type="text"
                       placeholder="Name"
                       className="form-control"
+                      required
                     />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
@@ -123,6 +124,7 @@ export default function UserRegistrationForm({ ...props }) {
                       type="email"
                       placeholder="Email"
                       className="form-control"
+                      required
                     />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
@@ -141,6 +143,7 @@ export default function UserRegistrationForm({ ...props }) {
                       type="password"
                       placeholder="Password"
                       className="form-control"
+                      required
                     />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
@@ -157,6 +160,7 @@ export default function UserRegistrationForm({ ...props }) {
                       type="password"
                       placeholder="Confirm Password"
                       className="form-control"
+                      required
                     />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
@@ -175,6 +179,7 @@ export default function UserRegistrationForm({ ...props }) {
                           {...input}
                           type="select"
                           className="form-control"
+                          required
                         >
                           <option value="" disabled>
                             Pick an Account Type
