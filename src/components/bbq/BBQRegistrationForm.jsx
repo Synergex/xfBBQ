@@ -43,20 +43,39 @@ export default function BBQRegistrationForm({ ...props }) {
             ? { heldDate: moment(bbq.heldDate).format("YYYY-MM-DD") }
             : {}
         }
+        validate={values => {
+          const errors = {};
+
+          if (!values.heldDate)
+            errors.heldDate = <p className="text-danger">Required</p>;
+          else if (moment(values.heldDate).isBefore())
+            errors.heldDate = (
+              <p className="text-danger">BBQ date must be after today.</p>
+            );
+
+          return Object.keys(errors).length ? errors : undefined;
+        }}
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Date to be held:</label>
-              <div>
-                <Field
-                  name="heldDate"
-                  className="form-control"
-                  component="input"
-                  type="date"
-                  placeholder="Date Held"
-                />
-              </div>
+              <Field name="heldDate">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Date to be held:</label>
+                    <input
+                      {...input}
+                      type="date"
+                      className="form-control"
+                      min={moment()
+                        .add(1, "days")
+                        .format("YYYY-MM-DD")}
+                      required
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
             <div>
               <button
