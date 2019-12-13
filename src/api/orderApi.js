@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = "http://10.1.10.181:3001/Order/";
+const baseUrl = "https://10.1.10.181:3002/Order/";
 
 export async function getOrders() {
   try {

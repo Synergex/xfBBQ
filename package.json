@@ -30,10 +30,12 @@
     "typescript": "^3.7.2"
   },
   "scripts": {
-    "start": "run-p --print-name start:mock start:dev",
+    "start": "run-p --print-name start:httpsmock start:dev",
     "start:dev": "react-scripts start",
     "prestart:mock": "git checkout db.json",
     "start:mock": "json-server --watch db.json --delay 1000 --port 3001 --host 10.1.10.181",
+    "prestart:httpsmock": "run-p prestart:mock",
+    "start:httpsmock": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

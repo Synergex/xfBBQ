@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = "http://10.1.10.181:3001/BBQ/";
+const baseUrl = "https://10.1.10.181:3002/BBQ/";
 
 export async function getBBQs() {
   try {

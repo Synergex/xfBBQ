@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = "http://10.1.10.181:3001/User/";
+const baseUrl = "https://10.1.10.181:3002/User/";
 
 export async function getUsers() {
   try {
