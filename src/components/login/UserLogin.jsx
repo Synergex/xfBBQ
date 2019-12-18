@@ -42,11 +42,22 @@ export default function LoginPage() {
 
   return (
     <div className="jumbotron">
-      <Link to="/UserRegistrationForm">
-        <button type="button" className="btn btn-info float-right">
-          Account Recovery
-        </button>
-      </Link>
+      <div>
+        <Link to="/AccountRecovery">
+          <button type="button" className="btn btn-info float-right">
+            Account Recovery
+          </button>
+        </Link>
+        <Link to="/UserRegistrationForm">
+          <button
+            type="button"
+            className="btn btn-info float-right"
+            style={{ marginRight: "5px" }}
+          >
+            User Registration
+          </button>
+        </Link>
+      </div>
       <h2>Login</h2>
       <Form
         onSubmit={onSubmit}
