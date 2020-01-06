@@ -1,0 +1,127 @@
+ 
+;  SYNERGY DATA LANGUAGE OUTPUT
+;
+;  REPOSITORY     : C:\Users\devadm\Desktop\xfbbq\repository\rpsmain.ism
+;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
+;                 : Version 11.0.4
+;
+;  GENERATED      : 06-JAN-2020, 12:07:51
+;                 : Version 11.1.1b
+;  EXPORT OPTIONS : [ALL] 
+ 
+ 
+Enumeration DONENESSTYPE
+   Description "Temperature of burger meat"
+   Members RARE 1, MEDRARE 2, MED 3, MEDWELL 4, WELLDONE 5, SPECIAL 6
+ 
+Enumeration MEATTYPE
+   Description "Type of burger meat"
+   Members BEEF 1, TURKEY 2, VEGETARIAN 3, SPECIAL 4
+ 
+Enumeration TYPETYPE
+   Description "Hotdog type"
+   Members NORMAL 1, HOTLINK 2, SAUSAGE 3, SPECIAL 4
+ 
+Enumeration USERTYPE
+   Description "Type of user"
+   Members ADMINISTRATOR 1, HOST 2, ATTENDEE 3
+ 
+Structure BBQ   DBL ISAM
+   Description "BBQ Table"
+ 
+Field ID   Type INTEGER   Size 8
+   Description "ID of BBQ"
+ 
+Field CREATIONDATE   Type DECIMAL   Size 10
+   Description "Timestamp of when BBQ was created"
+ 
+Field HELDDATE   Type DECIMAL   Size 10
+   Description "Timestamp of when BBQ is going tobe held"
+ 
+Key ID   ACCESS   Order ASCENDING   Dups NO
+   Description "ID of BBQ"
+   Segment FIELD   ID  SegType INTEGER  SegOrder ASCENDING
+ 
+Structure ORDER   DBL ISAM
+   Description "Order Table"
+ 
+Field ID   Type INTEGER   Size 8
+   Description "ID of order"
+ 
+Field MEAT   Type ENUM   Size 4   Enum MEATTYPE
+   Description "What burger meat"
+ 
+Field CHEESE   Type INTEGER   Size 1
+   Description "Amount of cheese slices"
+ 
+Field DONENESS   Type ENUM   Size 4   Enum DONENESSTYPE
+   Description "Temperature of burger meat"
+ 
+Field SPICY   Type INTEGER   Size 1
+   Description "Pungency of burger"
+ 
+Field TYPE   Type ENUM   Size 4   Enum TYPETYPE
+   Description "Hotdog type"
+ 
+Field COUNT   Type INTEGER   Size 1
+   Description "Amount of hotdogs"
+ 
+Field BURNT   Type BOOLEAN   Size 4
+   Description "Whehter the hotdog is to be burnt or not"
+ 
+Field ORDERDATE   Type DECIMAL   Size 10
+   Description "Timestamp of order creation"
+ 
+Field USERID   Type INTEGER   Size 8
+   Description "ID of user who ordered"
+ 
+Field BBQID   Type INTEGER   Size 8
+   Description "ID of BBQ this order pertains to"
+ 
+Key ID   ACCESS   Order ASCENDING   Dups NO
+   Description "ID of order"
+   Segment FIELD   ID  SegType INTEGER  SegOrder ASCENDING
+ 
+Key USERID   FOREIGN
+   Description "ID of user who ordered"
+   Segment FIELD   USERID
+ 
+Key BBQID   FOREIGN
+   Description "ID of BBQ this order pertains to"
+   Segment FIELD   BBQID
+ 
+Relation  1   ORDER USERID   USERS ID
+ 
+Relation  2   ORDER BBQID   BBQ ID
+ 
+Structure USERS   DBL ISAM
+   Description "Users table"
+ 
+Field ID   Type INTEGER   Size 8
+   Description "ID of user"
+   Required
+ 
+Field JOINDATE   Type DECIMAL   Size 10
+   Description "Timestamp of when the user joined"
+   Readonly
+   Nonull
+ 
+Field TYPE   Type ENUM   Size 4   Enum USERTYPE
+   Description "Type of user"
+ 
+Field EMAIL   Type ALPHA   Size 100
+   Description "Email of user"
+ 
+Field LASTLOGINDATE   Type DECIMAL   Size 10
+   Description "Timestamp of when the user last loggedin"
+ 
+Field HASH   Type ALPHA   Size 100
+   Description "Hashed password of user"
+ 
+Field NAME   Type ALPHA   Size 100
+   Description "Name of user"
+ 
+Key ID   ACCESS   Order ASCENDING   Dups NO
+   Description "User ID"
+   Segment FIELD   ID  SegType INTEGER  SegOrder ASCENDING
+ 
