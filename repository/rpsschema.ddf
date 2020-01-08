@@ -3,9 +3,9 @@
 ;
 ;  REPOSITORY     : C:\Users\devadm\Desktop\xfbbq\repository\rpsmain.ism
 ;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
-;                 : Version 11.0.4
+;                 : Version 11.1.1b
 ;
-;  GENERATED      : 06-JAN-2020, 12:07:51
+;  GENERATED      : 08-JAN-2020, 11:47:59
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -48,19 +48,19 @@ Structure ORDER   DBL ISAM
 Field ID   Type INTEGER   Size 8
    Description "ID of order"
  
-Field MEAT   Type ENUM   Size 4   Enum MEATTYPE
+Field MEAT   Type INTEGER   Size 1
    Description "What burger meat"
  
 Field CHEESE   Type INTEGER   Size 1
    Description "Amount of cheese slices"
  
-Field DONENESS   Type ENUM   Size 4   Enum DONENESSTYPE
+Field DONENESS   Type INTEGER   Size 1
    Description "Temperature of burger meat"
  
 Field SPICY   Type INTEGER   Size 1
    Description "Pungency of burger"
  
-Field TYPE   Type ENUM   Size 4   Enum TYPETYPE
+Field TYPE   Type INTEGER   Size 1
    Description "Hotdog type"
  
 Field COUNT   Type INTEGER   Size 1
@@ -90,12 +90,12 @@ Key BBQID   FOREIGN
    Description "ID of BBQ this order pertains to"
    Segment FIELD   BBQID
  
-Relation  1   ORDER USERID   USERS ID
+Relation  1   ORDER USERID   USER ID
  
 Relation  2   ORDER BBQID   BBQ ID
  
-Structure USERS   DBL ISAM
-   Description "Users table"
+Structure USER   DBL ISAM
+   Description "User table"
  
 Field ID   Type INTEGER   Size 8
    Description "ID of user"
@@ -106,7 +106,7 @@ Field JOINDATE   Type DECIMAL   Size 10
    Readonly
    Nonull
  
-Field TYPE   Type ENUM   Size 4   Enum USERTYPE
+Field TYPE   Type INTEGER   Size 1
    Description "Type of user"
  
 Field EMAIL   Type ALPHA   Size 100
@@ -124,4 +124,16 @@ Field NAME   Type ALPHA   Size 100
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "User ID"
    Segment FIELD   ID  SegType INTEGER  SegOrder ASCENDING
+ 
+File BBQ   DBL ISAM   "DAT:BBQ.ism"
+   Description "BBQ File"
+   Assign BBQ
+ 
+File ORDER   DBL ISAM   "DAT:Order.ism"
+   Description "Order File"
+   Assign ORDER
+ 
+File USER   DBL ISAM   "DAT:User.ism"
+   Description "User File"
+   Assign USER
  
