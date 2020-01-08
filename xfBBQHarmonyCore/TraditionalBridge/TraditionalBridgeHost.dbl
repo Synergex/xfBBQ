@@ -1,0 +1,72 @@
+;;*****************************************************************************
+;;
+;; Title:       TraditionalBridgeHost.dbl
+;;
+;; Description: A program to host a Harmony Core Traditional Bridge environment
+;;              that exposes traditional Synergy business logic to a Harmony
+;;              Core RESTful web service
+;;
+;;*****************************************************************************
+
+import Harmony.TraditionalBridge
+import Json
+import TraditionalBridge
+import TraditionalBridge.Dispatchers
+
+main TraditionalBridgeHost
+
+    record
+        ttChan,         i4                  ;;Terminal channel number
+        length,         int                 ;;Length of a strin
+        tmpa,           a10                 ;;Temporary alpha variable
+        logLevel,       int, 2              ;;Logging level. 2 is normal logging, 6 is highest logging.
+        logFileName,    string              ;;Log file name
+        dispatcher,     @MethodDispatcher   ;;Message dispatcher instance
+    endrecord
+proc
+    try
+    begin
+        ;;Configure the environment and open the terminal chanel.
+        ;;Remember this (STDIN) is the mechanism by which Harmony Core will send
+        ;;us requests, and is the mechanism by which we will issue responses.
+
+        xcall flags(1907050020)
+        open(ttChan=0,o,"TT:")
+
+        ;;Does the environment define the logging level?
+        getlog("HARMONY_LOG_LEVEL", tmpa, length)
+        if (length)
+            logLevel = %integer(tmpa)
+        
+        ;;Define the log file name
+        logFileName = "BRIDGE_" + %string(%jbno) + ".LOG"
+
+        ;;Initiate logging
+        Logger.Instance = new Logger(logFileName, logLevel, false)
+        
+        ;;Create a new instance of the main "dispather" class
+        dispatcher = new MethodDispatcher()
+        
+        ;;Issue the "READY" message.
+        ;;Harmony Core looks for this and considers the connection active when it sees it
+        puts(ttChan, "READY" + %char(13)+ %char(10))
+
+        ;;Start dispatching requests
+        dispatcher.Dispatch(ttChan)
+
+    end
+    catch(e, @Exception)
+    begin
+        ;;If anything failed, log an error if we can
+        if (Logger.Instance != ^null)
+            Logger.Instance.Log("DISPATCHER EXITED with exception" + e.ToString())
+    end
+    endtry
+    
+    ;;Close the log
+    if (Logger.Instance != ^null)
+        Logger.Instance.CloseLog()
+
+    stop
+
+endmain

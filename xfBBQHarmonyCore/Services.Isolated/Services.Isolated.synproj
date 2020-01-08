@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="restore;Build">
+  <Import Project="..\Common.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefaultLanguageSourceExtension>.dbl</DefaultLanguageSourceExtension>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <Name>Services.Isolated</Name>
+    <ProjectGuid>{664BE420-80AE-4FF2-A5C9-F6472B0B4F57}</ProjectGuid>
+    <EnableCommonProperties>True</EnableCommonProperties>
+    <Prefer32Bit>False</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Harmony.Core">
+      <Version>1.1.57</Version>
+    </PackageReference>
+    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1000.2668-beta1" />
+    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1000" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IsolatedMethods.dbl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Repository\Repository.synproj">
+      <Name>Repository</Name>
+      <Project>{cc6c33fb-c46c-4484-972c-c454743f8add}</Project>
+      <Private>True</Private>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Controllers\Services.Controllers.synproj">
+      <Name>Services.Controllers</Name>
+      <Project>{2C646D9F-E6F6-4796-A848-7F88531F736E}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Models\Services.Models.synproj">
+      <Name>Services.Models</Name>
+      <Project>{FF693EE6-D3F6-47CB-9D46-120B8190A877}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

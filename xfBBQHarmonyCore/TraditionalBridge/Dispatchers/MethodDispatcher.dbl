@@ -1,0 +1,26 @@
+;;*****************************************************************************
+;;
+;; Title:       MethodDispatcher.dbl
+;;
+;; Description: Declares dispacher classes for exposed methods
+;;
+;;*****************************************************************************
+
+import Harmony.TraditionalBridge
+
+namespace TraditionalBridge.Dispatchers
+
+    public partial class MethodDispatcher extends RoutineDispatcher
+
+        public method MethodDispatcher
+        proc
+            ;;Harmony Core example methods
+            mDispatchStubs.Add("AddTwoNumbers",  new AddTwoNumbersDispatcher())
+            mDispatchStubs.Add("GetEnvironment", new GetEnvironmentDispatcher())
+            mDispatchStubs.Add("GetLogicalName", new GetLogicalNameDispatcher())
+       
+        endmethod
+
+    endclass
+
+endnamespace

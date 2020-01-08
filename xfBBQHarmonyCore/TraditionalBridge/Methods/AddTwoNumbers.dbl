@@ -1,0 +1,17 @@
+;;*****************************************************************************
+;;
+;; Title:       AddTwoNumbers.dbl
+;;
+;; Description: An example routine being exposed by Traditional Bridge.
+;;              Returns the sum of two numbers.
+;;
+;;*****************************************************************************
+
+	subroutine AddTwoNumbers
+	    required in  number1, n
+	    required in  number2, n
+	    required out result,  n
+	proc
+	    result = number1 + number2
+	    xreturn
+	endsubroutine

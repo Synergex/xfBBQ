@@ -1,0 +1,7 @@
+namespace TraditionalBridge.Models
+
+	public class AaaDummyModel
+		
+	endclass
+
+endnamespace

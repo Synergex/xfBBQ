@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="restore;Build">
+  <Import Project="..\Common.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefaultLanguageSourceExtension>.dbl</DefaultLanguageSourceExtension>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <Name>Services.Controllers</Name>
+    <ProjectGuid>{2C646D9F-E6F6-4796-A848-7F88531F736E}</ProjectGuid>
+    <EnableCommonProperties>True</EnableCommonProperties>
+    <Prefer32Bit>False</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Harmony.Core">
+      <Version>1.1.57</Version>
+    </PackageReference>
+    <PackageReference Include="Harmony.Core.AspNetCore">
+      <Version>1.1.57</Version>
+    </PackageReference>
+    <PackageReference Include="Harmony.Core.EF">
+      <Version>1.1.57</Version>
+    </PackageReference>
+    <PackageReference Include="Harmony.Core.OData">
+      <Version>1.1.57</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning">
+      <Version>3.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.OData.Versioning.ApiExplorer">
+      <Version>3.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR">
+      <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens">
+      <Version>5.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1000.2668-beta1" />
+    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1000" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation">
+      <Version>2.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="SSH.NET" Version="2016.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuthTools.dbl" />
+    <Compile Include="BbqsController.dbl" />
+    <Compile Include="IsolatedMethodsBase.dbl" />
+    <Compile Include="OrdersController.dbl" />
+    <Compile Include="TraditionalBridgeController.dbl" />
+    <Compile Include="TraditionalBridgeService.dbl" />
+    <Compile Include="UsersController.dbl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Repository\Repository.synproj">
+      <Name>Repository</Name>
+      <Project>{cc6c33fb-c46c-4484-972c-c454743f8add}</Project>
+      <Private>True</Private>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Models\Services.Models.synproj">
+      <Name>Services.Models</Name>
+      <Project>{FF693EE6-D3F6-47CB-9D46-120B8190A877}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
