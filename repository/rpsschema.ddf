@@ -5,7 +5,7 @@
 ;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
 ;                 : Version 11.1.1b
 ;
-;  GENERATED      : 08-JAN-2020, 11:47:59
+;  GENERATED      : 09-JAN-2020, 10:46:14
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -94,6 +94,18 @@ Relation  1   ORDER USERID   USER ID
  
 Relation  2   ORDER BBQID   BBQ ID
  
+Structure SYSPARAMS   RELATIVE
+   Description "System parameter file"
+ 
+Field PARAM_NAME   Type ALPHA   Size 30
+   Description "Parameter name"
+ 
+Field PARAM_VALUE   Type DECIMAL   Size 6
+   Description "Parameter value"
+ 
+Key RECORD_NUMBER   ACCESS   Order ASCENDING   Dups NO
+   Segment RECORD NUMBER
+ 
 Structure USER   DBL ISAM
    Description "User table"
  
@@ -132,6 +144,10 @@ File BBQ   DBL ISAM   "DAT:BBQ.ism"
 File ORDER   DBL ISAM   "DAT:Order.ism"
    Description "Order File"
    Assign ORDER
+ 
+File SYSPARAMS   RELATIVE   "DAT:sysparams.ddf"
+   Description "System parameter file"
+   Assign SYSPARAMS
  
 File USER   DBL ISAM   "DAT:User.ism"
    Description "User File"

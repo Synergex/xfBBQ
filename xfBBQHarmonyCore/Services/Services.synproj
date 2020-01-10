@@ -79,10 +79,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="StartupCustom.dbl" />
+    <Compile Include="StartupCustom.dbl" />
     <Folder Include="wwwroot" />
     <Compile Include="EdmBuilder.dbl" />
-    <None Include="PrimaryKeyGenerator.dbl" />
+    <Compile Include="PrimaryKeyGenerator.dbl" />
     <Compile Include="Startup.dbl" />
     <Folder Include="wwwroot" />
   </ItemGroup>

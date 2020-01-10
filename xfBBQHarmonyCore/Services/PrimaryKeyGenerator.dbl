@@ -30,78 +30,61 @@ namespace Services
         mFileChannelManager, @IFileChannelManager
         mChannel, int
 
-        mNextCustomerParam, strSysParams
-        mNextItemParam, strSysParams
-        mNextOrderParam, strSysParams
-        mNextVendorParam, strSysParams
+        nextBBQ, strSysParams
+        nextOrder, strSysParams
+        nextUser, strSysParams
 
         public method PrimaryKeyGenerator
             required in aFileChannelManager, @IFileChannelManager
         proc
             mFileChannelManager = aFileChannelManager
             mChannel = mFileChannelManager.GetChannel("DAT:sysparams.ddf",FileOpenMode.UpdateRelative)
-            init mNextCustomerParam
-            init mNextItemParam
-            init mNextOrderParam
-            init mNextVendorParam
+            init nextBBQ
+            init nextOrder
+            init nextUser
         endmethod
 
         protected override method IncrementKeyImplementation, @a
             metaDatainstance, @DataObjectMetadataBase
         proc
             using metaDatainstance.RPSStructureName select
-            ("CUSTOMERS"),
+            ("BBQ"),
             begin
-                if (!mNextCustomerParam.param_value)
-                    read(mChannel,mNextCustomerParam,1,LOCK:Q_MANUAL_LOCK)
-                mNextCustomerParam.param_value += 1
-                mreturn (@a)%string(mNextCustomerParam.param_value-1)
+                if (!nextBBQ.param_value)
+                    read(mChannel,nextBBQ,1,LOCK:Q_MANUAL_LOCK)
+                nextBBQ.param_value += 1
+                mreturn (@a)%string(nextBBQ.param_value-1)
             end
-            ("ITEMS"),
+            ("ORDER"),
             begin
-                if (!mNextItemParam.param_value)
-                    read(mChannel,mNextItemParam,4,LOCK:Q_MANUAL_LOCK)
-                mNextItemParam.param_value += 1
-                mreturn (@a)%string(mNextItemParam.param_value-1)
+                if (!nextOrder.param_value)
+                    read(mChannel,nextOrder,4,LOCK:Q_MANUAL_LOCK)
+                nextOrder.param_value += 1
+                mreturn (@a)%string(nextOrder.param_value-1)
             end
-            ("ORDERS"),
+            ("USER"),
             begin
-                if (!mNextOrderParam.param_value)
-                    read(mChannel,mNextOrderParam,3,LOCK:Q_MANUAL_LOCK)
-                mNextOrderParam.param_value += 1
-                mreturn (@a)%string(mNextOrderParam.param_value-1)
-            end
-            ("ORDER_ITEMS"),
-            begin
-                throw new NotImplementedException()
-            end
-            ("VENDORS"),
-            begin
-                if (!mNextVendorParam.param_value)
-                    read(mChannel,mNextVendorParam,2,LOCK:Q_MANUAL_LOCK)
-                mNextVendorParam.param_value += 1
-                mreturn (@a)%string(mNextVendorParam.param_value-1)
+                if (!nextUser.param_value)
+                    read(mChannel,nextUser,3,LOCK:Q_MANUAL_LOCK)
+                nextUser.param_value += 1
+                mreturn (@a)%string(nextUser.param_value-1)
             end
             endusing
         endmethod
 
         protected override method CommitImplementation, void
         proc
-            if (mNextCustomerParam.param_value)
+            if (nextBBQ.param_value)
             begin
-                write(mChannel,mNextCustomerParam,1)
+                write(mChannel,nextBBQ,1)
             end
-            if (mNextItemParam.param_value)
+            if (nextOrder.param_value)
             begin
-                write(mChannel,mNextItemParam,4)
+                write(mChannel,nextOrder,4)
             end
-            if (mNextOrderParam.param_value)
+            if (nextUser.param_value)
             begin
-                write(mChannel,mNextOrderParam,3)
-            end
-            if (mNextVendorParam.param_value)
-            begin
-                write(mChannel,mNextVendorParam,2)
+                write(mChannel,nextUser,3)
             end
             mFileChannelManager.ReturnChannel(mChannel)
             mChannel = 0
