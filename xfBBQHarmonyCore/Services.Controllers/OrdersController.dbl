@@ -83,7 +83,7 @@ namespace Services.Controllers
         ;;; <returns>Returns a SingleResult indicating the status of the operation and containing any data that was returned.</returns>
         public method GetOrder, @SingleResult<Order>
             {FromODataUri}
-            required in aId, long
+            required in aId, int
         proc
             mreturn new SingleResult<Order>(_DbContext.Orders.AsNoTracking().FindQuery<Order>(_DbContext, aId))
         endmethod
@@ -140,7 +140,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method PutOrder, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
             {FromBody}
             required in aOrder, @Order
         proc
@@ -193,7 +193,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method PatchOrder, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
             {FromBody}
             required in aOrder, @JsonPatchDocument<Order>
         proc
@@ -246,7 +246,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method DeleteOrder, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
         proc
             ;;Get the order to be deleted
             data orderToRemove = _DbContext.Orders.Find(aId)

@@ -68,11 +68,11 @@ namespace Services.Models
         ;;; ID of BBQ
         ;;; </summary>
         {Key}
-        {Range(0,9223372036854775807, ErrorMessage="ID of BBQ must be between 0 and 9223372036854775807. ")}
-        public property Id, long
+        {Range(0,99999999, ErrorMessage="ID of BBQ must be between 0 and 99999999. ")}
+        public property Id, int
             method get
             proc
-                mreturn (long)mSynergyData.id
+                mreturn (int)mSynergyData.id
             endmethod
             method set
             proc

@@ -69,11 +69,11 @@ namespace Services.Models
         ;;; </summary>
         {Key}
         {Required(ErrorMessage="ID of user is required. ")}
-        {Range(1,9223372036854775807, ErrorMessage="ID of user must be between 1 and 9223372036854775807. ")}
-        public property Id, long
+        {Range(1,99999999, ErrorMessage="ID of user must be between 1 and 99999999. ")}
+        public property Id, int
             method get
             proc
-                mreturn (long)mSynergyData.id
+                mreturn (int)mSynergyData.id
             endmethod
             method set
             proc
@@ -99,7 +99,7 @@ namespace Services.Models
         ;;; <summary>
         ;;; Type of user
         ;;; </summary>
-        {Range(0,127, ErrorMessage="Type of user must be between 0 and 127. ")}
+        {Range(0,9, ErrorMessage="Type of user must be between 0 and 9. ")}
         public property Type, int
             method get
             proc

@@ -40,9 +40,9 @@ namespace Services.Models
             RPSStructureSize = ^size(strUser)
 
             ;; Define fields
-            AddFieldInfo("Id", "INTEGER", 8, 1, 0, false)
+            AddFieldInfo("Id", "DECIMAL", 8, 1, 0, false)
             AddFieldInfo("Joindate", "DECIMAL", 10, 9, 0, false)
-            AddFieldInfo("Type", "INTEGER", 1, 19, 0, false)
+            AddFieldInfo("Type", "DECIMAL", 1, 19, 0, false)
             AddFieldInfo("Email", "ALPHA", 100, 20, 0, false)
             AddFieldInfo("Lastlogindate", "DECIMAL", 10, 120, 0, false)
             AddFieldInfo("Hash", "ALPHA", 100, 130, 0, false)
@@ -105,7 +105,7 @@ namespace Services.Models
             required in parts, @Dictionary<String, Object>
             endparams
             stack record key0
-                Id, I8
+                Id, D8
             endrecord
         proc
             data startPos = 0

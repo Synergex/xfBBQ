@@ -83,7 +83,7 @@ namespace Services.Controllers
         ;;; <returns>Returns a SingleResult indicating the status of the operation and containing any data that was returned.</returns>
         public method GetBbq, @SingleResult<Bbq>
             {FromODataUri}
-            required in aId, long
+            required in aId, int
         proc
             mreturn new SingleResult<Bbq>(_DbContext.Bbqs.AsNoTracking().FindQuery<Bbq>(_DbContext, aId))
         endmethod
@@ -140,7 +140,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method PutBbq, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
             {FromBody}
             required in aBbq, @Bbq
         proc
@@ -193,7 +193,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method PatchBbq, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
             {FromBody}
             required in aBbq, @JsonPatchDocument<Bbq>
         proc
@@ -246,7 +246,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method DeleteBbq, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
         proc
             ;;Get the bbq to be deleted
             data bbqToRemove = _DbContext.Bbqs.Find(aId)

@@ -40,17 +40,17 @@ namespace Services.Models
             RPSStructureSize = ^size(strOrder)
 
             ;; Define fields
-            AddFieldInfo("Id", "INTEGER", 8, 1, 0, false)
-            AddFieldInfo("Meat", "INTEGER", 1, 9, 0, false)
-            AddFieldInfo("Cheese", "INTEGER", 1, 10, 0, false)
-            AddFieldInfo("Doneness", "INTEGER", 1, 11, 0, false)
-            AddFieldInfo("Spicy", "INTEGER", 1, 12, 0, false)
-            AddFieldInfo("Type", "INTEGER", 1, 13, 0, false)
-            AddFieldInfo("Count", "INTEGER", 1, 14, 0, false)
+            AddFieldInfo("Id", "DECIMAL", 8, 1, 0, false)
+            AddFieldInfo("Meat", "DECIMAL", 1, 9, 0, false)
+            AddFieldInfo("Cheese", "DECIMAL", 1, 10, 0, false)
+            AddFieldInfo("Doneness", "DECIMAL", 1, 11, 0, false)
+            AddFieldInfo("Spicy", "DECIMAL", 1, 12, 0, false)
+            AddFieldInfo("Type", "DECIMAL", 1, 13, 0, false)
+            AddFieldInfo("Count", "DECIMAL", 1, 14, 0, false)
             AddFieldInfo("Burnt", "BOOLEAN", 4, 15, 0, false)
             AddFieldInfo("Orderdate", "DECIMAL", 10, 19, 0, false)
-            AddFieldInfo("Userid", "INTEGER", 8, 29, 0, false)
-            AddFieldInfo("Bbqid", "INTEGER", 8, 37, 0, false)
+            AddFieldInfo("Userid", "DECIMAL", 8, 29, 0, false)
+            AddFieldInfo("Bbqid", "DECIMAL", 8, 37, 0, false)
 
             ;; Define relations
             AddFieldInfo("REL_User", "DATAOBJECT", 0, 0, 0, false)
@@ -134,7 +134,7 @@ namespace Services.Models
             required in parts, @Dictionary<String, Object>
             endparams
             stack record key0
-                Id, I8
+                Id, D8
             endrecord
         proc
             data startPos = 0

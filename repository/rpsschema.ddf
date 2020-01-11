@@ -5,7 +5,7 @@
 ;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
 ;                 : Version 11.1.1b
 ;
-;  GENERATED      : 09-JAN-2020, 10:46:14
+;  GENERATED      : 10-JAN-2020, 16:44:33
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -29,7 +29,7 @@ Enumeration USERTYPE
 Structure BBQ   DBL ISAM
    Description "BBQ Table"
  
-Field ID   Type INTEGER   Size 8
+Field ID   Type DECIMAL   Size 8
    Description "ID of BBQ"
  
 Field CREATIONDATE   Type DECIMAL   Size 10
@@ -40,47 +40,47 @@ Field HELDDATE   Type DECIMAL   Size 10
  
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "ID of BBQ"
-   Segment FIELD   ID  SegType INTEGER  SegOrder ASCENDING
+   Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
  
 Structure ORDER   DBL ISAM
    Description "Order Table"
  
-Field ID   Type INTEGER   Size 8
+Field ID   Type DECIMAL   Size 8
    Description "ID of order"
  
-Field MEAT   Type INTEGER   Size 1
+Field MEAT   Type DECIMAL   Size 1
    Description "What burger meat"
  
-Field CHEESE   Type INTEGER   Size 1
+Field CHEESE   Type DECIMAL   Size 1
    Description "Amount of cheese slices"
  
-Field DONENESS   Type INTEGER   Size 1
+Field DONENESS   Type DECIMAL   Size 1
    Description "Temperature of burger meat"
  
-Field SPICY   Type INTEGER   Size 1
+Field SPICY   Type DECIMAL   Size 1
    Description "Pungency of burger"
  
-Field TYPE   Type INTEGER   Size 1
+Field TYPE   Type DECIMAL   Size 1
    Description "Hotdog type"
  
-Field COUNT   Type INTEGER   Size 1
+Field COUNT   Type DECIMAL   Size 1
    Description "Amount of hotdogs"
  
-Field BURNT   Type BOOLEAN   Size 4
+Field BURNT   Type DECIMAL   Size 1
    Description "Whehter the hotdog is to be burnt or not"
  
 Field ORDERDATE   Type DECIMAL   Size 10
    Description "Timestamp of order creation"
  
-Field USERID   Type INTEGER   Size 8
+Field USERID   Type DECIMAL   Size 8
    Description "ID of user who ordered"
  
-Field BBQID   Type INTEGER   Size 8
+Field BBQID   Type DECIMAL   Size 8
    Description "ID of BBQ this order pertains to"
  
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "ID of order"
-   Segment FIELD   ID  SegType INTEGER  SegOrder ASCENDING
+   Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
  
 Key USERID   FOREIGN
    Description "ID of user who ordered"
@@ -109,7 +109,7 @@ Key RECORD_NUMBER   ACCESS   Order ASCENDING   Dups NO
 Structure USER   DBL ISAM
    Description "User table"
  
-Field ID   Type INTEGER   Size 8
+Field ID   Type DECIMAL   Size 8
    Description "ID of user"
    Required
  
@@ -118,7 +118,7 @@ Field JOINDATE   Type DECIMAL   Size 10
    Readonly
    Nonull
  
-Field TYPE   Type INTEGER   Size 1
+Field TYPE   Type DECIMAL   Size 1
    Description "Type of user"
  
 Field EMAIL   Type ALPHA   Size 100
@@ -135,7 +135,7 @@ Field NAME   Type ALPHA   Size 100
  
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "User ID"
-   Segment FIELD   ID  SegType INTEGER  SegOrder ASCENDING
+   Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
  
 File BBQ   DBL ISAM   "DAT:BBQ.ism"
    Description "BBQ File"

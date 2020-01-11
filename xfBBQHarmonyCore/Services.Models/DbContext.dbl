@@ -82,14 +82,14 @@ namespace Services.Models
 
             ;; ORDER.USERID (one) --> (one) USER.ID
             ;;    Type          : C
-            ;;    From segments : USERID(I8) 
-            ;;    To segments   : ID(I8) 
+            ;;    From segments : USERID(D8) 
+            ;;    To segments   : ID(D8) 
 
             parm.AddOneToOneRelation<Order, User>("REL_User", "KEY_USERID", "KEY_ID")
             ;; ORDER.BBQID (one) --> (one) BBQ.ID
             ;;    Type          : C
-            ;;    From segments : BBQID(I8) 
-            ;;    To segments   : ID(I8) 
+            ;;    From segments : BBQID(D8) 
+            ;;    To segments   : ID(D8) 
 
             parm.AddOneToOneRelation<Order, Bbq>("REL_Bbq", "KEY_BBQID", "KEY_ID")
 .endregion

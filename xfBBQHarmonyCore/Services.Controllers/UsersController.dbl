@@ -83,7 +83,7 @@ namespace Services.Controllers
         ;;; <returns>Returns a SingleResult indicating the status of the operation and containing any data that was returned.</returns>
         public method GetUser, @SingleResult<User>
             {FromODataUri}
-            required in aId, long
+            required in aId, int
         proc
             mreturn new SingleResult<User>(_DbContext.Users.AsNoTracking().FindQuery<User>(_DbContext, aId))
         endmethod
@@ -140,7 +140,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method PutUser, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
             {FromBody}
             required in aUser, @User
         proc
@@ -193,7 +193,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method PatchUser, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
             {FromBody}
             required in aUser, @JsonPatchDocument<User>
         proc
@@ -246,7 +246,7 @@ namespace Services.Controllers
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
         public method DeleteUser, @IActionResult
             {FromODataUri}
-            required in aId, long
+            required in aId, int
         proc
             ;;Get the user to be deleted
             data userToRemove = _DbContext.Users.Find(aId)
