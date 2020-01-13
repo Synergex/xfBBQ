@@ -173,10 +173,11 @@ namespace Services.Models
         ;;; <summary>
         ;;; Whehter the hotdog is to be burnt or not
         ;;; </summary>
-        public property Burnt, boolean
+        {Range(0,9, ErrorMessage="Whehter the hotdog is to be burnt or not must be between 0 and 9. ")}
+        public property Burnt, int
             method get
             proc
-                mreturn (boolean)mSynergyData.burnt
+                mreturn (int)mSynergyData.burnt
             endmethod
             method set
             proc

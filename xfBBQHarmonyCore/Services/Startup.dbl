@@ -24,6 +24,7 @@ import Microsoft.AspNetCore.Hosting
 import Microsoft.AspNetCore.Http
 import Microsoft.AspNetCore.Mvc
 import Microsoft.AspNetCore.Mvc.Abstractions
+import Microsoft.AspNetCore.StaticFiles
 import Microsoft.AspNet.OData
 import Microsoft.AspNet.OData.Extensions
 import Microsoft.AspNet.OData.Builder
@@ -252,6 +253,7 @@ namespace Services
             &    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2 )
             &    .AddDataAnnotations()      ;;Enable data annotations
             &    .AddJsonFormatters()       ;;For PATCH
+            &    .AddApiExplorer()          ;;Swagger UI
             &    .AddApplicationPart(^typeof(IsolatedMethodsBase).Assembly)
 
 

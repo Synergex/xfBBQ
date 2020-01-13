@@ -1,16 +1,16 @@
 {
     "info": {
-        "_postman_id": "54e7bbe0-e38b-41fb-98d9-1605f5852c5f",
+        "_postman_id": "a2401d3e-c698-42e0-bfd0-c5e74c141340",
         "name": "Harmony Core Sample API",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
         {
-            "_postman_id": "d23dc048-b496-4902-b6f8-0ae7ee5d8032",
+            "_postman_id": "d18b1516-2af8-4f86-b43b-e459d0c30b2e",
             "name": "Bbq Tests",
             "item": [
                 {
-                    "_postman_id": "e7bba701-8e8e-4515-b37c-781955dd48cc",
+                    "_postman_id": "0fe2d36b-a967-4bcd-ab8c-b847d42322eb",
                     "name": "Read bbqs",
                     "request": {
                         "method": "GET",
@@ -38,7 +38,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "ec81ec74-80c6-4828-8865-dd9f4b0a9e73",
+                    "_postman_id": "5aeb87b1-4b49-4c27-bf89-bf2758985777",
                     "name": "Count bbqs",
                     "request": {
                         "method": "GET",
@@ -67,7 +67,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "13de7f9c-05fc-4801-b56c-215c9a7ab717",
+                    "_postman_id": "7f4e69bb-9750-469d-a6ca-cc3aac6685ff",
                     "name": "Read bbq",
                     "request": {
                     "method": "GET",
@@ -95,7 +95,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "27a71705-9b0a-4065-a55c-13c751d15502",
+                    "_postman_id": "92530b5c-d383-4297-95b6-f39dd268db47",
                     "name": "Create bbq (auto assign key)",
                     "request": {
                     "method": "POST",
@@ -123,7 +123,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "75eda435-2c1e-4b74-a8c2-f9564a7302df",
+                    "_postman_id": "4ef7c5bb-cbcd-4340-a4f5-d28b1c89906e",
                     "name": "Create or update bbq",
                     "request": {
                     "method": "PUT",
@@ -178,7 +178,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "0a32737c-7aaa-4297-a03a-e07cab0458cc",
+                    "_postman_id": "062073c3-92c5-467a-89f6-8493aef9846c",
                     "name": "Delete bbq",
                     "request": {
                     "method": "DELETE",
@@ -207,11 +207,11 @@
             ]
         },
         {
-            "_postman_id": "7ca4dc6d-fce4-4753-8621-5ce954d658d6",
+            "_postman_id": "f09a35b7-3c51-4f3b-a01a-aa1172b4ff79",
             "name": "Order Tests",
             "item": [
                 {
-                    "_postman_id": "6977543c-0b61-49a2-bb06-e1bcd811cd51",
+                    "_postman_id": "09a3a5e8-9f3f-47ba-877b-ec041e7fa558",
                     "name": "Read orders",
                     "request": {
                         "method": "GET",
@@ -239,7 +239,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "c1d97f9b-3c13-40da-bbb9-d19c88dcad99",
+                    "_postman_id": "3face3a3-9c12-4db6-9c14-c8f66b12dbf2",
                     "name": "Count orders",
                     "request": {
                         "method": "GET",
@@ -268,7 +268,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "c7c2dd59-51bf-44a5-a165-2563afb42403",
+                    "_postman_id": "6a6e9a71-3bba-438a-8957-befc107ca0c2",
                     "name": "Read order",
                     "request": {
                     "method": "GET",
@@ -296,7 +296,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "e584d2c6-95d5-4cd3-acb6-0aabfbff6939",
+                    "_postman_id": "e303e9be-66e5-4187-a37a-dd6e49b68a06",
                     "name": "Create order (auto assign key)",
                     "request": {
                     "method": "POST",
@@ -308,7 +308,7 @@
                     ],
                     "body": {
                         "mode": "raw",
-                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": True,\n    \"Orderdate\": 123,\n    \"Userid\": 123,\n    \"Bbqid\": 123\n}"
+                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": 123,\n    \"Orderdate\": 123,\n    \"Userid\": 123,\n    \"Bbqid\": 123\n}"
                     },
                     "url": {
                         "raw": "{{ServerBaseUri}}/Orders",
@@ -324,7 +324,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "963c8f51-e9bc-460b-808d-5e7565429893",
+                    "_postman_id": "cce41e40-57ae-47a8-bfc1-cc63484b1d15",
                     "name": "Create or update order",
                     "request": {
                     "method": "PUT",
@@ -336,7 +336,7 @@
                     ],
                     "body": {
                         "mode": "raw",
-                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": True,\n    \"Orderdate\": 123,\n    \"Userid\": 123,\n    \"Bbqid\": 123\n}"
+                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": 123,\n    \"Orderdate\": 123,\n    \"Userid\": 123,\n    \"Bbqid\": 123\n}"
                     },
                     "url": {
                         "raw": "{{ServerBaseUri}}/Orders(Id=123)",
@@ -379,7 +379,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "17cad62d-5723-4ed5-8c5c-af88f7e8f7bd",
+                    "_postman_id": "1c8ee1c0-716d-43f4-8c24-a9342ae2998d",
                     "name": "Delete order",
                     "request": {
                     "method": "DELETE",
@@ -408,11 +408,11 @@
             ]
         },
         {
-            "_postman_id": "6532c61f-b39f-4f3b-b114-d7ea2e0a60ee",
+            "_postman_id": "67a50eb0-1832-42b4-8094-e87db2c49a4c",
             "name": "User Tests",
             "item": [
                 {
-                    "_postman_id": "efdf410f-5b22-47e0-8332-a4041fdb3007",
+                    "_postman_id": "0975872c-832e-4903-8ff8-8feada0ded92",
                     "name": "Read users",
                     "request": {
                         "method": "GET",
@@ -440,7 +440,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "0c296d58-315d-4258-95a8-ab06ebc5f310",
+                    "_postman_id": "5a33d83b-1cd9-4f20-b2cc-1e4d60235549",
                     "name": "Count users",
                     "request": {
                         "method": "GET",
@@ -469,7 +469,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "68e2aedb-1b78-4523-b028-586d7c55730a",
+                    "_postman_id": "27b03f35-57de-4533-9b5a-0837268d8f59",
                     "name": "Read user",
                     "request": {
                     "method": "GET",
@@ -497,7 +497,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "dadc5806-c4d8-4729-999f-a5a1cc878c1d",
+                    "_postman_id": "76c5bac0-4a1f-40a5-9ba8-770fea727522",
                     "name": "Create user (auto assign key)",
                     "request": {
                     "method": "POST",
@@ -525,7 +525,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "a312ae29-edf2-4f28-8211-aa1d3c3d226e",
+                    "_postman_id": "0afdda6f-eb25-464f-9e41-d2cd4c96a9ca",
                     "name": "Create or update user",
                     "request": {
                     "method": "PUT",
@@ -580,7 +580,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "d47513cb-1a56-4ac5-8f79-f9f6c8029877",
+                    "_postman_id": "8227116b-1a8e-460c-a89b-9ea71f5deb5f",
                     "name": "Delete user",
                     "request": {
                     "method": "DELETE",
@@ -613,7 +613,7 @@
         {
             "listen": "prerequest",
             "script": {
-                "id": "a26f16bc-8174-4f6c-bb3a-1e2c81a5a219",
+                "id": "a44f85f4-7f6c-4f54-9a92-4f17b4cd0d6d",
                 "type": "text/javascript",
                 "exec": [
                     ""
@@ -623,7 +623,7 @@
         {
             "listen": "test",
             "script": {
-                "id": "d0518f8c-b375-4228-8890-07b00de145b1",
+                "id": "edb517d2-c91f-4632-be44-93acb0d98fe1",
                 "type": "text/javascript",
                 "exec": [
                     ""
