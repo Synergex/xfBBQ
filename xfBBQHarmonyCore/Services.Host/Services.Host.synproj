@@ -9,7 +9,7 @@
     <EnableCommonProperties>True</EnableCommonProperties>
     <ProjectGuid>{E9495F85-C09C-417A-85D9-F7EA89C35317}</ProjectGuid>
     <Prefer32Bit>False</Prefer32Bit>
-    <PreBuildEvent>git checkout $(SolutionDir)\SampleData\sysparams.ddf</PreBuildEvent>
+    <PreBuildEvent>git checkout %SolutionDir%\SampleData\sysparams.ddf</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath />
