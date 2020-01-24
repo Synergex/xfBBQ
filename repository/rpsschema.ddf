@@ -5,7 +5,7 @@
 ;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
 ;                 : Version 11.1.1b
 ;
-;  GENERATED      : 10-JAN-2020, 16:44:33
+;  GENERATED      : 23-JAN-2020, 17:42:19
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -132,6 +132,9 @@ Field HASH   Type ALPHA   Size 100
  
 Field NAME   Type ALPHA   Size 100
    Description "Name of user"
+ 
+Field RECOVERYCODE   Type ALPHA   Size 100
+   Description "Recovery code of user"
  
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "User ID"
