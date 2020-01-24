@@ -11,8 +11,7 @@ export default function UserList() {
   const dispatch = useDispatch();
 
   const users = useSelector(state => state.users);
-  if (users.length === 0 || (users.length !== 0 && users[0].id !== 1))
-    dispatch(loadUsers());
+  if (users.length === 0) dispatch(loadUsers());
 
   return (
     <div className="jumbotron">

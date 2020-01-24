@@ -34,7 +34,7 @@ export default function OrderHistory() {
         <Spinner />
       ) : (
         <OrderTable
-          orders={_.sortBy(orders, ["bbqID", "userID", "id"])}
+          orders={_.sortBy(orders.value, ["Bbqid", "Userid", "Id"])}
           users={users}
           login={login}
         />

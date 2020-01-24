@@ -47,6 +47,7 @@ namespace Services.Models
             AddFieldInfo("Lastlogindate", "DECIMAL", 10, 120, 0, false)
             AddFieldInfo("Hash", "ALPHA", 100, 130, 0, false)
             AddFieldInfo("Name", "ALPHA", 100, 230, 0, false)
+            AddFieldInfo("Recoverycode", "ALPHA", 100, 330, 0, false)
 
             ;; Define all fields that are associated wity key segments
             AddKeyInfo(0, "Id")

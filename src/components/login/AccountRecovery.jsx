@@ -5,6 +5,7 @@ import { Field, Form } from "react-final-form";
 import { Link } from "react-router-dom";
 import * as bcrypt from "bcryptjs";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 function EmailBody({ body }) {
   return <div>{body}</div>;
@@ -20,38 +21,52 @@ export default function AccountRecoveryPage() {
 
   const [body, setBody] = useState("");
   async function onSubmit(values) {
-    const userArr = values.userArray.split(",");
-    const recoveryCode = Math.random() * 1000000000000000000;
+    if (users.value.some(user => values.user === user.Name)) {
+      const userInRecovery = users.value.filter(
+        user => user.Name === values.user
+      )[0];
+      const recoveryCode = Math.random() * 1000000000000000000;
 
-    setBody(
-      <>
-        {"An email has been sent to " +
-          userArr[1] +
-          " at " +
-          userArr[2] +
-          ". Check this email for next steps."}
-        <hr />
-        {"Email body:"}
-        <br />
-        {"Hello."}
-        <br />
-        <br />
-        <div>
-          {"To move forward with password recovery, click "}
-          <Link to="./RecoveryCode">here</Link>
-          {"."}
-        </div>
-        <br />
-        {"Your recovery code is: " + recoveryCode}
-      </>
-    );
+      setBody(
+        <>
+          {"An email has been sent to " +
+            userInRecovery.Name +
+            " at " +
+            userInRecovery.Email +
+            ". Check this email for next steps."}
+          <hr />
+          {"Email body:"}
+          <br />
+          {"Hello."}
+          <br />
+          <br />
+          <div>
+            {"To move forward with password recovery, click "}
+            <Link to="./RecoveryCode">here</Link>
+            {"."}
+          </div>
+          <br />
+          {"Your recovery code is: " + recoveryCode}
+        </>
+      );
 
-    const user = users[parseInt(userArr[0]) - 1];
-    bcrypt.genSalt(13, function(err, salt) {
-      bcrypt.hash(recoveryCode.toString(), salt, function(err, hash) {
-        dispatch(saveUser({ ...user, recoveryCode: hash }));
+      bcrypt.genSalt(13, function(err, salt) {
+        bcrypt.hash(recoveryCode.toString(), salt, function(err, hash) {
+          dispatch(
+            saveUser({
+              Id: userInRecovery.Id,
+              Joindate: userInRecovery.Joindate,
+              Type: userInRecovery.Type,
+              Email: userInRecovery.Email,
+              Lastlogindate: userInRecovery.Lastlogindate,
+              Hash: userInRecovery.Hash,
+              Name: userInRecovery.Name,
+              Recoverycode: hash
+            })
+          );
+        });
       });
-    });
+    } else toast.error("This user does not exist.");
   }
 
   return (
@@ -62,36 +77,25 @@ export default function AccountRecoveryPage() {
         validate={values => {
           const errors = {};
 
-          if (!values.userArray)
-            errors.userArray = <p className="text-danger">Required</p>;
+          if (!values.user)
+            errors.user = <p className="text-danger">Required</p>;
 
           return Object.keys(errors).length ? errors : undefined;
         }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <Field name="userArray">
+              <Field name="user">
                 {({ input, meta }) => (
                   <div>
                     <label>Name:</label>
-                    <select
+                    <input
                       {...input}
-                      type="select"
-                      className="custom-select"
+                      type="input"
+                      placeholder="Name"
+                      className="form-control"
                       required
-                    >
-                      <option value="" disabled>
-                        Select a name
-                      </option>
-                      {users.map(user => (
-                        <option
-                          key={user.id}
-                          value={[user.id, user.name, user.email]}
-                        >
-                          {user.name}
-                        </option>
-                      ))}
-                    </select>
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}

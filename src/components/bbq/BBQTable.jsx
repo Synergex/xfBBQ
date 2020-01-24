@@ -29,17 +29,17 @@ export default function BBQTable({ bbqs }) {
           </tr>
         </thead>
         <tbody>
-          {bbqs.map(bbq => {
+          {bbqs.value.map(bbq => {
             return (
               <tr
-                key={bbq.id}
+                key={bbq.Id}
                 className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
               >
-                <td>{bbq.id}</td>
-                <td>{moment(bbq.creationDate).format("MM/DD/YYYY")}</td>
-                <td>{moment(bbq.heldDate).format("MM/DD/YYYY")}</td>
+                <td>{bbq.Id}</td>
+                <td>{moment.unix(bbq.Creationdate).format("MM/DD/YYYY")}</td>
+                <td>{moment.unix(bbq.Helddate).format("MM/DD/YYYY")}</td>
                 <td>
-                  {moment(bbq.heldDate).isAfter(moment()) ? (
+                  {moment.unix(bbq.Helddate).isAfter(moment()) ? (
                     <>
                       <Link
                         to={{
@@ -65,11 +65,11 @@ export default function BBQTable({ bbqs }) {
                               "Are you sure you want to delete this BBQ?\r\nDeleting this BBQ will also delete all orders under it."
                             )
                           ) {
-                            toast.info("Deleting BBQ " + bbq.id + "...");
+                            toast.info("Deleting BBQ " + bbq.Id + "...");
                             dispatch(deleteBBQ(bbq));
 
-                            orders.forEach(order => {
-                              if (order.bbqID === bbq.id)
+                            orders.value.forEach(order => {
+                              if (order.Bbqid === bbq.Id)
                                 dispatch(deleteOrder(order));
                             });
                           }
@@ -94,5 +94,5 @@ export default function BBQTable({ bbqs }) {
 }
 
 BBQTable.propTypes = {
-  bbqs: PropTypes.array.isRequired
+  bbqs: PropTypes.object.isRequired
 };

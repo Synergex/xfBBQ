@@ -21,11 +21,10 @@ export default function BBQRegistrationForm({ ...props }) {
     dispatch(
       saveBBQ(
         bbqPresent
-          ? { ...bbq, heldDate: moment(values.heldDate).toJSON() }
+          ? { ...bbq, Helddate: parseInt(moment(values.heldDate).format("X")) }
           : {
-              ...values,
-              heldDate: moment(values.heldDate).toJSON(),
-              creationDate: new Date().toJSON()
+              Helddate: parseInt(moment(values.heldDate).format("X")),
+              Creationdate: parseInt(moment().format("X"))
             }
       )
     );
@@ -40,7 +39,7 @@ export default function BBQRegistrationForm({ ...props }) {
       <Form
         initialValues={
           bbqPresent
-            ? { heldDate: moment(bbq.heldDate).format("YYYY-MM-DD") }
+            ? { heldDate: moment.unix(bbq.Helddate).format("YYYY-MM-DD") }
             : {}
         }
         validate={values => {

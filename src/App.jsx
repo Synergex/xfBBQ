@@ -42,7 +42,7 @@ export default function App() {
           <Route path="/RecoveryCode" component={RecoveryCode} />
           <Route component={PageNotFound} />
         </Switch>
-      ) : login.type === "Administrator" ? (
+      ) : login.Type === 1 ? (
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route
@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>
-      ) : login.type !== "Attendee" ? (
+      ) : login.Type !== 3 ? (
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />

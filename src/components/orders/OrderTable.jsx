@@ -19,14 +19,14 @@ export default function OrderTable({ orders, users, login }) {
       ...order,
       theirOrders: [
         {
-          meat: order.meat,
-          cheese: order.cheese,
-          doneness: order.doneness,
-          spicy: order.spicy,
-          type: order.type,
-          count: order.count,
-          burnt: order.burnt,
-          key: order.id
+          meat: order.Meat,
+          cheese: order.Cheese,
+          doneness: order.Doneness,
+          spicy: order.Spicy,
+          type: order.Type,
+          count: order.Count,
+          burnt: order.Burnt,
+          key: order.Id
         }
       ]
     };
@@ -37,8 +37,8 @@ export default function OrderTable({ orders, users, login }) {
     const prevIndex = index - 1;
     if (
       prevIndex >= 0 &&
-      modifiedOrders[index].bbqID === modifiedOrders[prevIndex].bbqID &&
-      modifiedOrders[index].userID === modifiedOrders[prevIndex].userID
+      modifiedOrders[index].Bbqid === modifiedOrders[prevIndex].Bbqid &&
+      modifiedOrders[index].Userid === modifiedOrders[prevIndex].Userid
     ) {
       modifiedOrders[prevIndex].theirOrders = modifiedOrders[
         prevIndex
@@ -61,19 +61,20 @@ export default function OrderTable({ orders, users, login }) {
       </thead>
       <tbody>
         {modifiedOrders.map(order => {
-          if (login.type === "Attendee" && login.id !== order.userID)
-            return <></>;
+          if (login.Type === 3 && login.Id !== order.Userid) return <></>;
           return (
             <tr
-              key={order.id}
+              key={order.Id}
               className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
             >
-              <td>{order.bbqID}</td>
-              <td>{users.filter(user => order.userID === user.id)[0].name}</td>
-              <td>{moment(order.orderDate).format("MM/DD/YYYY")}</td>
+              <td>{order.Bbqid}</td>
+              <td>
+                {users.value.filter(user => order.Userid === user.Id)[0].Name}
+              </td>
+              <td>{moment.unix(order.Orderdate).format("MM/DD/YYYY")}</td>
               <td>
                 {order.theirOrders.map(theirOrder => {
-                  return theirOrder.cheese > -1 ? (
+                  return theirOrder.meat > 0 ? (
                     <div key={theirOrder.key}>
                       {"Hamburger: "}
                       {orderEnums.meatType[theirOrder.meat]}
@@ -104,7 +105,7 @@ export default function OrderTable({ orders, users, login }) {
                       {theirOrder.count}
                       <br />
                       {"Burnt: "}
-                      {theirOrder.burnt ? "Yes" : "No"}
+                      {theirOrder.burnt === 1 ? "Yes" : "No"}
                       <br />
                       {"=========="}
                       <br />
@@ -113,19 +114,21 @@ export default function OrderTable({ orders, users, login }) {
                 })}
               </td>
               <td>
-                {bbqs.length > 0 &&
-                bbqs.filter(bbq => bbq.id === order.bbqID).length > 0 &&
-                moment(
-                  bbqs.filter(bbq => bbq.id === order.bbqID)[0].heldDate
-                ).isAfter(moment()) ? (
+                {bbqs.value &&
+                bbqs.value.filter(bbq => bbq.Id === order.Bbqid).length > 0 &&
+                moment
+                  .unix(
+                    bbqs.value.filter(bbq => bbq.Id === order.Bbqid)[0].Helddate
+                  )
+                  .isAfter(moment()) ? (
                   <>
                     <Link
                       to={{
                         pathname: "/NewOrderForm",
                         state: orders.filter(
                           orderIter =>
-                            order.userID === orderIter.userID &&
-                            order.bbqID === orderIter.bbqID
+                            order.Userid === orderIter.Userid &&
+                            order.Bbqid === orderIter.Bbqid
                         )
                       }}
                     >
@@ -144,12 +147,12 @@ export default function OrderTable({ orders, users, login }) {
                             "Are you sure you want to delete this order?"
                           )
                         ) {
-                          toast.info("Deleting order " + order.id + "...");
+                          toast.info("Deleting order " + order.Id + "...");
                           orders
                             .filter(
                               orderIter =>
-                                order.userID === orderIter.userID &&
-                                order.bbqID === orderIter.bbqID
+                                order.Userid === orderIter.Userid &&
+                                order.Bbqid === orderIter.Bbqid
                             )
                             .forEach(order => dispatch(deleteOrder(order)));
                         }
@@ -175,5 +178,5 @@ export default function OrderTable({ orders, users, login }) {
 OrderTable.propTypes = {
   login: PropTypes.object.isRequired,
   orders: PropTypes.array.isRequired,
-  users: PropTypes.array.isRequired
+  users: PropTypes.object.isRequired
 };

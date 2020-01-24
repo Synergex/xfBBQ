@@ -7,6 +7,7 @@ import * as bcrypt from "bcryptjs";
 import { saveUser } from "../../redux/actions/userActions";
 import isEmpty from "./../../scripts/isEmpty";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 export default function UserRegistrationForm({ ...props }) {
   const history = useHistory();
@@ -31,18 +32,20 @@ export default function UserRegistrationForm({ ...props }) {
           saveUser(
             userPresent
               ? {
-                  ...values,
-                  type: values.type,
-                  hash,
-                  id: user.id,
-                  joinDate: user.joinDate,
-                  lastLoginDate: user.lastLoginDate
+                  Id: user.Id,
+                  Joindate: user.Joindate,
+                  Type: values.type,
+                  Email: values.email,
+                  Lastlogindate: user.Lastlogindate,
+                  Hash: hash,
+                  Name: values.name
                 }
               : {
-                  ...values,
-                  hash,
-                  joinDate: new Date().toJSON(),
-                  type: values.type === undefined ? "Attendee" : values.type
+                  Joindate: parseInt(moment().format("X")),
+                  Type: values.type === undefined ? 3 : values.type,
+                  Email: values.email,
+                  Hash: hash,
+                  Name: values.name
                 }
           )
         );
@@ -71,8 +74,8 @@ export default function UserRegistrationForm({ ...props }) {
       <Form
         initialValues={
           userPresent
-            ? { name: user.name, email: user.email, type: user.type }
-            : {}
+            ? { name: user.Name, email: user.Email, type: user.Type }
+            : { type: 3 }
         }
         onSubmit={onSubmit}
         validate={values => {
@@ -168,7 +171,7 @@ export default function UserRegistrationForm({ ...props }) {
               </Field>
             </div>
 
-            {!isEmpty(login) && login.type === "Administrator" ? (
+            {!isEmpty(login) && login.Type === 1 ? (
               <div className="form-group">
                 <div>
                   <Field name="type">
@@ -184,9 +187,9 @@ export default function UserRegistrationForm({ ...props }) {
                           <option value="" disabled>
                             Pick an Account Type
                           </option>
-                          <option value="Administrator">Administrator</option>
-                          <option value="Host">Host</option>
-                          <option value="Attendee">Attendee</option>
+                          <option value="1">Administrator</option>
+                          <option value="2">Host</option>
+                          <option value="3">Attendee</option>
                         </select>
                         {meta.error && meta.touched && (
                           <span>{meta.error}</span>

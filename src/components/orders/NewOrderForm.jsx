@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadBBQs } from "../../redux/actions/bbqActions";
 import { saveOrder, deleteOrder } from "../../redux/actions/orderActions";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 let counter = 0;
 export default function NewOrderForm({ ...props }) {
@@ -21,45 +22,45 @@ export default function NewOrderForm({ ...props }) {
     ordersToEdit === null || ordersToEdit === undefined
       ? []
       : ordersToEdit.map(order => {
-          if (order.cheese === undefined) {
+          if (order.Meat === 0) {
             return {
               key: Math.random() * 1000000000000000000,
               id: 1,
               foodFlavor: "",
               foodCategory: "Hotdog",
               foodAttributes: {
-                burnt: order.burnt ? true : false,
-                quantity: order.count
+                burnt: order.Burnt ? true : false,
+                quantity: order.Count
               },
-              orderID: order.id,
-              userID: order.userID
+              orderID: order.Id,
+              userID: order.Userid
             };
           } else {
             return {
               key: Math.random() * 1000000000000000000,
               id:
-                order.meat === 1
+                order.Meat === 1
                   ? ++beefCount
-                  : order.meat === 2
+                  : order.Meat === 2
                   ? ++turkeyCount
                   : ++vegCount,
               foodFlavor:
-                order.meat === 1
+                order.Meat === 1
                   ? "Beef"
-                  : order.meat === 2
+                  : order.Meat === 2
                   ? "Turkey"
                   : "Veggie",
               foodCategory: "Burger",
               foodAttributes: {
-                cheese: order.cheese >= 1 ? true : false,
-                spice: order.spicy >= 1 ? true : false,
+                cheese: order.Cheese >= 1 ? true : false,
+                spice: order.Spicy >= 1 ? true : false,
                 doneness:
-                  order.doneness === undefined
+                  order.Doneness === undefined
                     ? ""
-                    : numberToDoneness(order.doneness)
+                    : numberToDoneness(order.Doneness)
               },
-              orderID: order.id,
-              userID: order.userID
+              orderID: order.Id,
+              userID: order.Userid
             };
           }
         })
@@ -486,12 +487,13 @@ export default function NewOrderForm({ ...props }) {
 
   async function onSubmit() {
     let orders = [];
-    const orderDate = new Date().toJSON();
+    const orderDate = parseInt(moment().format("X"));
     const userID =
       ordersToEdit === null || ordersToEdit === undefined
-        ? login.id
-        : ordersToEdit[0].userID;
-    const bbqID = bbqs.length === 0 ? 0 : bbqs[bbqs.length - 1].id;
+        ? login.Id
+        : ordersToEdit[0].Userid;
+    const bbqID =
+      bbqs.value.length === 0 ? 0 : bbqs.value[bbqs.value.length - 1].Id;
 
     if (
       window.confirm(
@@ -509,7 +511,7 @@ export default function NewOrderForm({ ...props }) {
                       doneness: beefDoneness(item.foodAttributes.doneness),
                       cheese: item.foodAttributes.cheese ? 1 : 0,
                       spicy: item.foodAttributes.spice ? 1 : 0,
-                      id: item.orderID === undefined ? "" : item.orderID,
+                      id: item.orderID,
                       delete: item.delete ? true : ""
                     });
 
@@ -531,7 +533,7 @@ export default function NewOrderForm({ ...props }) {
                       meat: 2,
                       cheese: item.foodAttributes.cheese ? 1 : 0,
                       spicy: item.foodAttributes.spice ? 1 : 0,
-                      id: item.orderID === undefined ? "" : item.orderID,
+                      id: item.orderID,
                       delete: item.delete ? true : ""
                     });
 
@@ -549,10 +551,9 @@ export default function NewOrderForm({ ...props }) {
                       userID,
                       bbqID,
                       meat: 3,
-                      doneness: beefDoneness(item.foodAttributes.doneness),
                       cheese: item.foodAttributes.cheese ? 1 : 0,
                       spicy: item.foodAttributes.spice ? 1 : 0,
-                      id: item.orderID === undefined ? "" : item.orderID,
+                      id: item.orderID,
                       delete: item.delete ? true : ""
                     });
 
@@ -573,10 +574,9 @@ export default function NewOrderForm({ ...props }) {
                   userID,
                   bbqID,
                   type: 1,
-                  doneness: beefDoneness(item.foodAttributes.doneness),
                   count: item.foodAttributes.quantity,
-                  burnt: item.foodAttributes.burnt,
-                  id: item.orderID === undefined ? "" : item.orderID,
+                  burnt: item.foodAttributes.burnt ? 1 : 0,
+                  id: item.orderID,
                   delete: item.delete ? true : ""
                 });
 
@@ -594,11 +594,34 @@ export default function NewOrderForm({ ...props }) {
       )
     ) {
       toast.info(
-        (ordersToEdit === null ? "Creating " : "Editing ") + "orders..."
+        (ordersToEdit ? "Editing " : "Creating ") +
+          "order" +
+          (orders.length > 1 ? "s" : "") +
+          " ..."
       );
       orders.forEach(order => {
-        if (order.delete) dispatch(deleteOrder(order));
-        else dispatch(saveOrder(order));
+        if (order.delete)
+          dispatch(
+            deleteOrder({
+              Id: order.id
+            })
+          );
+        else
+          dispatch(
+            saveOrder({
+              Meat: order.meat ? order.meat : 0,
+              Cheese: order.cheese ? order.cheese : 0,
+              Doneness: order.doneness ? order.doneness : 0,
+              Spicy: order.spicy ? order.spicy : 0,
+              Type: order.type ? order.type : 0,
+              Count: order.count ? order.count : 0,
+              Burnt: order.burnt ? order.burnt : 0,
+              Orderdate: order.orderDate,
+              Userid: order.userID,
+              Bbqid: order.bbqID,
+              Id: order.id
+            })
+          );
       });
       history.push("/OrderHistory");
     }

@@ -83,7 +83,7 @@ export default function Header() {
             style={{}}
           >
             <ul className="navbar-nav mr-auto">
-              {login.type === "Administrator" ? (
+              {login.Type === 1 ? (
                 <>
                   <li className="navbar-item">
                     <NavLink
@@ -108,7 +108,7 @@ export default function Header() {
                 <></>
               )}
 
-              {login.type !== "Attendee" ? (
+              {login.Type !== 3 ? (
                 <>
                   <li className="navbar-item">
                     <NavLink

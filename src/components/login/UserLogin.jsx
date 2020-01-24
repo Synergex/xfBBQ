@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUsers, saveUser } from "../../redux/actions/userActions";
 import { loginUser } from "../../redux/actions/loginActions";
 import * as bcrypt from "bcryptjs";
+import moment from "moment";
 
 export default function LoginPage() {
   document.title = "𝘹𝘧BBQ - Login";
@@ -17,27 +18,32 @@ export default function LoginPage() {
   if (users.length === 0) dispatch(loadUsers());
 
   async function onSubmit(values) {
-    const userArr = values.userArray.split(",");
-    const user = users[parseInt(userArr[0]) - 1];
+    let user;
+    if (users) {
+      user = users.value.filter(thisUser => values.user === thisUser.Name)[0];
+    }
 
-    bcrypt.compare(values.password, userArr[1], function(err, result) {
-      if (result) {
-        toast("Welcome to 𝘹𝘧BBQ, " + user.name);
-        dispatch(
-          loginUser({
-            ...user,
-            lastLoginDate: new Date().toJSON()
-          })
-        );
-        dispatch(
-          saveUser({
-            ...user,
-            lastLoginDate: new Date().toJSON()
-          })
-        );
-        history.push("/");
-      } else toast.error("Unable to login to 𝘹𝘧BBQ. Try again.");
-    });
+    if (user !== undefined) {
+      bcrypt.compare(values.password, user.Hash, function(err, result) {
+        if (result) {
+          toast("Welcome to 𝘹𝘧BBQ, " + user.Name);
+          dispatch(
+            loginUser({
+              ...user,
+              Lastlogindate: parseInt(moment().format("X"))
+            })
+          );
+          dispatch(
+            saveUser({
+              ...user,
+              Recoverycode: "",
+              Lastlogindate: parseInt(moment().format("X"))
+            })
+          );
+          history.push("/");
+        } else toast.error("Unable to login to 𝘹𝘧BBQ. Try again.");
+      });
+    } else toast.error("Unable to login to 𝘹𝘧BBQ. Try again.");
   }
 
   return (
@@ -64,8 +70,8 @@ export default function LoginPage() {
         validate={values => {
           const errors = {};
 
-          if (!values.userArray)
-            errors.userArray = <p className="text-danger">Required</p>;
+          if (!values.user)
+            errors.user = <p className="text-danger">Required</p>;
           if (!values.password)
             errors.password = <p className="text-danger">Required</p>;
 
@@ -74,25 +80,17 @@ export default function LoginPage() {
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <Field name="userArray">
+              <Field name="user">
                 {({ input, meta }) => (
                   <div>
                     <label>Name:</label>
-                    <select
+                    <input
                       {...input}
-                      type="select"
-                      className="custom-select"
+                      type="input"
+                      placeholder="Name"
+                      className="form-control"
                       required
-                    >
-                      <option value="" disabled>
-                        Select a name
-                      </option>
-                      {users.map(user => (
-                        <option key={user.id} value={[user.id, user.hash]}>
-                          {user.name}
-                        </option>
-                      ))}
-                    </select>
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}

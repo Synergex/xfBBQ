@@ -32,21 +32,27 @@ export default function UserTable({ users }) {
         </tr>
       </thead>
       <tbody>
-        {users.map(user => {
+        {users.value.map(user => {
           return (
             <tr
-              key={user.id}
+              key={user.Id}
               className={rowCounter++ % 2 === 0 ? "table-secondary" : ""}
             >
-              <td>{user.id}</td>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.type}</td>
-              <td>{moment(user.joinDate).format("MM/DD/YYYY")}</td>
+              <td>{user.Id}</td>
+              <td>{user.Name}</td>
+              <td>{user.Email}</td>
               <td>
-                {user.lastLoginDate === undefined
+                {user.Type === 1
+                  ? "Administrator"
+                  : user.Type === 2
+                  ? "Host"
+                  : "Attendee"}
+              </td>
+              <td>{moment.unix(user.Joindate).format("MM/DD/YYYY")}</td>
+              <td>
+                {user.Lastlogindate === undefined
                   ? "Never"
-                  : moment(user.lastLoginDate).format("MM/DD/YYYY")}
+                  : moment.unix(user.Lastlogindate).format("MM/DD/YYYY")}
               </td>
               <td>
                 <Link
@@ -61,7 +67,7 @@ export default function UserTable({ users }) {
                     </span>
                   </button>
                 </Link>
-                {login.id === user.id ? (
+                {login.Id === user.Id ? (
                   <></>
                 ) : (
                   <>
@@ -75,11 +81,11 @@ export default function UserTable({ users }) {
                             "Are you sure you want to delete this user?\r\nDeleting this user will also delete all orders this user has ever made."
                           )
                         ) {
-                          toast.info("Deleting User " + user.id + "...");
+                          toast.info("Deleting User " + user.Id + "...");
                           dispatch(deleteUser(user));
 
-                          orders.forEach(order => {
-                            if (order.userID === user.id)
+                          orders.value.forEach(order => {
+                            if (order.Userid === user.Id)
                               dispatch(deleteOrder(order));
                           });
                         }
@@ -101,5 +107,5 @@ export default function UserTable({ users }) {
 }
 
 UserTable.propTypes = {
-  users: PropTypes.array.isRequired
+  users: PropTypes.object.isRequired
 };

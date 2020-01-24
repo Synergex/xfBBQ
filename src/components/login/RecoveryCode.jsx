@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUsers } from "../../redux/actions/userActions";
+import { loadUsers, saveUser } from "../../redux/actions/userActions";
 import { Field, Form } from "react-final-form";
 import * as bcrypt from "bcryptjs";
 import { toast } from "react-toastify";
@@ -16,22 +16,36 @@ export default function RecoveryCode() {
   if (users.length === 0) dispatch(loadUsers());
 
   async function onSubmit(values) {
-    const userArr = values.userArray.split(",");
+    if (users.value.some(user => values.user === user.Name)) {
+      const userInRecovery = users.value.filter(
+        user => user.Name === values.user
+      )[0];
 
-    bcrypt.compare(values.recoveryCode, userArr[7], function(err, result) {
-      if (result) {
-        history.push("/UserRegistrationForm", {
-          id: userArr[0],
-          name: userArr[1],
-          hash: userArr[2],
-          type: userArr[3],
-          email: userArr[4],
-          joinDate: userArr[5],
-          lastLoginDate: userArr[6],
-          recovery: true
-        });
-      } else toast.error("Bad recovery code. Try again.");
-    });
+      bcrypt.compare(values.recoveryCode, userInRecovery.Recoverycode, function(
+        err,
+        result
+      ) {
+        if (result) {
+          bcrypt.genSalt(13, function(err, salt) {
+            bcrypt.hash(values.hash, salt, function(err, hash) {
+              dispatch(
+                saveUser({
+                  Id: userInRecovery.Id,
+                  Joindate: userInRecovery.Joindate,
+                  Type: userInRecovery.Type,
+                  Email: userInRecovery.Email,
+                  Lastlogindate: userInRecovery.Lastlogindate,
+                  Hash: hash,
+                  Name: userInRecovery.Name
+                })
+              );
+            });
+          });
+          toast.info("Password successfully changed.");
+          history.push("/Login");
+        } else toast.error("Bad recovery code. Try again.");
+      });
+    } else toast.error("This user does not exist.");
   }
 
   return (
@@ -42,49 +56,35 @@ export default function RecoveryCode() {
         validate={values => {
           const errors = {};
 
-          if (!values.userArray)
-            errors.userArray = <p className="text-danger">Required</p>;
+          if (!values.user)
+            errors.user = <p className="text-danger">Required</p>;
           if (!values.recoveryCode)
             errors.recoveryCode = <p className="text-danger">Required</p>;
+          if (!values.hash)
+            errors.hash = <p className="text-danger">Required</p>;
+          if (!values.hash2)
+            errors.hash2 = <p className="text-danger">Required</p>;
+          else if (values.hash !== values.hash2)
+            errors.hash2 = (
+              <p className="text-danger">Passwords do not match</p>
+            );
 
           return Object.keys(errors).length ? errors : undefined;
         }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <Field name="userArray">
+              <Field name="user">
                 {({ input, meta }) => (
                   <div>
                     <label>Name:</label>
-                    <select
+                    <input
                       {...input}
-                      type="select"
-                      className="custom-select"
+                      type="input"
+                      placeholder="Name"
+                      className="form-control"
                       required
-                    >
-                      <option value="" disabled>
-                        Select a name
-                      </option>
-                      {users.map(user => (
-                        <option
-                          key={user.id}
-                          value={[
-                            [
-                              user.id,
-                              user.name,
-                              user.hash,
-                              user.type,
-                              user.email,
-                              user.joinDate,
-                              user.lastLoginDate,
-                              user.recoveryCode
-                            ]
-                          ]}
-                        >
-                          {user.name}
-                        </option>
-                      ))}
-                    </select>
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -99,6 +99,40 @@ export default function RecoveryCode() {
                       {...input}
                       type="password"
                       placeholder="Recovery Code"
+                      className="form-control"
+                      required
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="form-group">
+              <Field name="hash">
+                {({ input, meta }) => (
+                  <div>
+                    <label>New Password:</label>
+                    <input
+                      {...input}
+                      type="password"
+                      placeholder="Password"
+                      className="form-control"
+                      required
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="form-group">
+              <Field name="hash2">
+                {({ input, meta }) => (
+                  <div>
+                    <label>Confirm Password:</label>
+                    <input
+                      {...input}
+                      type="password"
+                      placeholder="Confirm Password"
                       className="form-control"
                       required
                     />

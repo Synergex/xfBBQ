@@ -4,17 +4,17 @@ import { beginApiCall, apiCallError } from "./apiStatusActions";
 import { toast } from "react-toastify";
 
 export function createUserSuccess(user) {
-  toast.success("Created user " + user.id);
+  toast.success("Created user " + user.Id);
   return { type: type.CREATE_USER_SUCCESS, user };
 }
 
 export function deleteUserSuccess(user) {
-  toast.success("Deleted user " + user.id);
+  toast.success("Deleted user " + user.Id);
   return { type: type.DELETE_USER_SUCCESS, user };
 }
 
 export function updateUserSuccess(user) {
-  toast.success("Updated user " + user.id);
+  toast.success("Updated user " + user.Id);
   return { type: type.UPDATE_USER_SUCCESS, user };
 }
 
@@ -40,7 +40,7 @@ export function saveUser(user) {
     dispatch(beginApiCall());
     try {
       const savedUser = await userApi.saveUser(user);
-      user.id
+      user.Id
         ? dispatch(updateUserSuccess(savedUser))
         : dispatch(createUserSuccess(savedUser));
     } catch (error) {
@@ -54,7 +54,7 @@ export function deleteUser(user) {
   return async function(dispatch) {
     dispatch(beginApiCall());
     try {
-      await userApi.deleteUser(user.id);
+      await userApi.deleteUser(user.Id);
       dispatch(deleteUserSuccess(user));
     } catch (error) {
       dispatch(apiCallError(error));

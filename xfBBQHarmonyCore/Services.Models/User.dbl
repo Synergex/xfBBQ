@@ -171,6 +171,21 @@ namespace Services.Models
             endmethod
         endproperty
 
+        ;;; <summary>
+        ;;; Recovery code of user
+        ;;; </summary>
+        {StringLength(100, ErrorMessage="Recovery code of user cannot exceed 100 characters. ")}
+        public property Recoverycode, String
+            method get
+            proc
+                mreturn (String)SynergyAlphaConverter.Convert(mSynergyData.recoverycode, ^null, ^null, ^null)
+            endmethod
+            method set
+            proc
+                mSynergyData.recoverycode = (A)SynergyAlphaConverter.ConvertBack(value, ^null, ^null, ^null)
+            endmethod
+        endproperty
+
 .endregion
 
 .region "Other attributes"
@@ -231,7 +246,7 @@ namespace Services.Models
         public override method InternalGetValues, [#]@object
         proc
             ;;TODO: This should be returning boxed values for each of our fields
-            mreturn new Object[7]
+            mreturn new Object[8]
         endmethod
 
         ;;; <summary>
