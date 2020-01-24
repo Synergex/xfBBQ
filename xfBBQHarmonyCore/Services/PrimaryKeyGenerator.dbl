@@ -34,6 +34,8 @@ namespace Services
         nextOrder, strSysParams
         nextUser, strSysParams
 
+        lockObj, @Object, new Object()
+
         public method PrimaryKeyGenerator
             required in aFileChannelManager, @IFileChannelManager
         proc
@@ -51,22 +53,25 @@ namespace Services
             ("BBQ"),
             begin
                 if (!nextBBQ.param_value)
-                    read(mChannel,nextBBQ,1,LOCK:Q_MANUAL_LOCK)
+                    read(mChannel,nextBBQ,1,LOCK:Q_MANUAL_LOCK, wait:1)
                 nextBBQ.param_value += 1
+                write(mChannel,nextBBQ,1)
                 mreturn (@a)%string(nextBBQ.param_value-1)
             end
             ("ORDER"),
             begin
                 if (!nextOrder.param_value)
-                    read(mChannel,nextOrder,4,LOCK:Q_MANUAL_LOCK)
+                    read(mChannel,nextOrder,2,LOCK:Q_MANUAL_LOCK, wait:1)
                 nextOrder.param_value += 1
+                write(mChannel,nextOrder,2)
                 mreturn (@a)%string(nextOrder.param_value-1)
             end
             ("USER"),
             begin
                 if (!nextUser.param_value)
-                    read(mChannel,nextUser,3,LOCK:Q_MANUAL_LOCK)
+                    read(mChannel,nextUser,3,LOCK:Q_MANUAL_LOCK, wait:1)
                 nextUser.param_value += 1
+                write(mChannel,nextUser,3)
                 mreturn (@a)%string(nextUser.param_value-1)
             end
             endusing
@@ -74,18 +79,6 @@ namespace Services
 
         protected override method CommitImplementation, void
         proc
-            if (nextBBQ.param_value)
-            begin
-                write(mChannel,nextBBQ,1)
-            end
-            if (nextOrder.param_value)
-            begin
-                write(mChannel,nextOrder,4)
-            end
-            if (nextUser.param_value)
-            begin
-                write(mChannel,nextUser,3)
-            end
             mFileChannelManager.ReturnChannel(mChannel)
             mChannel = 0
         endmethod
