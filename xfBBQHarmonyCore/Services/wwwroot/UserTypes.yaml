@@ -49,6 +49,10 @@ User:
       type: string
       example: "ABC"
       description: Name of user
+    Recoverycode:
+      type: string
+      example: "ABC"
+      description: Recovery code of user
   example:
     Id: 123
     Joindate: 123
@@ -57,6 +61,7 @@ User:
     Lastlogindate: 123
     Hash: "ABC"
     Name: "ABC"
+    Recoverycode: "ABC"
 
 UserPost:
   properties:
@@ -84,6 +89,10 @@ UserPost:
       type: string
       example: "ABC"
       description: Name of user
+    Recoverycode:
+      type: string
+      example: "ABC"
+      description: Recovery code of user
   example:
     Joindate: 123
     Type: 123
@@ -91,3 +100,4 @@ UserPost:
     Lastlogindate: 123
     Hash: "ABC"
     Name: "ABC"
+    Recoverycode: "ABC"
