@@ -83,6 +83,7 @@
     <Compile Include="EdmBuilder.dbl" />
     <Compile Include="PrimaryKeyGenerator.dbl" />
     <Compile Include="Startup.dbl" />
+    <Compile Include="SimulatedLatencyMiddleware.dbl" />
     <Folder Include="wwwroot" />
     <Folder Include="wwwroot" />
     <Folder Include="wwwroot\static" />

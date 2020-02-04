@@ -1,0 +1,36 @@
+import System
+import System.Threading
+import System.Threading.Tasks
+import Microsoft.AspNetCore.Http
+
+namespace Services
+    ;; Derived from https://mariusschulz.com/blog/simulating-latency-in-asp-net-core
+    public class SimulatedLatencyMiddleware
+        private readonly _next, @RequestDelegate
+        private readonly _minDelay, int
+        private readonly _maxDelay, int
+        private readonly _randomizer, @System.Threading.ThreadLocal<Random>
+
+        public method SimulatedLatencyMiddleware
+            next, @RequestDelegate
+            minDelay, TimeSpan
+            maxDelay, TimeSpan
+            endparams
+        proc
+            _next = next
+            _minDelay = (int)minDelay.TotalMilliseconds
+            _maxDelay = (int)maxDelay.TotalMilliseconds
+            _randomizer = new System.Threading.ThreadLocal<Random>(lambda() {new Random()})
+        endmethod
+
+        public async method Invoke, @Task
+            context, @HttpContext
+            endparams
+        proc
+            data delay = _randomizer.Value.Next(_minDelay, _maxDelay)
+
+            await Task.Delay(delay)
+            await _next(context)
+        endmethod
+    endclass
+endnamespace
