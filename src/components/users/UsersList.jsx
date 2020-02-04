@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUsers } from "../../redux/actions/userActions";
 import Spinner from "../../Spinner";
@@ -8,11 +8,14 @@ import { Link } from "react-router-dom";
 export default function UserList() {
   document.title = "𝘹𝘧BBQ - Users";
 
+  // Get users
   const dispatch = useDispatch();
-
   const users = useSelector(state => state.users);
-  if (users.length === 0) dispatch(loadUsers());
+  useEffect(() => {
+    dispatch(loadUsers());
+  }, [dispatch]);
 
+  // Display
   return (
     <div className="jumbotron">
       <Link to="/UserRegistrationForm">

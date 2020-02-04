@@ -35,6 +35,19 @@ export function loadOrders() {
   };
 }
 
+export function loadOrdersQuery(query) {
+  return async function(dispatch) {
+    dispatch(beginApiCall());
+    try {
+      const orders = await orderApi.getOrdersQuery(query);
+      dispatch(loadOrdersSuccess(orders));
+    } catch (e) {
+      dispatch(apiCallError(e));
+      throw e;
+    }
+  };
+}
+
 export function saveOrder(order) {
   return async function(dispatch) {
     dispatch(beginApiCall());

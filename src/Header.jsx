@@ -10,6 +10,7 @@ export default function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       {isEmpty(login) ? (
+        // Not logged in
         <>
           <NavLink to="/" exact className="navbar-brand">
             <i>xf</i>BBQ
@@ -46,7 +47,7 @@ export default function Header() {
                   activeStyle={activeStyle}
                   className="nav-link"
                 >
-                  User Registration
+                  User&nbsp;Registration
                 </NavLink>
               </li>
               <li className="navbar-item">
@@ -55,13 +56,14 @@ export default function Header() {
                   activeStyle={activeStyle}
                   className="nav-link"
                 >
-                  Account Recovery
+                  Account&nbsp;Recovery
                 </NavLink>
               </li>
             </ul>
           </div>
         </>
       ) : (
+        // Logged in
         <>
           <NavLink to="/" exact className="navbar-brand">
             <i>xf</i>BBQ
@@ -84,6 +86,7 @@ export default function Header() {
           >
             <ul className="navbar-nav mr-auto">
               {login.Type === 1 ? (
+                // Only admins can access user maintenance
                 <>
                   <li className="navbar-item">
                     <NavLink
@@ -91,7 +94,7 @@ export default function Header() {
                       activeStyle={activeStyle}
                       className="nav-link"
                     >
-                      New User Registration
+                      New&nbsp;User&nbsp;Registration
                     </NavLink>
                   </li>
                   <li className="navbar-item">
@@ -109,6 +112,7 @@ export default function Header() {
               )}
 
               {login.Type !== 3 ? (
+                // Attendees can't access BBQ maintenance or see shopping cart
                 <>
                   <li className="navbar-item">
                     <NavLink
@@ -116,7 +120,7 @@ export default function Header() {
                       activeStyle={activeStyle}
                       className="nav-link"
                     >
-                      BBQ Registration
+                      BBQ&nbsp;Registration
                     </NavLink>
                   </li>
                   <li className="navbar-item">
@@ -126,6 +130,15 @@ export default function Header() {
                       className="nav-link"
                     >
                       BBQs
+                    </NavLink>
+                  </li>
+                  <li className="navbar-item">
+                    <NavLink
+                      to="/ShoppingList"
+                      activeStyle={activeStyle}
+                      className="nav-link"
+                    >
+                      Shopping&nbsp;List
                     </NavLink>
                   </li>
                 </>
@@ -139,7 +152,7 @@ export default function Header() {
                   activeStyle={activeStyle}
                   className="nav-link"
                 >
-                  Place an Order
+                  Place&nbsp;an&nbsp;Order
                 </NavLink>
               </li>
               <li className="navbar-item">
@@ -148,7 +161,7 @@ export default function Header() {
                   activeStyle={activeStyle}
                   className="nav-link"
                 >
-                  Order History
+                  Order&nbsp;History
                 </NavLink>
               </li>
             </ul>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadOrders } from "../../redux/actions/orderActions";
 import { loadUsers } from "../../redux/actions/userActions";
@@ -7,21 +7,20 @@ import OrderTable from "./OrderTable";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
-let ranOnce = false;
 export default function OrderHistory() {
   document.title = "𝘹𝘧BBQ - Order History";
 
+  // Gather information for order table
   const dispatch = useDispatch();
   const login = useSelector(state => state.login);
-
   const orders = useSelector(state => state.orders);
   const users = useSelector(state => state.users);
-  if (!ranOnce) {
+  useEffect(() => {
     dispatch(loadOrders());
     dispatch(loadUsers());
-    ranOnce = true;
-  }
+  }, [dispatch]);
 
+  // Display results
   return (
     <div className="jumbotron">
       <Link to="/NewOrderForm">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
 import { useHistory, Link } from "react-router-dom";
@@ -12,10 +12,13 @@ export default function LoginPage() {
   document.title = "𝘹𝘧BBQ - Login";
 
   const history = useHistory();
-  const dispatch = useDispatch();
 
+  // Load users
+  const dispatch = useDispatch();
   const users = useSelector(state => state.users);
-  if (users.length === 0) dispatch(loadUsers());
+  useEffect(() => {
+    dispatch(loadUsers());
+  }, [dispatch]);
 
   async function onSubmit(values) {
     let user;

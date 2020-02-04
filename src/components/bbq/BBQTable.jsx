@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,14 +7,13 @@ import { loadOrders, deleteOrder } from "../../redux/actions/orderActions";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-let ranOnce = false;
 export default function BBQTable({ bbqs }) {
+  // Get orders
   const dispatch = useDispatch();
   const orders = useSelector(state => state.orders);
-  if (!ranOnce) {
+  useEffect(() => {
     dispatch(loadOrders());
-    ranOnce = true;
-  }
+  }, [dispatch]);
 
   let rowCounter = 0;
   return (
@@ -77,6 +76,11 @@ export default function BBQTable({ bbqs }) {
                       >
                         <span role="img" aria-label="delete">
                           🗑️
+                        </span>
+                      </button>{" "}
+                      <button type="button" className="btn btn-info btn-sm">
+                        <span role="img" aria-label="View Orders">
+                          🍔
                         </span>
                       </button>
                     </>

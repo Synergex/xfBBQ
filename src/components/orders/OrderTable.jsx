@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import * as orderEnums from "./orderEnums";
 import moment from "moment";
@@ -9,9 +9,12 @@ import { toast } from "react-toastify";
 import { deleteOrder } from "../../redux/actions/orderActions";
 
 export default function OrderTable({ orders, users, login }) {
+  // Get BBQs
   const dispatch = useDispatch();
   const bbqs = useSelector(state => state.bbqs);
-  if (bbqs.length === 0) dispatch(loadBBQs());
+  useEffect(() => {
+    dispatch(loadBBQs());
+  }, [dispatch]);
 
   // Turn individual orders into an array of orders
   let modifiedOrders = orders.map(order => {

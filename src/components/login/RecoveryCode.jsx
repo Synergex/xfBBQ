@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUsers, saveUser } from "../../redux/actions/userActions";
 import { Field, Form } from "react-final-form";
@@ -9,11 +9,14 @@ import { useHistory } from "react-router-dom";
 export default function RecoveryCode() {
   document.title = "𝘹𝘧BBQ - Account Recovery";
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
+  // Get users
+  const dispatch = useDispatch();
   const users = useSelector(state => state.users);
-  if (users.length === 0) dispatch(loadUsers());
+  useEffect(() => {
+    dispatch(loadUsers());
+  }, [dispatch]);
 
   async function onSubmit(values) {
     if (users.value.some(user => values.user === user.Name)) {

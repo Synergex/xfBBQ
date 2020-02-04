@@ -22,6 +22,8 @@ import BBQList from "./components/bbq/BBQList";
 import NewOrderForm from "./components/orders/NewOrderForm";
 import OrderHistory from "./components/orders/OrderHistory";
 
+import ShoppingList from "./components/shopping/ShoppingList";
+
 import LogoutPage from "./components/login/UserLogout";
 
 export default function App() {
@@ -31,6 +33,7 @@ export default function App() {
     <div className="container-fluid">
       <Header />
       {isEmpty(login) ? (
+        // Not logged in
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route
@@ -43,6 +46,7 @@ export default function App() {
           <Route component={PageNotFound} />
         </Switch>
       ) : login.Type === 1 ? (
+        // Admin logged in
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route
@@ -54,20 +58,24 @@ export default function App() {
           <Route path="/BBQList" component={BBQList} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
+          <Route path="/ShoppingList" component={ShoppingList} />
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>
       ) : login.Type !== 3 ? (
+        // Host logged in
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
           <Route path="/BBQList" component={BBQList} />
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
+          <Route path="/ShoppingList" component={ShoppingList} />
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>
       ) : (
+        // Attendee logged in
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/NewOrderForm" component={NewOrderForm} />

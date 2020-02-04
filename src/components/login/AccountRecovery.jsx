@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUsers, saveUser } from "../../redux/actions/userActions";
 import { Field, Form } from "react-final-form";
@@ -14,10 +14,12 @@ function EmailBody({ body }) {
 export default function AccountRecoveryPage() {
   document.title = "𝘹𝘧BBQ - Account Recovery";
 
+  // Get users
   const dispatch = useDispatch();
-
   const users = useSelector(state => state.users);
-  if (users.length === 0) dispatch(loadUsers());
+  useEffect(() => {
+    dispatch(loadUsers());
+  }, [dispatch]);
 
   const [body, setBody] = useState("");
   async function onSubmit(values) {

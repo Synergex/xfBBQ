@@ -50,7 +50,7 @@ export default function UserTable({ users }) {
               </td>
               <td>{moment.unix(user.Joindate).format("MM/DD/YYYY")}</td>
               <td>
-                {user.Lastlogindate === undefined
+                {user.Lastlogindate === 0
                   ? "Never"
                   : moment.unix(user.Lastlogindate).format("MM/DD/YYYY")}
               </td>

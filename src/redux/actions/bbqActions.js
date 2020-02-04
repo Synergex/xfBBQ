@@ -23,7 +23,7 @@ export function updateBBQSuccess(bbq) {
 }
 
 export function loadBBQs() {
-  return async function(dispatch) {
+  return async dispatch => {
     dispatch(beginApiCall());
     try {
       const bbqs = await bbqApi.getBBQs();

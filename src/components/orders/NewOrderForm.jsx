@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./orders.css";
 import { Form } from "react-final-form";
 import { toast } from "react-toastify";
@@ -70,7 +70,9 @@ export default function NewOrderForm({ ...props }) {
   const bbqs = useSelector(state => state.bbqs);
   const history = useHistory();
   const dispatch = useDispatch();
-  if (bbqs.length === 0) dispatch(loadBBQs());
+  useEffect(() => {
+    dispatch(loadBBQs());
+  }, [dispatch]);
 
   function beefDoneness(doneness) {
     switch (doneness) {

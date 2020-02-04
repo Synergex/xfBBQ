@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadBBQs } from "../../redux/actions/bbqActions";
 import Spinner from "../../Spinner";
@@ -6,28 +6,34 @@ import BBQTable from "./BBQTable";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-let nextBBQ;
-let bbqList;
 export default function BBQList() {
   document.title = "𝘹𝘧BBQ - BBQs";
 
+  // Get BBQs
   const dispatch = useDispatch();
-
   const bbqs = useSelector(state => state.bbqs);
-  if (Array.isArray(bbqs)) dispatch(loadBBQs());
-  else {
-    // Get closest upcoming BBQ
-    const rightNow = parseInt(moment().format("X"));
-    if (bbqs.value.length > 0) {
-      bbqList = { ...bbqs };
-      nextBBQ = bbqList.value
-        .filter(k => k.Helddate >= rightNow)
-        .sort((a, b) => a.Helddate - b.Helddate)[0];
-      bbqList.value = bbqList.value.filter(bbq => bbq.Id !== nextBBQ.Id);
-      bbqList.value.unshift(nextBBQ);
-    }
-  }
+  useEffect(() => {
+    dispatch(loadBBQs());
+  }, [dispatch]);
 
+  // Setup the BBQ list
+  const [bbqList, setBBQList] = useState({ value: [] });
+
+  // Get closest upcoming BBQ, and shove it to the top of the array
+  useEffect(() => {
+    const nextBBQ = bbqs.value
+      .filter(k => k.Helddate >= parseInt(moment().format("X")))
+      .sort((a, b) => a.Helddate - b.Helddate)[0];
+
+    if (nextBBQ) {
+      setBBQList({
+        ...bbqs,
+        value: [nextBBQ, ...bbqs.value.filter(bbq => bbq.Id !== nextBBQ.Id)]
+      });
+    } else setBBQList({ ...bbqs });
+  }, [bbqs]);
+
+  // Display the table
   return (
     <div className="jumbotron">
       <Link to="/BBQRegistrationForm">
@@ -36,7 +42,11 @@ export default function BBQList() {
         </button>
       </Link>
       <h2>BBQs</h2>
-      {Array.isArray(bbqs) ? <Spinner /> : <BBQTable bbqs={bbqList} />}
+      {bbqList.value.length > 0 && bbqList.value[0].Creationdate !== 0 ? (
+        <BBQTable bbqs={bbqList} />
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 export default {
   login: {},
-  bbqs: [],
+  bbqs: { value: [{ Id: 1, Creationdate: 0, Helddate: 0 }] },
   users: [],
   orders: []
 };
