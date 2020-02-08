@@ -92,9 +92,7 @@ export default function ShoppingList() {
         <>
           <h5>
             Shopping list for upcoming BBQ on{" "}
-            {moment
-              .unix(reducerState.nextBBQ.Creationdate)
-              .format("MM/DD/YYYY")}
+            {moment.unix(reducerState.nextBBQ.Helddate).format("MM/DD/YYYY")}
           </h5>
           Beef Patties: {reducerState.beefCount}
           <br />
