@@ -24,6 +24,8 @@ import OrderHistory from "./components/orders/OrderHistory";
 
 import ShoppingList from "./components/shopping/ShoppingList";
 
+import BBQCookingInformation from "./components/bbq/CookingInformation";
+
 import LogoutPage from "./components/login/UserLogout";
 
 export default function App() {
@@ -59,6 +61,10 @@ export default function App() {
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
           <Route path="/ShoppingList" component={ShoppingList} />
+          <Route
+            path="/BBQCookingInformation"
+            component={BBQCookingInformation}
+          />
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>
@@ -71,6 +77,10 @@ export default function App() {
           <Route path="/NewOrderForm" component={NewOrderForm} />
           <Route path="/OrderHistory" component={OrderHistory} />
           <Route path="/ShoppingList" component={ShoppingList} />
+          <Route
+            path="/BBQCookingInformation"
+            component={BBQCookingInformation}
+          />
           <Route path="/Logout" component={LogoutPage} />
           <Route component={PageNotFound} />
         </Switch>

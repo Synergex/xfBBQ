@@ -78,11 +78,18 @@ export default function BBQTable({ bbqs }) {
                           🗑️
                         </span>
                       </button>{" "}
-                      <button type="button" className="btn btn-info btn-sm">
-                        <span role="img" aria-label="View Orders">
-                          🍔
-                        </span>
-                      </button>
+                      <Link
+                        to={{
+                          pathname: "/BBQCookingInformation",
+                          state: bbq
+                        }}
+                      >
+                        <button type="button" className="btn btn-info btn-sm">
+                          <span role="img" aria-label="View Orders">
+                            🍔
+                          </span>
+                        </button>
+                      </Link>
                     </>
                   ) : (
                     <i>No actions available</i>
