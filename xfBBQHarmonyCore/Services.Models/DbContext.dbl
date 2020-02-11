@@ -51,6 +51,11 @@ namespace Services.Models
         public readwrite property Users, @DbSet<User>
 
         ;;; <summary>
+        ;;; Exposes Favorite data.
+        ;;; </summary>
+        public readwrite property Favorites, @DbSet<Favorite>
+
+        ;;; <summary>
         ;;;
         ;;; </summary>
         protected override method OnModelCreating, void

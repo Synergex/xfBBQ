@@ -39,6 +39,9 @@ tags:
   - name: Users
     description: Operations related to User table
 
+  - name: Favorites
+    description: Operations related to Favorites Table
+
 
 paths:
 
@@ -599,6 +602,192 @@ paths:
           description: Bad request
         '404':
           description: Not found (the specified user was not found)
+
+  /Favorites:
+
+    get:
+      summary: Get all favorites
+      description: Get all or a filtered collection of favorites.
+      operationId: GetFavorites
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: $expand
+          in: query
+          description: Expand one or more navigation properties.
+          type: string
+        - name: $select
+          in: query
+          description: List of properties to be returned.
+          type: string
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+        - name: $orderby
+          in: query
+          description: Order by some property
+          type: string
+        - name: $top
+          in: query
+          description: Maximum number of rows to return.
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: 'FavoriteTypes.yaml#/Favorite'
+
+    post:
+      summary: Create a favorite
+      description: Create a new favorite. When using a POST operation the primary key value will be assigned automatically. The primary key properties can be ommitted from the data in the request body, but if present will be ignored and replaced by automatically generated values.
+      operationId: PostFavorite
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: aFavorite
+          in: body
+          description: Data for favorite to create.
+          required: true
+          schema:
+            $ref: 'FavoriteTypes.yaml#/FavoritePost'
+      responses:
+        '201':
+          description: The favorite was created. The data for the new favorite will be included in the response body, including the auotmatically assigned primary key values, and the response will include a "Location" header indicating the URL that can be used to retrieve the newly created favorite.
+          schema:
+            $ref: 'FavoriteTypes.yaml#/Favorite'
+        '400':
+          description: Bad request
+
+  /Favorites/$count:
+
+    get:
+      summary: Count favorites
+      description: Count all or a filtered collection of favorites.
+      operationId: CountFavorites
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: integer
+
+  '/Favorites(Id={aId})':
+
+    get:
+      summary: Get a single favorite
+      description: Get a favorite via a complete primary key.
+      operationId: GetFavorite
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: aId
+          in: path
+          description: ID of favorite
+          required: true
+          type: integer
+        - name: $expand
+          in: query
+          description: Expand one or more navigation properties.
+          type: string
+        - name: $select
+          in: query
+          description: List of properties to be returned.
+          type: string
+      responses:
+        '200':
+          description: OK (the requested favorite was found and returned)
+          schema:
+            $ref: 'FavoriteTypes.yaml#/Favorite'
+        '404':
+          description: Not found (the requested favorite was not found)
+
+    delete:
+      summary: Delete favorite
+      description: Delete a favorite via a complete primary key.
+      operationId: DeleteFavorite
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: aId
+          in: path
+          description: ID of favorite
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No content (the specified favorite was deleted)
+        '404':
+          description: Not found content (the specified favorite was not found)
+
+    put:
+      summary: Create or update favorite
+      description: Create or update a favorite via a complete primary key.
+      operationId: CreateOrUpdateFavorite
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: aId
+          in: path
+          description: ID of favorite
+          required: true
+          type: integer
+        - name: aFavorite
+          in: body
+          description: Data for favorite to create or update.
+          required: true
+          schema:
+            $ref: 'FavoriteTypes.yaml#/Favorite'
+      responses:
+        '201':
+          description: Created (the favorite was created)
+          schema:
+            $ref: 'FavoriteTypes.yaml#/Favorite'
+        '204':
+          description: No Content (the favorite was updated)
+        '400':
+          description: Bad request
+
+    patch:
+      summary: Patch favorite
+      description: Patch a favorite via complete primary key.
+      operationId: PatchFavorite
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: aId
+          in: path
+          description: ID of favorite
+          required: true
+          type: integer
+        - name: aPatchDocument
+          in: body
+          description: JSON patch document describing the changes to make to the favorite.
+          required: true
+          schema:
+            $ref: '#/definitions/PatchRequest'
+      responses:
+        '204':
+          description: No content (the specified favorite was patched)
+        '400':
+          description: Bad request
+        '404':
+          description: Not found (the specified favorite was not found)
 definitions:
   PatchRequest:
     type: array

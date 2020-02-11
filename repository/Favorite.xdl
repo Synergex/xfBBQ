@@ -1,6 +1,6 @@
 !	Synergy ISAM XDL File created Mon Feb 10 14:30:49 2020
 FILE
-	NAME		"User.ism"
+	NAME		"Favorite.ism"
 	ADDRESSING	32
 	PAGE_SIZE	1024
 	NETWORK_ENCRYPT	no
@@ -8,7 +8,7 @@ FILE
 	KEYS		1
 
 RECORD
-	SIZE		429
+	SIZE		23
 	FORMAT		fixed
 	COMPRESS_DATA	no
 

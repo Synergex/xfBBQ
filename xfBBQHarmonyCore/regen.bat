@@ -28,7 +28,7 @@ set TraditionalBridgeProject=TraditionalBridge
 rem ================================================================================================================================
 rem Specify the names of the repository structures to generate code from:
 
-set DATA_STRUCTURES=BBQ ORDER USER
+set DATA_STRUCTURES=BBQ ORDER USER FAVORITE
 set DATA_ALIASES=%DATA_STRUCTURES%
 set DATA_FILES=%DATA_STRUCTURES%
 

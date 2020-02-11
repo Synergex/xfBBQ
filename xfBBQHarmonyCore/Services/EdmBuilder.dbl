@@ -98,6 +98,7 @@ namespace Services
             builder.EntitySet<Bbq>("Bbqs")
             builder.EntitySet<Order>("Orders")
             builder.EntitySet<User>("Users")
+            builder.EntitySet<Favorite>("Favorites")
 
             ;;Entities with a single primary key segment have the key declared to EF via a
             ;;{Key} attribute on the appropriate property in the data model, but only one {key}
@@ -118,6 +119,8 @@ namespace Services
             data orderType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.Order")
 
             data userType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.User")
+
+            data favoriteType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.Favorite")
 
             ;;-----------------------------------------------
             ;;If we have a PostEdmModelCustom method, call it 

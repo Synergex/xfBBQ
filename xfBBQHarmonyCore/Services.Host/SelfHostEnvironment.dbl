@@ -115,6 +115,19 @@ namespace Services.Host
                     Startup.LogicalNames.Add(fileSpec)
             end
 
+            fileSpec = "DAT:FAVORITE.ism"
+            if (fileSpec.Contains(":")) then
+            begin
+                logical = fileSpec.Split(":")[1].ToUpper()
+                if (!Startup.LogicalNames.Contains(logical))
+                    Startup.LogicalNames.Add(logical)
+            end
+            else if (!fileSpec.Contains("."))
+            begin
+                if (!Startup.LogicalNames.Contains(fileSpec))
+                    Startup.LogicalNames.Add(fileSpec)
+            end
+
             ;;If we have a SetLogicalsCustom method, call it
             SetLogicalsCustom(Startup.LogicalNames)
 
@@ -145,6 +158,7 @@ namespace Services.Host
             data bbqs = loadBbqs()
             data orders = loadOrders()
             data users = loadUsers()
+            data favorites = loadFavorites()
 
             ;;Create and load the bbqs file
 
@@ -179,6 +193,17 @@ namespace Services.Host
                 store(chout,user.SynergyRecord)
             close chout
 
+            ;;Create and load the favorites file
+
+            dataFile = "DAT:FAVORITE.ism"
+            xdlFile = "@" + dataFile.ToLower().Replace(".ism",".xdl")
+
+            data favorite, @Favorite
+            open(chout=0,o:i,dataFile,FDL:xdlFile)
+            foreach favorite in favorites
+                store(chout,favorite.SynergyRecord)
+            close chout
+
         endmethod
 
         private static method deleteFiles, void
@@ -209,6 +234,17 @@ namespace Services.Host
             try
             begin
                 xcall delet("DAT:User.ism")
+            end
+            catch (e, @NoFileFoundException)
+            begin
+                nop
+            end
+            endtry
+
+            ;;Delete the favorites file
+            try
+            begin
+                xcall delet("DAT:FAVORITE.ism")
             end
             catch (e, @NoFileFoundException)
             begin
@@ -273,6 +309,25 @@ namespace Services.Host
         eof,
             close userCh
             mreturn users
+        endmethod
+
+        public static method loadFavorites, @List<Favorite>
+        proc
+            data dataFile = "DAT:FAVORITE.ism"
+            data textFile = dataFile.ToLower().Replace(".ism",".txt")
+            data favoriteCh, int, 0
+            data favoriteRec, strFavorite
+            data favorites = new List<Favorite>()
+            data grfa, a10
+            open(favoriteCh,i:s,textFile)
+            repeat
+            begin
+                reads(favoriteCh,favoriteRec,eof)
+                favorites.Add(new Favorite(favoriteRec, grfa))
+            end
+        eof,
+            close favoriteCh
+            mreturn favorites
         endmethod
 
         private static method findRelativeFolderForAssembly, string

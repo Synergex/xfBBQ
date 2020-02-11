@@ -24,6 +24,8 @@
     <Compile Include="Bbq.dbl" />
     <Compile Include="BbqMetaData.dbl" />
     <Compile Include="DbContext.dbl" />
+    <Compile Include="Favorite.dbl" />
+    <Compile Include="FavoriteMetaData.dbl" />
     <Compile Include="Order.dbl" />
     <Compile Include="OrderMetaData.dbl" />
     <Compile Include="User.dbl" />

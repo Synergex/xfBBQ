@@ -5,7 +5,7 @@
 ;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
 ;                 : Version 11.1.1b
 ;
-;  GENERATED      : 23-JAN-2020, 17:42:19
+;  GENERATED      : 10-FEB-2020, 14:29:29
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -41,6 +41,44 @@ Field HELDDATE   Type DECIMAL   Size 10
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "ID of BBQ"
    Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
+ 
+Structure FAVORITE   DBL ISAM
+   Description "Favorites Table"
+ 
+Field ID   Type DECIMAL   Size 8
+   Description "ID of favorite"
+ 
+Field MEAT   Type DECIMAL   Size 1
+   Description "What burger meat"
+ 
+Field CHEESE   Type DECIMAL   Size 1
+   Description "Amount of cheese slices"
+ 
+Field DONENESS   Type DECIMAL   Size 1
+   Description "Temperature of burger meat"
+ 
+Field SPICY   Type DECIMAL   Size 1
+   Description "Pungency of burger"
+ 
+Field TYPE   Type DECIMAL   Size 1
+   Description "Hotdog type"
+ 
+Field COUNT   Type DECIMAL   Size 1
+   Description "Amount of hotdogs"
+ 
+Field BURNT   Type DECIMAL   Size 1
+   Description "Whehter the hotdog is to be burnt or not"
+ 
+Field USERID   Type DECIMAL   Size 8
+   Description "ID of user who favored"
+ 
+Key ID   ACCESS   Order ASCENDING   Dups NO
+   Description "ID of order"
+   Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
+ 
+Key USERID   FOREIGN
+   Description "ID of user who ordered"
+   Segment FIELD   USERID
  
 Structure ORDER   DBL ISAM
    Description "Order Table"
@@ -143,6 +181,10 @@ Key ID   ACCESS   Order ASCENDING   Dups NO
 File BBQ   DBL ISAM   "DAT:BBQ.ism"
    Description "BBQ File"
    Assign BBQ
+ 
+File FAVORITE   DBL ISAM   "DAT:FAVORITE.ism"
+   Description "Favorite File"
+   Assign FAVORITE
  
 File ORDER   DBL ISAM   "DAT:Order.ism"
    Description "Order File"

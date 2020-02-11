@@ -1,16 +1,16 @@
 {
     "info": {
-        "_postman_id": "a2401d3e-c698-42e0-bfd0-c5e74c141340",
+        "_postman_id": "2b557052-ce0f-4ecd-994c-ebe506bf8bd2",
         "name": "Harmony Core Sample API",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
         {
-            "_postman_id": "d18b1516-2af8-4f86-b43b-e459d0c30b2e",
+            "_postman_id": "1039cbe3-8fe3-4a91-9a2a-2645c0b4ce38",
             "name": "Bbq Tests",
             "item": [
                 {
-                    "_postman_id": "0fe2d36b-a967-4bcd-ab8c-b847d42322eb",
+                    "_postman_id": "e0456154-0ba0-4ecb-9cb5-642fc21d2577",
                     "name": "Read bbqs",
                     "request": {
                         "method": "GET",
@@ -38,7 +38,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "5aeb87b1-4b49-4c27-bf89-bf2758985777",
+                    "_postman_id": "94827a33-a1d6-40bd-b545-32604a188d87",
                     "name": "Count bbqs",
                     "request": {
                         "method": "GET",
@@ -67,7 +67,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "7f4e69bb-9750-469d-a6ca-cc3aac6685ff",
+                    "_postman_id": "525c7650-42d6-4180-b4e8-872fcff4cd7f",
                     "name": "Read bbq",
                     "request": {
                     "method": "GET",
@@ -95,7 +95,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "92530b5c-d383-4297-95b6-f39dd268db47",
+                    "_postman_id": "a78ca03c-1228-4330-b285-680c175972c6",
                     "name": "Create bbq (auto assign key)",
                     "request": {
                     "method": "POST",
@@ -123,7 +123,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "4ef7c5bb-cbcd-4340-a4f5-d28b1c89906e",
+                    "_postman_id": "877db2cd-0864-45f3-bf21-4cdbb18d3de4",
                     "name": "Create or update bbq",
                     "request": {
                     "method": "PUT",
@@ -178,7 +178,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "062073c3-92c5-467a-89f6-8493aef9846c",
+                    "_postman_id": "40807072-201a-4987-b00f-559a65fe5193",
                     "name": "Delete bbq",
                     "request": {
                     "method": "DELETE",
@@ -207,11 +207,11 @@
             ]
         },
         {
-            "_postman_id": "f09a35b7-3c51-4f3b-a01a-aa1172b4ff79",
+            "_postman_id": "e6d608b7-0b44-4da9-aac0-f2c58b388392",
             "name": "Order Tests",
             "item": [
                 {
-                    "_postman_id": "09a3a5e8-9f3f-47ba-877b-ec041e7fa558",
+                    "_postman_id": "6d336884-346c-4307-a70a-3ddc909c3ba6",
                     "name": "Read orders",
                     "request": {
                         "method": "GET",
@@ -239,7 +239,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "3face3a3-9c12-4db6-9c14-c8f66b12dbf2",
+                    "_postman_id": "a4dcd402-410c-47e2-b3ab-55793a967acc",
                     "name": "Count orders",
                     "request": {
                         "method": "GET",
@@ -268,7 +268,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "6a6e9a71-3bba-438a-8957-befc107ca0c2",
+                    "_postman_id": "15859984-1b9f-4525-a374-b1d27b0ab478",
                     "name": "Read order",
                     "request": {
                     "method": "GET",
@@ -296,7 +296,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "e303e9be-66e5-4187-a37a-dd6e49b68a06",
+                    "_postman_id": "2c4e3d64-064e-4a82-bffc-65e3baa69b6c",
                     "name": "Create order (auto assign key)",
                     "request": {
                     "method": "POST",
@@ -324,7 +324,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "cce41e40-57ae-47a8-bfc1-cc63484b1d15",
+                    "_postman_id": "b28ce531-84e8-4141-8d73-04e33a655c5a",
                     "name": "Create or update order",
                     "request": {
                     "method": "PUT",
@@ -379,7 +379,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "1c8ee1c0-716d-43f4-8c24-a9342ae2998d",
+                    "_postman_id": "e1912bd7-1b21-43e8-82ce-bc89cce3692b",
                     "name": "Delete order",
                     "request": {
                     "method": "DELETE",
@@ -408,11 +408,11 @@
             ]
         },
         {
-            "_postman_id": "67a50eb0-1832-42b4-8094-e87db2c49a4c",
+            "_postman_id": "e16f096c-6483-4e2a-a6fa-e52b2cf16aa6",
             "name": "User Tests",
             "item": [
                 {
-                    "_postman_id": "0975872c-832e-4903-8ff8-8feada0ded92",
+                    "_postman_id": "d8815c69-e5a2-4439-9746-8ba0c59eb6d0",
                     "name": "Read users",
                     "request": {
                         "method": "GET",
@@ -440,7 +440,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "5a33d83b-1cd9-4f20-b2cc-1e4d60235549",
+                    "_postman_id": "3f3baa47-70ff-4efa-b290-f932bab8671d",
                     "name": "Count users",
                     "request": {
                         "method": "GET",
@@ -469,7 +469,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "27b03f35-57de-4533-9b5a-0837268d8f59",
+                    "_postman_id": "193aaaeb-9deb-43a5-81c4-be14704fcf30",
                     "name": "Read user",
                     "request": {
                     "method": "GET",
@@ -497,7 +497,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "76c5bac0-4a1f-40a5-9ba8-770fea727522",
+                    "_postman_id": "ed2341dd-bc18-4c8c-ab67-e586eac5e472",
                     "name": "Create user (auto assign key)",
                     "request": {
                     "method": "POST",
@@ -509,7 +509,7 @@
                     ],
                     "body": {
                         "mode": "raw",
-                         "raw": "{\n    \"Id\": 123,\n    \"Joindate\": 123,\n    \"Type\": 123,\n    \"Email\": \"ABC\",\n    \"Lastlogindate\": 123,\n    \"Hash\": \"ABC\",\n    \"Name\": \"ABC\"\n}"
+                         "raw": "{\n    \"Id\": 123,\n    \"Joindate\": 123,\n    \"Type\": 123,\n    \"Email\": \"ABC\",\n    \"Lastlogindate\": 123,\n    \"Hash\": \"ABC\",\n    \"Name\": \"ABC\",\n    \"Recoverycode\": \"ABC\"\n}"
                     },
                     "url": {
                         "raw": "{{ServerBaseUri}}/Users",
@@ -525,7 +525,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "0afdda6f-eb25-464f-9e41-d2cd4c96a9ca",
+                    "_postman_id": "f4ac40ae-a741-4f8b-a806-1874c5a8ffe2",
                     "name": "Create or update user",
                     "request": {
                     "method": "PUT",
@@ -537,7 +537,7 @@
                     ],
                     "body": {
                         "mode": "raw",
-                         "raw": "{\n    \"Id\": 123,\n    \"Joindate\": 123,\n    \"Type\": 123,\n    \"Email\": \"ABC\",\n    \"Lastlogindate\": 123,\n    \"Hash\": \"ABC\",\n    \"Name\": \"ABC\"\n}"
+                         "raw": "{\n    \"Id\": 123,\n    \"Joindate\": 123,\n    \"Type\": 123,\n    \"Email\": \"ABC\",\n    \"Lastlogindate\": 123,\n    \"Hash\": \"ABC\",\n    \"Name\": \"ABC\",\n    \"Recoverycode\": \"ABC\"\n}"
                     },
                     "url": {
                         "raw": "{{ServerBaseUri}}/Users(Id=123)",
@@ -580,7 +580,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "8227116b-1a8e-460c-a89b-9ea71f5deb5f",
+                    "_postman_id": "7cf6a8ee-dbc4-41f6-87e5-da3384704a76",
                     "name": "Delete user",
                     "request": {
                     "method": "DELETE",
@@ -607,13 +607,214 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "_postman_id": "368cf4e5-b5f4-4728-abd0-ab5c7dc2f2d1",
+            "name": "Favorite Tests",
+            "item": [
+                {
+                    "_postman_id": "ba9ae313-8f30-4eb0-8a6a-ebcf91a64c8b",
+                    "name": "Read favorites",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{ServerBaseUri}}/Favorites",
+                            "host": [
+                                "{{ServerBaseUri}}"
+                            ],
+                            "path": [
+                                "Favorites"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+                ,
+                {
+                    "_postman_id": "2e956534-a113-4c71-bb97-853361469e39",
+                    "name": "Count favorites",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{ServerBaseUri}}/Favorites/$count",
+                            "host": [
+                                "{{ServerBaseUri}}"
+                            ],
+                            "path": [
+                                "Favorites",
+                                "$count"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+                ,
+                {
+                    "_postman_id": "a9240137-86bc-4f97-85b9-7e28cb92aecb",
+                    "name": "Read favorite",
+                    "request": {
+                    "method": "GET",
+                    "header": [
+                        {
+                        "key": "Accept",
+                        "value": "application/json"
+                        }
+                    ],
+                    "body": {
+                        "mode": "raw",
+                        "raw": ""
+                    },
+                    "url": {
+                        "raw": "{{ServerBaseUri}}/Favorites(Id=123)",
+                        "host": [
+                            "{{ServerBaseUri}}"
+                        ],
+                        "path": [
+                            "Favorites(Id=123)"
+                        ]
+                    }
+                    },
+                    "response": []
+                }
+                ,
+                {
+                    "_postman_id": "6268b441-e5e5-4d24-a6b5-573a32c4d9fc",
+                    "name": "Create favorite (auto assign key)",
+                    "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                        }
+                    ],
+                    "body": {
+                        "mode": "raw",
+                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": 123,\n    \"Userid\": 123\n}"
+                    },
+                    "url": {
+                        "raw": "{{ServerBaseUri}}/Favorites",
+                        "host": [
+                            "{{ServerBaseUri}}"
+                        ],
+                        "path": [
+                            "Favorites"
+                        ]
+                    }
+                    },
+                    "response": []
+                }
+                ,
+                {
+                    "_postman_id": "a76d9eeb-224b-4bdb-a621-f0f9e38a68a3",
+                    "name": "Create or update favorite",
+                    "request": {
+                    "method": "PUT",
+                    "header": [
+                        {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                        }
+                    ],
+                    "body": {
+                        "mode": "raw",
+                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": 123,\n    \"Userid\": 123\n}"
+                    },
+                    "url": {
+                        "raw": "{{ServerBaseUri}}/Favorites(Id=123)",
+                        "host": [
+                            "{{ServerBaseUri}}"
+                        ],
+                        "path": [
+                            "Favorites(Id=123)"
+                        ]
+                    }
+                    },
+                    "response": []
+                }
+              ,
+                {
+                    "name": "Patch favorite",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[\r\n  {\r\n    \"op\": \"replace\",\r\n    \"path\": \"PropertyName\",\r\n    \"value\": \"PropertyValue\"\r\n  }\r\n]"
+                        },
+                    "url": {
+                        "raw": "/Favorites(Id=123)",
+                        "host": [
+                            "{{ServerBaseUri}}"
+                        ],
+                        "path": [
+                            "Favorites(Id=123)"
+                        ]
+                    }
+                    },
+                    "response": []
+                }
+                ,
+                {
+                    "_postman_id": "961e77c3-7708-4a97-a790-630b931e844c",
+                    "name": "Delete favorite",
+                    "request": {
+                    "method": "DELETE",
+                    "header": [
+                        {
+                        "key": "Accept",
+                        "value": "application/json"
+                        }
+                    ],
+                    "body": {
+                        "mode": "raw",
+                        "raw": ""
+                    },
+                    "url": {
+                        "raw": "{{ServerBaseUri}}/Favorites(Id=123)",
+                        "host": [
+                            "{{ServerBaseUri}}"
+                        ],
+                        "path": [
+                            "Favorites(Id=123)"
+                        ]
+                    }
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [
         {
             "listen": "prerequest",
             "script": {
-                "id": "a44f85f4-7f6c-4f54-9a92-4f17b4cd0d6d",
+                "id": "8cf834cc-00dc-4e88-bdac-abb6e72b6de9",
                 "type": "text/javascript",
                 "exec": [
                     ""
@@ -623,7 +824,7 @@
         {
             "listen": "test",
             "script": {
-                "id": "edb517d2-c91f-4632-be44-93acb0d98fe1",
+                "id": "9ce65923-ca45-4efb-a0b4-8d50f71eaa77",
                 "type": "text/javascript",
                 "exec": [
                     ""

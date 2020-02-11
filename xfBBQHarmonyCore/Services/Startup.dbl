@@ -152,6 +152,7 @@ namespace Services
                 objectProvider.AddDataObjectMapping<Bbq>("DAT:BBQ.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<Order>("DAT:Order.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<User>("DAT:User.ism", FileOpenMode.UpdateIndexed)
+                objectProvider.AddDataObjectMapping<Favorite>("DAT:FAVORITE.ism", FileOpenMode.UpdateIndexed)
                 mreturn objectProvider
             end
 
@@ -298,7 +299,7 @@ namespace Services
             if (env.IsDevelopment()) then
             begin
                 app.UseMiddleware(^typeof(SimulatedLatencyMiddleware), TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(1500))
-                
+
                 data loggerFactory = app.ApplicationServices.GetRequiredService<ILoggerFactory>()
                 app.UseDeveloperExceptionPage()
 
