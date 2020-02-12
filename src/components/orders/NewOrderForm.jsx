@@ -694,6 +694,11 @@ export default function NewOrderForm({ ...props }) {
                 </div>
               </div>
               <div className="col-6 text-right">
+                <button type="button" className="btn btn-lg btn-danger">
+                  <span role="img" aria-label="favorite">
+                    💖
+                  </span>
+                </button>{" "}
                 <button
                   className={
                     orderCardArray.length === 0

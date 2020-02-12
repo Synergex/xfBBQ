@@ -164,6 +164,15 @@ export default function Header() {
                   Order&nbsp;History
                 </NavLink>
               </li>
+              <li className="navbar-item">
+                <NavLink
+                  to="/Favorites"
+                  activeStyle={activeStyle}
+                  className="nav-link"
+                >
+                  Favorites
+                </NavLink>
+              </li>
             </ul>
             <div className="text-left text-lg-right">
               <ul className="navbar-nav mr-auto navbar-right">
