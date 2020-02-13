@@ -97,6 +97,15 @@ namespace Services.Models
             ;;    To segments   : ID(D8) 
 
             parm.AddOneToOneRelation<Order, Bbq>("REL_Bbq", "KEY_BBQID", "KEY_ID")
+            ;;--------------------------------------
+            ;; Relationships from FAVORITE
+
+            ;; FAVORITE.USERID (one) --> (one) USER.ID
+            ;;    Type          : C
+            ;;    From segments : USERID(D8) 
+            ;;    To segments   : ID(D8) 
+
+            parm.AddOneToOneRelation<Favorite, User>("REL_User", "KEY_USERID", "KEY_ID")
 .endregion
 
             parent.OnModelCreating(parm)
