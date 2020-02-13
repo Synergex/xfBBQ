@@ -33,6 +33,7 @@ namespace Services
         nextBBQ, strSysParams
         nextOrder, strSysParams
         nextUser, strSysParams
+        nextFavorite, strSysParams
 
         lockObj, @Object, new Object()
 
@@ -44,6 +45,7 @@ namespace Services
             init nextBBQ
             init nextOrder
             init nextUser
+            init nextFavorite
         endmethod
 
         protected override method IncrementKeyImplementation, @a
@@ -73,6 +75,14 @@ namespace Services
                 nextUser.param_value += 1
                 write(mChannel,nextUser,3)
                 mreturn (@a)%string(nextUser.param_value-1)
+            end
+            ("FAVORITE"),
+            begin
+                if (!nextFavorite.param_value)
+                    read(mChannel,nextFavorite,4,LOCK:Q_MANUAL_LOCK, wait:1)
+                nextFavorite.param_value += 1
+                write(mChannel,nextFavorite,4)
+                mreturn (@a)%string(nextFavorite.param_value-1)
             end
             endusing
         endmethod
