@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk" DefaultTargets="restore;Build">
   <Import Project="..\Common.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <DefaultLanguageSourceExtension>.dbl</DefaultLanguageSourceExtension>
     <EnableDefaultItems>false</EnableDefaultItems>
     <Name>Services.Models</Name>
@@ -11,13 +11,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Harmony.Core">
-      <Version>1.1.57</Version>
+      <Version>1.1.91</Version>
     </PackageReference>
     <PackageReference Include="Harmony.Core.EF">
-      <Version>1.1.57</Version>
+      <Version>1.1.91</Version>
     </PackageReference>
-    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1000.2668-beta1" />
-    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1000" />
+    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1030.2702" />
+    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1030" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.dbl" />

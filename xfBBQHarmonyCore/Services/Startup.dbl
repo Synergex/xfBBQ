@@ -40,6 +40,7 @@ import Microsoft.Extensions.Primitives
 import Microsoft.OData
 import Microsoft.OData.Edm
 import Microsoft.OData.UriParser
+import Microsoft.OpenApi.Models
 import System.Collections.Generic
 import System.IO
 import System.Linq
@@ -98,35 +99,7 @@ namespace Services
             ;;-------------------------------------------------------
             ;;Enable logging
 
-            data log_level ,Microsoft.Extensions.Logging.LogLevel ,Microsoft.Extensions.Logging.LogLevel.Error
-
-            data logical ,a40
-            data logLen ,int ,0
-            xcall getlog('ASPNETCORE_LOG_LEVEL',logical,logLen)
-            if (logLen)
-            begin
-                locase logical
-                using logical(1:loglen)+' ' select
-                ('0 ','trace '),
-                    log_level = Microsoft.Extensions.Logging.LogLevel.Trace
-                ('1 ','debug '),
-                    log_level = Microsoft.Extensions.Logging.LogLevel.Debug
-                ('2 ','information '),
-                    log_level = Microsoft.Extensions.Logging.LogLevel.Information
-                ('3 ','warning '),
-                    log_level = Microsoft.Extensions.Logging.LogLevel.Warning
-                ('4 ','error '),
-                    log_level = Microsoft.Extensions.Logging.LogLevel.Error
-                ('5 ','critical '),
-                    log_level = Microsoft.Extensions.Logging.LogLevel.Critical
-                ('6 ','none '),
-                    log_level = Microsoft.Extensions.Logging.LogLevel.None
-                (),
-                    throw new Exception("Invalid value for logical ODATA_LOG_LEVEL="+logical(1:loglen))
-                endusing
-            end
-
-            services.AddLogging(lambda(builder) { builder.SetMinimumLevel(log_level) })
+            services.AddLogging(lambda(builder) { builder.SetMinimumLevel(LogLevel.Error) })
 
             ;;-------------------------------------------------------
             ;;Make AppSettings available as a service
@@ -211,14 +184,14 @@ namespace Services
                 ;; note: you might choose to skip or document deprecated API versions differently
                 foreach description in provider.ApiVersionDescriptions
                 begin
-                    data info = new Info()
+                    data info = new OpenApiInfo()
                     &    {
                     &    Title = "Harmony Core Sample API " + description.ApiVersion.ToString(),
                     &    Version = description.ApiVersion.ToString(),
                     &    Description = "This environment presents an example of using Harmony Core to expose a collection of RESTful Web Service endpoints that allow you to interact with a small sample dataset.",
-                    &    Contact = new Swashbuckle.AspNetCore.Swagger.Contact() { Name = "Jodah Veloper", Email = "jodah.veloper@synergexpsg.com" },
-                    &    TermsOfService = "Open Source",
-                    &    License = new Swashbuckle.AspNetCore.Swagger.License() { Name = "BSD 2-Clause", Url = "https://opensource.org/licenses/BSD-2-Clause" }
+                    &    Contact = new OpenApiContact() { Name = "Jodah Veloper", Email = "jodah.veloper@synergexpsg.com" },
+                    &    TermsOfService = new Uri("https://opensource.org/licenses/BSD-2-Clause"),
+                    &    License = new OpenApiLicense() { Name = "BSD-2-Clause", Url = new Uri("https://opensource.org/licenses/BSD-2-Clause") }
                     &    }
 
                     options.SwaggerDoc( description.GroupName, info )
@@ -248,14 +221,16 @@ namespace Services
                 begin
                     iformatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue(sseg));
                 end
+                
+                op.MaxIAsyncEnumerableBufferLimit = int.MaxValue
             end
 
             data mvcBuilder = services.AddMvcCore(MvcCoreConfig)
             &    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2 )
             &    .AddDataAnnotations()      ;;Enable data annotations
-            &    .AddJsonFormatters()       ;;For PATCH
             &    .AddApiExplorer()          ;;Swagger UI
             &    .AddApplicationPart(^typeof(IsolatedMethodsBase).Assembly)
+            &    .AddNewtonsoftJson()
 
 
             ;;-------------------------------------------------------
@@ -271,7 +246,6 @@ namespace Services
 
             ;;If there is a ConfigureServicesCustom method, call it
             ConfigureServicesCustom(services)
-
         endmethod
 
         private AppSettingsMonitor, @IDisposable
@@ -302,33 +276,7 @@ namespace Services
 
                 data loggerFactory = app.ApplicationServices.GetRequiredService<ILoggerFactory>()
                 app.UseDeveloperExceptionPage()
-
-                data hc_log_level ,Harmony.Core.Interface.LogLevel ,Harmony.Core.Interface.LogLevel.Debug
-                data logical ,a40
-                data logLen ,int ,0
-                xcall getlog('HARMONY_CORE_LOG_LEVEL',logical,logLen)
-                if (logLen)
-                begin
-                    locase logical
-                    using logical(1:loglen)+' ' select
-                    ('0 ','trace '),
-                        hc_log_level = Harmony.Core.Interface.LogLevel.Trace
-                    ('1 ','debug '),
-                        hc_log_level = Harmony.Core.Interface.LogLevel.Debug
-                    ('2 ','information '),
-                        hc_log_level = Harmony.Core.Interface.LogLevel.Info
-                    ('3 ','warning '),
-                        hc_log_level = Harmony.Core.Interface.LogLevel.Warning
-                    ('4 ','error '),
-                        hc_log_level = Harmony.Core.Interface.LogLevel.Error
-                    ('5 ','critical '),
-                        hc_log_level = Harmony.Core.Interface.LogLevel.Critical
-                    (),
-                        throw new Exception("Invalid value for logical HARMONY_CORE_LOG_LEVEL="+logical(1:loglen))
-                    endusing
-                end
-
-                DebugLogSession.Logging = new AspNetCoreDebugLogger(loggerFactory.CreateLogger("HarmonyCore")) { Level = hc_log_level }
+                DebugLogSession.Logging = new AspNetCoreDebugLogger(loggerFactory.CreateLogger("HarmonyCore")) { Level = Harmony.Core.Interface.LogLevel.Debug }
                 app.UseLogging(DebugLogSession.Logging)
             end
             else
@@ -386,6 +334,8 @@ namespace Services
                         versionedModel = versionedModelDescriptor.ImplementationFactory(app.ApplicationServices)
                     containerBuilder.AddService<IEdmModel>(Microsoft.OData.ServiceLifetime.Scoped, lambda(sp) { new RefEdmModel() { RealModel = ^as(versionedModel, @IEdmModel) }  })
                     containerBuilder.AddService<ODataUriResolver>(Microsoft.OData.ServiceLifetime.Singleton, lambda(sp) { new UnqualifiedAltKeyUriResolver(^as(versionedModel, @IEdmModel)) { EnableCaseInsensitive = true } })
+                    containerBuilder.AddService<IODataPathTemplateHandler, PathTemplateHandler>( Microsoft.OData.ServiceLifetime.Singleton)
+                    containerBuilder.AddService<IODataPathHandler, PathTemplateHandler>( Microsoft.OData.ServiceLifetime.Singleton)
                 end
 
                 ;;Enable support for dependency injection into controllers
