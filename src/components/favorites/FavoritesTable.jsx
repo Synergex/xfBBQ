@@ -1,18 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import * as orderEnums from "../orders/orderEnums";
-import moment from "moment";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loadBBQs } from "../../redux/actions/bbqActions";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { deleteOrder } from "../../redux/actions/orderActions";
+import { deleteFavorite } from "../../redux/actions/favoriteActions";
 
 export default function FavoritesTable({ favorites, users, login }) {
+  const dispatch = useDispatch();
+
   // Turn individual orders into an array of orders
   let modifiedFavorites = favorites.map(favorite => {
     return {
-      Userid: favorite.Userid,
+      ...favorite,
       theirFavorites: [
         {
           meat: favorite.Meat,
@@ -113,7 +112,29 @@ export default function FavoritesTable({ favorites, users, login }) {
                     📝
                   </span>
                 </button>{" "}
-                <button type="button" className="btn btn-danger btn-sm">
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm"
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this favorite order?"
+                      )
+                    ) {
+                      toast.info(
+                        "Deleting favorite order " + favorite.Id + "..."
+                      );
+                      favorites
+                        .filter(
+                          favoriteIter =>
+                            favorite.Userid === favoriteIter.Userid
+                        )
+                        .forEach(favorite =>
+                          dispatch(deleteFavorite(favorite))
+                        );
+                    }
+                  }}
+                >
                   <span role="img" aria-label="delete">
                     🗑️
                   </span>
