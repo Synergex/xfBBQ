@@ -24,7 +24,6 @@ export default function ShoppingList() {
       turkeyCount: 0,
       vegetarianCount: 0,
       cheeseCount: 0,
-      bunCount: 0,
       hotdogCount: 0
     }
   );
@@ -32,56 +31,44 @@ export default function ShoppingList() {
 
   // Fetch queries when bbqs are finally loaded
   useEffect(() => {
-    (async function countFunction() {
-      setUpcomingBBQs(
-        bbqs.value
-          .filter(bbq => bbq.Helddate >= parseInt(moment().format("X")))
-          .sort((a, b) => a.Helddate - b.Helddate)
-      );
-      const nextBBQ = bbqs.value
+    setUpcomingBBQs(
+      bbqs.value
         .filter(bbq => bbq.Helddate >= parseInt(moment().format("X")))
-        .sort((a, b) => a.Helddate - b.Helddate)[0];
+        .sort((a, b) => a.Helddate - b.Helddate)
+    );
+    const nextBBQ = bbqs.value
+      .filter(bbq => bbq.Helddate >= parseInt(moment().format("X")))
+      .sort((a, b) => a.Helddate - b.Helddate)[0];
 
-      if (nextBBQ) {
-        const nextBBQID = nextBBQ.Id;
+    if (nextBBQ) {
+      const nextBBQID = nextBBQ.Id;
 
-        const beefCount = await fetchQuery(
-          "Orders/$count?$filter=Bbqid eq " + nextBBQID + " and Meat eq 1"
-        );
-        const turkeyCount = await fetchQuery(
-          "Orders/$count?$filter=Bbqid eq " + nextBBQID + " and Meat eq 2"
-        );
-        const vegetarianCount = await fetchQuery(
-          "Orders/$count?$filter=Bbqid eq " + nextBBQID + " and Meat eq 3"
-        );
-        const cheeseOrders = await fetchQuery(
-          "Orders?$filter=Bbqid eq " + nextBBQID + "&$select=Cheese"
-        );
-        const cheeseCount = cheeseOrders.value.reduce(
-          (a, b) => a + b.Cheese,
-          0
-        );
-        const bunCount = beefCount + turkeyCount + vegetarianCount;
+      fetchQuery(
+        `Orders/$count?$filter=Bbqid eq ${nextBBQID} and Meat eq 1`
+      ).then(value => setReducerState({ beefCount: value }));
+      fetchQuery(
+        `Orders/$count?$filter=Bbqid eq ${nextBBQID} and Meat eq 2`
+      ).then(value => setReducerState({ turkeyCount: value }));
+      fetchQuery(
+        `Orders/$count?$filter=Bbqid eq ${nextBBQID} and Meat eq 3`
+      ).then(value => setReducerState({ vegetarianCount: value }));
 
-        const hotdogOrdersCount = await fetchQuery(
-          "Orders?$filter=Bbqid eq " + nextBBQID + "&$select=Count"
-        );
-        const hotdogCount = hotdogOrdersCount.value.reduce(
-          (a, b) => a + b.Count,
-          0
-        );
+      fetchQuery(`Orders?$filter=Bbqid eq ${nextBBQID} &$select=Cheese`).then(
+        value =>
+          setReducerState({
+            cheeseCount: value.value.reduce((a, b) => a + b.Cheese, 0)
+          })
+      );
 
-        setReducerState({
-          nextBBQ,
-          beefCount,
-          turkeyCount,
-          vegetarianCount,
-          cheeseCount,
-          bunCount,
-          hotdogCount
-        });
-      }
-    })();
+      fetchQuery(`Orders?$filter=Bbqid eq ${nextBBQID} &$select=Count`).then(
+        value =>
+          setReducerState({
+            hotdogCount: value.value.reduce((a, b) => a + b.Count, 0)
+          })
+      );
+
+      setReducerState({ nextBBQ });
+    }
   }, [bbqs]);
 
   // Present results
@@ -102,7 +89,10 @@ export default function ShoppingList() {
           <br />
           Cheese Slices: {reducerState.cheeseCount}
           <br />
-          Hamburger Buns: {reducerState.bunCount}
+          Hamburger Buns:{" "}
+          {reducerState.beefCount +
+            reducerState.turkeyCount +
+            reducerState.vegetarianCount}
           <br />
           Hotdogs and Hotdog Buns: {reducerState.hotdogCount}
           <br />
@@ -110,12 +100,7 @@ export default function ShoppingList() {
       ) : bbqs.value.length > 0 && upcomingBBQs.length <= 0 ? (
         <>There are no upcoming BBQs.</>
       ) : (
-        <>
-          <Spinner />
-          <center>
-            <i>Crunching the numbers...</i>
-          </center>
-        </>
+        <Spinner />
       )}
     </div>
   );
