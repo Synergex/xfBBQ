@@ -78,7 +78,7 @@ export default function BBQCookingInformation({ ...props }) {
   );
 
   // Query for everything
-  const bbqID = props.location ? 0 : props.location.state.Id;
+  const bbqID = props.location.state ? props.location.state.Id : 0;
   document.title = "BBQ Information for BBQ " + bbqID;
   const [queryResult, setQueryResult] = useState(undefined);
   useEffect(() => {
