@@ -78,285 +78,160 @@ export default function BBQCookingInformation({ ...props }) {
   );
 
   // Query for everything
-  const bbqID = props.location.state.Id;
+  const bbqID = props.location ? 0 : props.location.state.Id;
   document.title = "BBQ Information for BBQ " + bbqID;
   const [queryResult, setQueryResult] = useState(undefined);
   useEffect(() => {
-    (async function fetchFunction() {
-      setQueryResult(
-        await fetchQuery(
-          "Orders?$filter=Bbqid eq " + bbqID + "&$orderby=Userid"
-        )
-      );
+    fetchQuery(
+      `Orders?$filter=Bbqid eq ${bbqID} &$orderby=Userid`
+    ).then(value => setQueryResult(value));
 
-      // Rare Beef
-      const rareNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 1 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ rareNormal });
-      const rareCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 1 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ rareCheesy });
-      const rareSpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 1 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ rareSpicy });
-      const rareCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 1 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ rareCheesySpicy });
-      const rareTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 1"
-      );
-      setReducerState({ rareTotal });
+    // Rare Beef
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ rareNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ rareCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ rareSpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ rareCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1`
+    ).then(value => setReducerState({ rareTotal: value }));
 
-      // Med Rare Beef
-      const medRareNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 2 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ medRareNormal });
-      const medRareCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 2 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ medRareCheesy });
-      const medRareSpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 2 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ medRareSpicy });
-      const medRareCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 2 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ medRareCheesySpicy });
-      const medRareTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 2"
-      );
-      setReducerState({ medRareTotal });
+    // Med Rare Beef
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ medRareNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ medRareCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ medRareSpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ medRareCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2`
+    ).then(value => setReducerState({ medRareTotal: value }));
 
-      // Med Beef
-      const medNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 3 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ medNormal });
-      const medCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 3 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ medCheesy });
-      const medSpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 3 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ medSpicy });
-      const medCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 3 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ medCheesySpicy });
-      const medTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 3"
-      );
-      setReducerState({ medTotal });
+    // Med Beef
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ medNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ medCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ medSpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ medCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3`
+    ).then(value => setReducerState({ medTotal: value }));
 
-      // Med Well Beef
-      const medWellNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 4 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ medWellNormal });
-      const medWellCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 4 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ medWellCheesy });
-      const medWellSpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 4 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ medWellSpicy });
-      const medWellCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 4 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ medWellCheesySpicy });
-      const medWellTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 4"
-      );
-      setReducerState({ medWellTotal });
+    // Med Well Beef
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ medWellNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ medWellCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ medWellSpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ medWellCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4`
+    ).then(value => setReducerState({ medWellTotal: value }));
 
-      // Well Beef
-      const wellNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 5 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ wellNormal });
-      const wellCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 5 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ wellCheesy });
-      const wellSpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 5 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ wellSpicy });
-      const wellCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 5 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ wellCheesySpicy });
-      const wellTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Doneness eq 5"
-      );
-      setReducerState({ wellTotal });
+    // Well Beef
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ wellNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ wellCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ wellSpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ wellCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5`
+    ).then(value => setReducerState({ wellTotal: value }));
 
-      // Totals
-      const totalNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ totalNormal });
-      const totalCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ totalCheesy });
-      const totalSpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ totalSpicy });
-      const totalCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 1 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ totalCheesySpicy });
-      const totalTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " + bbqID + "and Meat eq 1"
-      );
-      setReducerState({ totalTotal });
+    // Totals
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ totalNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ totalCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ totalSpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ totalCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1`
+    ).then(value => setReducerState({ totalTotal: value }));
 
-      // Turkey
-      const turkeyNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 2 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ turkeyNormal });
-      const turkeyCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 2 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ turkeyCheesy });
-      const turkeySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 2 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ turkeySpicy });
-      const turkeyCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 2 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ turkeyCheesySpicy });
-      const turkeyTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " + bbqID + " and Meat eq 2"
-      );
-      setReducerState({ turkeyTotal });
+    // Turkey
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ turkeyNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ turkeyCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ turkeySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ turkeyCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2`
+    ).then(value => setReducerState({ turkeyTotal: value }));
 
-      // Vegetarian
-      const vegetarianNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 3 and Cheese eq 0 and Spicy eq 0"
-      );
-      setReducerState({ vegetarianNormal });
-      const vegetarianCheesy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 3 and Cheese ge 1 and Spicy eq 0"
-      );
-      setReducerState({ vegetarianCheesy });
-      const vegetarianSpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 3 and Cheese eq 0 and Spicy ge 1"
-      );
-      setReducerState({ vegetarianSpicy });
-      const vegetarianCheesySpicy = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Meat eq 3 and Cheese ge 1 and Spicy ge 1"
-      );
-      setReducerState({ vegetarianCheesySpicy });
-      const vegetarianTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " + bbqID + " and Meat eq 3"
-      );
-      setReducerState({ vegetarianTotal });
+    // Vegetarian
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese eq 0 and Spicy eq 0`
+    ).then(value => setReducerState({ vegetarianNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese ge 1 and Spicy eq 0`
+    ).then(value => setReducerState({ vegetarianCheesy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese eq 0 and Spicy ge 1`
+    ).then(value => setReducerState({ vegetarianSpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese ge 1 and Spicy ge 1`
+    ).then(value => setReducerState({ vegetarianCheesySpicy: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3`
+    ).then(value => setReducerState({ vegetarianTotal: value }));
 
-      // Hotdogs
-      const hotdogNormal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Type ge 1 and Burnt eq 0"
-      );
-      setReducerState({ hotdogNormal });
-      const hotdogBurnt = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " +
-          bbqID +
-          " and Type ge 1 and Burnt ge 1"
-      );
-      setReducerState({ hotdogBurnt });
-      const hotdogTotal = await fetchQuery(
-        "Orders/$count?$filter=Bbqid eq " + bbqID + " and Type ge 1"
-      );
-      setReducerState({ hotdogTotal });
-    })();
+    // Hotdogs
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Type ge 1 and Burnt eq 0`
+    ).then(value => setReducerState({ hotdogNormal: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Type ge 1 and Burnt ge 1`
+    ).then(value => setReducerState({ hotdogBurnt: value }));
+    fetchQuery(
+      `Orders/$count?$filter=Bbqid eq ${bbqID} and Type ge 1`
+    ).then(value => setReducerState({ hotdogTotal: value }));
   }, [bbqID]);
 
   // Display results
