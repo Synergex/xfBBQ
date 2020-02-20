@@ -264,38 +264,16 @@ namespace Services.Models
         endmethod
 
         ;;; <summary>
-        ;;; Validate data for one-to-one relations
+        ;;; Validate data
         ;;; </summary>
         ;;; <param name="type">Validation type (create, update or delete)</param>
         ;;; <param name="sp">Serices provider</param>
         public override method Validate, void
             required in vType, ValidationType
             required in sp, @IServiceProvider
-
-            ;;From key for REL_User
-            record rel1FromKey
-              userid, d8
-            endrecord
         proc
-            ;;No relation validation if the record is being deleted
-            if (vType == ValidationType.Delete)
-                mreturn
-
-            ;;Get an instance of IDataObjectProvider
-            data doProvider, @IDataObjectProvider, sp.GetService<IDataObjectProvider>()
-
-            ;;--------------------------------------------------------------------------------
-            ;;Validate data for relation 1 (REL_User)
-
-            rel1FromKey.userid = mSynergyData.userid
-            disposable data rel1FileIO = doProvider.GetFileIO<User>()
-            if (rel1FileIO.FindRecord(0,rel1FromKey) != FileAccessResults.Success)
-                throw new ValidationException("Invalid data for relation REL_User")
-
-
             ;;If we have a ValidateCustom method, call it
             ValidateCustom(vType,sp)
-
         endmethod
 
 
@@ -306,24 +284,12 @@ namespace Services.Models
 
 .endregion
 
-.region "Relationships to other entities"
-
-        ;;; <summary>
-        ;;; Relationship (Type C)
-        ;;; FAVORITE.USERID (one) --> (one) USER.ID
-        ;;; </summary>
-        public readwrite property REL_User, @User
-
-.endregion
-
 .region "Properties to represent keys"
 
         ;;Access keys
 
         private _KEY_ID, string, ""
         public readonly property KEY_ID, string, ""
-
-        ;;Foreign keys
 
         private _KEY_USERID, string, ""
         public readonly property KEY_USERID, string, ""

@@ -119,8 +119,10 @@ namespace Services
             data orderType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.Order")
 
             data userType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.User")
+      
 
             data favoriteType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.Favorite")
+            tempModel.AddAlternateKeyAnnotation(favoriteType, new Dictionary<string, IEdmProperty>() {{"Userid",favoriteType.FindProperty("Userid")}})
 
             ;;-----------------------------------------------
             ;;If we have a PostEdmModelCustom method, call it 

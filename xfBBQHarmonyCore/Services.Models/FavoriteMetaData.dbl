@@ -50,11 +50,9 @@ namespace Services.Models
             AddFieldInfo("Burnt", "DECIMAL", 1, 15, 0, false)
             AddFieldInfo("Userid", "DECIMAL", 8, 16, 0, false)
 
-            ;; Define relations
-            AddFieldInfo("REL_User", "DATAOBJECT", 0, 0, 0, false)
-
             ;; Define all fields that are associated wity key segments
             AddKeyInfo(0, "Id")
+            AddKeyInfo(1, "Userid")
 
             ;; Define the composition of access keys
 
@@ -62,11 +60,10 @@ namespace Services.Models
             Id_KeyParts[1] = GetFieldByName("Id")
             AddFieldInfo("KEY_ID", "COMPOSITE", 0, 0, 0, false, ^null, ^null, Id_KeyParts)
 
-            ;; Define the composition of foreign keys
-
             data Userid_KeyParts = new FieldDataDefinition[1]
             Userid_KeyParts[1] = GetFieldByName("Userid")
             AddFieldInfo("KEY_USERID", "COMPOSITE", 0, 0, 0, false, ^null, ^null, Userid_KeyParts)
+
 
             ;;If we have an InitializeCustomFields method then call it.
             InitializeCustomFields()
@@ -75,7 +72,6 @@ namespace Services.Models
 
         ;;; <summary>
         ;;; Returns a new Favorite object containing data from a record and a GRFA.
-        ;;; The related data properties (REL_User) will not be populated.
         ;;; </summary>
         ;;; <param name="dataArea">The record containing the data for the new Favorite object.</param>
         ;;; <param name="grfa">The GRFA associated with the current state of the data.</param>
@@ -89,11 +85,10 @@ namespace Services.Models
 
         ;;; <summary>
         ;;; Returns a new Favorite object containing data from a record and a GRFA.
-        ;;; The related data properties (REL_User) will be populated.
         ;;; </summary>
         ;;; <param name="dataArea">The record containing the data for the new Favorite object.</param>
         ;;; <param name="grfa">The GRFA associated with the current state of the data.</param>
-        ;;; <param name="joinedObjects">Data to allow the related data properties (REL_User) to be populated.</param>
+        ;;; <param name="joinedObjects">Data to allow the related data properties to be populated.</param>
         ;;; <returns></returns>
         public override method MakeNew, @DataObjectBase
             required in dataArea, a
@@ -101,14 +96,6 @@ namespace Services.Models
             required in joinedObjects, [#]KeyValuePair<String, Object>
         proc
             data newFavorite = new Favorite(dataArea, grfa)
-            data joinedObject, KeyValuePair<String, Object>
-            foreach joinedObject in joinedObjects
-            begin
-                using joinedObject.Key select
-                ("REL_User"),
-                    newFavorite.REL_User = (@User)joinedObject.Value
-                endusing
-            end
 
             mreturn newFavorite
 
@@ -127,6 +114,9 @@ namespace Services.Models
             stack record key0
                 Id, D8
             endrecord
+            stack record key1
+                Userid, D8
+            endrecord
         proc
             data startPos = 0
             data segValueLength, int
@@ -136,6 +126,12 @@ namespace Services.Models
                 if((segValueLength=KeyValueHelper(key0.Id, "Id", parts))<8 && segValueLength>0)
                     mreturn key0(1:startPos+segValueLength)
                 mreturn key0
+            end
+            (1),
+            begin
+                if((segValueLength=KeyValueHelper(key1.Userid, "Userid", parts))<8 && segValueLength>0)
+                    mreturn key1(1:startPos+segValueLength)
+                mreturn key1
             end
             endusing
 

@@ -788,6 +788,74 @@ paths:
           description: Bad request
         '404':
           description: Not found (the specified favorite was not found)
+
+  '/Favorites(Userid={aUserid})':
+
+    get:
+      summary: Get favorites
+      description: Get a favorites via complete alternate key Userid.
+      operationId: GetFavoritesByKeyUserid
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: aUserid
+          in: path
+          description: ID of user who favored
+          required: true
+          type: integer
+        - name: $expand
+          in: query
+          description: Expand one or more navigation properties.
+          type: string
+        - name: $select
+          in: query
+          description: List of properties to be returned.
+          type: string
+        - name: $orderby
+          in: query
+          description: Order by some property
+          type: string
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+        - name: $top
+          in: query
+          description: Maximum number of rows to return.
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: 'FavoriteTypes.yaml#/Favorite'
+
+  '/Favorites(Userid={aUserid})/$count':
+
+    get:
+      summary: Count favorites
+      description: Count favorites via complete alternate key Userid.
+      operationId: CountFavoritesByKeyUserid
+      deprecated: false
+      tags:
+        - Favorites
+      parameters:
+        - name: aUserid
+          in: path
+          description: ID of user who favored
+          required: true
+          type: integer
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: integer
 definitions:
   PatchRequest:
     type: array

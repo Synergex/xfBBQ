@@ -5,7 +5,7 @@
 ;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
 ;                 : Version 11.1.1b
 ;
-;  GENERATED      : 12-FEB-2020, 16:25:50
+;  GENERATED      : 19-FEB-2020, 14:39:52
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -76,11 +76,9 @@ Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "ID of favorite"
    Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
  
-Key USERID   FOREIGN
+Key USERID   ACCESS   Order ASCENDING   Dups YES
    Description "ID of user who favored"
    Segment FIELD   USERID
- 
-Relation  1   FAVORITE USERID   USER ID
  
 Structure ORDER   DBL ISAM
    Description "Order Table"

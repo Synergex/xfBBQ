@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AuthTools.dbl" />
     <Compile Include="BbqsController.dbl" />
+    <Compile Include="FavoritesController.Custom.dbl" />
     <Compile Include="FavoritesController.dbl" />
     <Compile Include="IsolatedMethodsBase.dbl" />
     <Compile Include="OrdersController.dbl" />

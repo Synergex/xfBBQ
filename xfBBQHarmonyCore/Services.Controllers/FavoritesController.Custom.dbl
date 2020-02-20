@@ -1,0 +1,70 @@
+import Harmony.OData.Adapter
+import System.Threading.Tasks
+import System
+import System.Collections.Generic
+import System.Text
+import Services
+import Services.Models
+import Harmony.Core.Interface
+import Harmony.Core.EF.Extensions
+import Microsoft.AspNetCore.Mvc
+import Microsoft.AspNet.OData
+import Microsoft.AspNetCore.Authorization
+import Harmony.Core.Context
+import Harmony.OData
+import Harmony.Core
+import Harmony.AspNetCore
+import System.Linq
+import Newtonsoft.Json.Linq
+import Microsoft.AspNet.OData.Routing
+import Microsoft.AspNetCore.Http
+import Microsoft.AspNetCore.Mvc.Routing
+import System.ComponentModel.DataAnnotations
+
+namespace Services.Controllers
+
+    public partial class FavoritesController extends ODataController
+        {HttpPost}
+        {ODataRoute("PostFavorites")}
+        {Produces("application/json")}
+        {ProducesResponseType(^typeof(IEnumerable<Favorite>),StatusCodes.Status200OK)}
+        {ProducesResponseType(StatusCodes.Status400BadRequest)}
+        public method PostFavorites, @IActionResult
+            parameters, @ODataActionParameters
+        proc
+            ;; Check ModelState
+            if (!ModelState.IsValid)
+                mreturn ValidationHelper.ReturnValidationError(ModelState)
+
+            ;; Get favorites
+            data favorites, @List<Favorite>, ((IEnumerable<Favorite>)parameters["Favorites"]).ToList()
+            disposable data keyFactory = (@IPrimaryKeyFactory)_ServiceProvider.GetService(^typeof(IPrimaryKeyFactory))
+
+            ;; For each favorite, assign it a primary key, and add it to _DbContext
+            try
+            begin
+                data item, @Favorite
+                foreach item in favorites
+                begin
+                    keyFactory.AssignPrimaryKey(item)
+
+                    _DbContext.Favorites.Add(item)
+                end
+            
+                ;; Save changes and return result
+                _DbContext.SaveChanges(keyFactory)
+            end
+            catch (e, @ValidationException)
+            begin
+                ModelState.AddModelError("RelationValidation", e.Message)
+                mreturn ValidationHelper.ReturnValidationError(ModelState)
+            end
+            endtry
+            
+            data madeAtUrl = string.Format("{0}://{1}/Favorites(Userid={2})", Request.Scheme, Request.Host, favorites.FirstOrDefault().Userid)
+            mreturn new CreatedResult(madeAtUrl, favorites)
+        endmethod
+
+    endclass
+
+endnamespace

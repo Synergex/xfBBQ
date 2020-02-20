@@ -64,6 +64,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EdmBuilder.Custom.dbl" />
     <Compile Include="StartupCustom.dbl" />
     <Compile Include="EdmBuilder.dbl" />
     <Compile Include="PrimaryKeyGenerator.dbl" />
