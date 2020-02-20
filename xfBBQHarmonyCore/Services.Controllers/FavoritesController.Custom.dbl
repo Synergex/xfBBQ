@@ -40,15 +40,23 @@ namespace Services.Controllers
             data favorites, @List<Favorite>, ((IEnumerable<Favorite>)parameters["Favorites"]).ToList()
             disposable data keyFactory = (@IPrimaryKeyFactory)_ServiceProvider.GetService(^typeof(IPrimaryKeyFactory))
 
-            ;; For each favorite, assign it a primary key, and add it to _DbContext
             try
             begin
                 data item, @Favorite
                 foreach item in favorites
                 begin
-                    keyFactory.AssignPrimaryKey(item)
-
-                    _DbContext.Favorites.Add(item)
+                    ;; check if Id exists, if it doesn't, assign it a primary key and add it
+                    data existing = _DbContext.Favorites.Find(item.Id)
+                    if(existing == ^null) then
+                    begin
+                        keyFactory.AssignPrimaryKey(item)
+                        _DbContext.Favorites.Add(item)
+                    end
+                    ;; Else replace it
+                    else
+                    begin
+                        item.CopyTo(existing)
+                    end
                 end
             
                 ;; Save changes and return result
