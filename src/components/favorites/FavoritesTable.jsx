@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import * as orderEnums from "../orders/orderEnums";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { deleteFavorite } from "../../redux/actions/favoriteActions";
+import { deleteUserFavorites } from "../../redux/actions/favoriteActions";
 
 export default function FavoritesTable({ favorites, users, login }) {
   const dispatch = useDispatch();
@@ -107,11 +107,6 @@ export default function FavoritesTable({ favorites, users, login }) {
                 })}
               </td>
               <td>
-                <button type="button" className="btn btn-primary btn-sm">
-                  <span role="img" aria-label="edit">
-                    📝
-                  </span>
-                </button>{" "}
                 <button
                   type="button"
                   className="btn btn-danger btn-sm"
@@ -124,14 +119,7 @@ export default function FavoritesTable({ favorites, users, login }) {
                       toast.info(
                         "Deleting favorite order " + favorite.Id + "..."
                       );
-                      favorites
-                        .filter(
-                          favoriteIter =>
-                            favorite.Userid === favoriteIter.Userid
-                        )
-                        .forEach(favorite =>
-                          dispatch(deleteFavorite(favorite))
-                        );
+                      dispatch(deleteUserFavorites(favorite.Userid));
                     }
                   }}
                 >

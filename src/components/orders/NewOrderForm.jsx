@@ -6,6 +6,10 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadBBQs } from "../../redux/actions/bbqActions";
 import { saveOrder, deleteOrder } from "../../redux/actions/orderActions";
+import {
+  saveFavorites,
+  loadUserFavorites
+} from "../../redux/actions/favoriteActions";
 import PropTypes from "prop-types";
 import moment from "moment";
 
@@ -13,15 +17,22 @@ let counter = 0;
 export default function NewOrderForm({ ...props }) {
   document.title = "𝘹𝘧BBQ - Place an Order";
 
-  let beefCount = 0;
-  let turkeyCount = 0;
-  let vegCount = 0;
+  const login = useSelector(state => state.login);
+  const bbqs = useSelector(state => state.bbqs);
+  const favorites = useSelector(state => state.favorites);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadBBQs());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(loadUserFavorites(login.Id));
+  }, [dispatch, login]);
 
   const ordersToEdit = props.location.state;
   const [orderCardArray, setOrderCardArray] = useState(
-    ordersToEdit === null || ordersToEdit === undefined
-      ? []
-      : ordersToEdit.map(order => {
+    ordersToEdit
+      ? ordersToEdit.map(order => {
           if (order.Meat === 0) {
             return {
               key: Math.random() * 1000000000000000000,
@@ -38,12 +49,6 @@ export default function NewOrderForm({ ...props }) {
           } else {
             return {
               key: Math.random() * 1000000000000000000,
-              id:
-                order.Meat === 1
-                  ? ++beefCount
-                  : order.Meat === 2
-                  ? ++turkeyCount
-                  : ++vegCount,
               foodFlavor:
                 order.Meat === 1
                   ? "Beef"
@@ -64,15 +69,51 @@ export default function NewOrderForm({ ...props }) {
             };
           }
         })
+      : []
   );
-
-  const login = useSelector(state => state.login);
-  const bbqs = useSelector(state => state.bbqs);
-  const history = useHistory();
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadBBQs());
-  }, [dispatch]);
+    if (favorites.value && !ordersToEdit) {
+      setOrderCardArray(
+        favorites.value.map(favorite => {
+          if (favorite.Meat === 0) {
+            return {
+              key: Math.random() * 1000000000000000000,
+              id: 1,
+              foodFlavor: "",
+              foodCategory: "Hotdog",
+              foodAttributes: {
+                burnt: favorite.Burnt ? true : false,
+                quantity: favorite.Count
+              },
+              userID: favorite.Userid,
+              favoriteID: favorite.Id
+            };
+          } else {
+            return {
+              key: Math.random() * 1000000000000000000,
+              foodFlavor:
+                favorite.Meat === 1
+                  ? "Beef"
+                  : favorite.Meat === 2
+                  ? "Turkey"
+                  : "Veggie",
+              foodCategory: "Burger",
+              foodAttributes: {
+                cheese: favorite.Cheese >= 1 ? true : false,
+                spice: favorite.Spicy >= 1 ? true : false,
+                doneness:
+                  favorite.Doneness === undefined
+                    ? ""
+                    : numberToDoneness(favorite.Doneness)
+              },
+              userID: favorite.Userid,
+              favoriteID: favorite.Id
+            };
+          }
+        })
+      );
+    }
+  }, [favorites, ordersToEdit]);
 
   function beefDoneness(doneness) {
     switch (doneness) {
@@ -694,7 +735,160 @@ export default function NewOrderForm({ ...props }) {
                 </div>
               </div>
               <div className="col-6 text-right">
-                <button type="button" className="btn btn-lg btn-danger">
+                <button
+                  type="button"
+                  disabled={orderCardArray.length === 0}
+                  title="Save favorite"
+                  className="btn btn-lg btn-danger"
+                  onClick={() => {
+                    let favorites = [];
+                    const userID =
+                      ordersToEdit === null || ordersToEdit === undefined
+                        ? login.Id
+                        : ordersToEdit[0].Userid;
+
+                    if (
+                      window.confirm(
+                        "Are you sure you want to save this order as your favorite?\r\n" +
+                          orderCardArray
+                            .map(item => {
+                              if (item.foodCategory === "Burger") {
+                                switch (item.foodFlavor) {
+                                  case "Beef":
+                                    favorites.push({
+                                      userID,
+                                      meat: 1,
+                                      doneness: beefDoneness(
+                                        item.foodAttributes.doneness
+                                      ),
+                                      cheese: item.foodAttributes.cheese
+                                        ? 1
+                                        : 0,
+                                      spicy: item.foodAttributes.spice ? 1 : 0,
+                                      id: item.favoriteID,
+                                      delete: item.delete ? true : ""
+                                    });
+
+                                    return (
+                                      "\r\n• " +
+                                      (item.delete ? "REMOVE " : "") +
+                                      "Beef Burger:\r\n  - Cheese: " +
+                                      (item.foodAttributes.cheese
+                                        ? "Yes"
+                                        : "No") +
+                                      "\r\n  - Spice: " +
+                                      (item.foodAttributes.spice
+                                        ? "Yes"
+                                        : "No") +
+                                      "\r\n  - Doneness: " +
+                                      item.foodAttributes.doneness
+                                    );
+                                  case "Turkey":
+                                    favorites.push({
+                                      userID,
+                                      meat: 2,
+                                      cheese: item.foodAttributes.cheese
+                                        ? 1
+                                        : 0,
+                                      spicy: item.foodAttributes.spice ? 1 : 0,
+                                      id: item.favoriteID,
+                                      delete: item.delete ? true : ""
+                                    });
+
+                                    return (
+                                      "\r\n• " +
+                                      (item.delete ? "REMOVE " : "") +
+                                      "Turkey Burger:\r\n  - Cheese: " +
+                                      (item.foodAttributes.cheese
+                                        ? "Yes"
+                                        : "No") +
+                                      "\r\n  - Spice: " +
+                                      (item.foodAttributes.spice ? "Yes" : "No")
+                                    );
+                                  case "Veggie":
+                                    favorites.push({
+                                      userID,
+                                      meat: 3,
+                                      cheese: item.foodAttributes.cheese
+                                        ? 1
+                                        : 0,
+                                      spicy: item.foodAttributes.spice ? 1 : 0,
+                                      id: item.favoriteID,
+                                      delete: item.delete ? true : ""
+                                    });
+
+                                    return (
+                                      "\r\n• " +
+                                      (item.delete ? "REMOVE " : "") +
+                                      "Veggie Burger:\r\n  - Cheese: " +
+                                      (item.foodAttributes.cheese
+                                        ? "Yes"
+                                        : "No") +
+                                      "\r\n  - Spice: " +
+                                      (item.foodAttributes.spice ? "Yes" : "No")
+                                    );
+                                  default:
+                                    return "";
+                                }
+                              } else {
+                                favorites.push({
+                                  userID,
+                                  type: 1,
+                                  count: item.foodAttributes.quantity,
+                                  burnt: item.foodAttributes.burnt ? 1 : 0,
+                                  id: item.favoriteID,
+                                  delete: item.delete ? true : ""
+                                });
+
+                                return (
+                                  "\r\n• " +
+                                  (item.delete ? "REMOVE " : "") +
+                                  "Hotdogs:\r\n  - Burnt: " +
+                                  (item.foodAttributes.burnt ? "Yes" : "No") +
+                                  "\r\n  - Amount: " +
+                                  item.foodAttributes.quantity
+                                );
+                              }
+                            })
+                            .join("")
+                      )
+                    ) {
+                      toast.info(
+                        (ordersToEdit ? "Editing " : "Creating ") +
+                          "favorite" +
+                          (favorites.length > 1 ? "s" : "") +
+                          " ..."
+                      );
+                      let favoritesArray = [];
+                      favorites.forEach(favorite => {
+                        if (favorite.delete)
+                          dispatch(
+                            deleteOrder({
+                              Id: favorite.id
+                            })
+                          );
+                        else
+                          favoritesArray.push({
+                            Meat: favorite.meat ? favorite.meat : 0,
+                            Cheese: favorite.cheese ? favorite.cheese : 0,
+                            Doneness: favorite.doneness ? favorite.doneness : 0,
+                            Spicy: favorite.spicy ? favorite.spicy : 0,
+                            Type: favorite.type ? favorite.type : 0,
+                            Count: favorite.count ? favorite.count : 0,
+                            Burnt: favorite.burnt ? favorite.burnt : 0,
+                            Userid: favorite.userID,
+                            Id: favorite.id
+                          });
+                      });
+
+                      dispatch(
+                        saveFavorites({
+                          Favorites: favoritesArray
+                        })
+                      );
+                    }
+                  }}
+                >
                   <span role="img" aria-label="favorite">
                     💖
                   </span>
@@ -705,7 +899,7 @@ export default function NewOrderForm({ ...props }) {
                       ? "btn btn-lg btn-secondary"
                       : "btn btn-lg btn-success"
                   }
-                  disabled={orderCardArray.length === 0 ? true : false}
+                  disabled={orderCardArray.length === 0}
                   type="submit"
                   id="submitOrderButton"
                 >

@@ -6,6 +6,7 @@ import Spinner from "../../Spinner";
 import OrderTable from "./OrderTable";
 import { Link } from "react-router-dom";
 import _ from "lodash";
+import initialState from "../../redux/reducers/initialState";
 
 export default function OrderHistory() {
   document.title = "𝘹𝘧BBQ - Order History";
@@ -29,7 +30,8 @@ export default function OrderHistory() {
         </button>
       </Link>
       <h2>Orders</h2>
-      {orders.length <= 0 || users.length <= 0 ? (
+      {orders.length <= 0 ||
+      JSON.stringify(users) === JSON.stringify(initialState.users) ? (
         <Spinner />
       ) : (
         <OrderTable

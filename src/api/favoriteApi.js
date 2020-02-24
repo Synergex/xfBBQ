@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = "https://localhost:8086/odata/v1/Favorites/";
+const baseUrl = "https://localhost:8086/odata/v1/Favorites";
 
 export async function getFavorites() {
   try {
@@ -10,10 +10,32 @@ export async function getFavorites() {
   }
 }
 
+export async function getUserFavorites(userID) {
+  try {
+    let response = await fetch(baseUrl + "(Userid=" + userID + ")");
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
 export async function deleteFavorite(favoriteID) {
   try {
-    let response = await fetch(baseUrl + favoriteID, { method: "DELETE" });
+    let response = await fetch(baseUrl + "/" + favoriteID, {
+      method: "DELETE"
+    });
 
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function deleteUserFavorites(userID) {
+  try {
+    let response = await fetch(baseUrl + "(Userid=" + userID + ")", {
+      method: "DELETE"
+    });
     return handleResponse(response);
   } catch (error) {
     return handleError(error);
@@ -22,7 +44,7 @@ export async function deleteFavorite(favoriteID) {
 
 export async function saveFavorite(favorite) {
   try {
-    let response = await fetch(baseUrl + (favorite.Id || ""), {
+    let response = await fetch(baseUrl + "/" + (favorite.Id || ""), {
       method: favorite.Id ? "PUT" : "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(favorite)
@@ -35,6 +57,20 @@ export async function saveFavorite(favorite) {
       });
       response = new Response(blob);
     }
+
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function saveFavorites(favorites) {
+  try {
+    let response = await fetch(baseUrl + "/PostFavorites", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(favorites)
+    });
 
     return handleResponse(response);
   } catch (error) {
