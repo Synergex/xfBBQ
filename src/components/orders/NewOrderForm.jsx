@@ -12,6 +12,7 @@ import {
 } from "../../redux/actions/favoriteActions";
 import PropTypes from "prop-types";
 import moment from "moment";
+import * as favoriteApi from "../../api/favoriteApi";
 
 let counter = 0;
 export default function NewOrderForm({ ...props }) {
@@ -881,10 +882,12 @@ export default function NewOrderForm({ ...props }) {
                           });
                       });
 
-                      dispatch(
-                        saveFavorites({
-                          Favorites: favoritesArray
-                        })
+                      favoriteApi.deleteUserFavorites(userID).then(
+                        dispatch(
+                          saveFavorites({
+                            Favorites: favoritesArray
+                          })
+                        )
                       );
                     }
                   }}
