@@ -11,12 +11,10 @@ import Services.Models
 import Services.Controllers
 
 namespace Services
-
     ;;; <summary>
     ;;; Builds an entity framework entity data model.
     ;;; </summary>
     public partial class EdmBuilder
-
         partial static method GetEdmModelCustom, void
             required in serviceProvider, @IServiceProvider
             required in builder, @ODataModelBuilder
@@ -26,8 +24,6 @@ namespace Services
             data postFavoritesAction, @ActionConfiguration, postFavoritesEntityCollection.Action("PostFavorites")
             postFavoritesAction.CollectionEntityParameter<Favorite>("Favorites")
             postFavoritesAction.ReturnsCollectionFromEntitySet<Favorite>("Favorites")
-
         endmethod
-
     endclass
 endnamespace

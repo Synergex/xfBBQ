@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -8,10 +8,12 @@ import { saveUser } from "../../redux/actions/userActions";
 import isEmpty from "./../../scripts/isEmpty";
 import PropTypes from "prop-types";
 import moment from "moment";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function UserRegistrationForm({ ...props }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const [captchaValue, setCaptchaValue] = useState(null);
 
   const user = props.location.state;
   const userRecovery =
@@ -46,7 +48,8 @@ export default function UserRegistrationForm({ ...props }) {
                   Email: values.email,
                   Hash: hash,
                   Name: values.name
-                }
+                },
+            captchaValue
           )
         );
       });
@@ -202,11 +205,16 @@ export default function UserRegistrationForm({ ...props }) {
             ) : (
               <></>
             )}
-
+            <ReCAPTCHA
+              theme="dark"
+              sitekey="6LfJ6dsUAAAAAFwaXDIGHHhwiFe7oNhLBP-S66OQ"
+              onChange={value => setCaptchaValue(value)}
+            />
+            <br />
             <div>
               <button
                 type="submit"
-                disabled={pristine || submitting}
+                disabled={pristine || submitting || captchaValue === null}
                 className="btn btn-primary"
               >
                 Submit

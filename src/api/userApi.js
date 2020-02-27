@@ -20,11 +20,14 @@ export async function deleteUser(userID) {
   }
 }
 
-export async function saveUser(user) {
+export async function saveUser(user, captchaValue) {
   try {
     let response = await fetch(baseUrl + (user.Id || ""), {
       method: user.Id ? "PUT" : "POST",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        "x-response": captchaValue
+      },
       body: JSON.stringify(user)
     });
 

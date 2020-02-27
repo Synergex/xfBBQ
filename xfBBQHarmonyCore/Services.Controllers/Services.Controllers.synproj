@@ -75,6 +75,7 @@
     <Compile Include="TraditionalBridgeController.dbl" />
     <Compile Include="TraditionalBridgeService.dbl" />
     <Compile Include="UsersController.dbl" />
+    <Compile Include="UsersController.Custom.dbl"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.synproj">

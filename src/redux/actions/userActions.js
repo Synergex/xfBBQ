@@ -35,11 +35,11 @@ export function loadUsers() {
   };
 }
 
-export function saveUser(user) {
+export function saveUser(user, captchaValue) {
   return async function(dispatch) {
     dispatch(beginApiCall());
     try {
-      const savedUser = await userApi.saveUser(user);
+      const savedUser = await userApi.saveUser(user, captchaValue);
       user.Id
         ? dispatch(updateUserSuccess(savedUser))
         : dispatch(createUserSuccess(savedUser));
