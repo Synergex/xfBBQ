@@ -72,10 +72,8 @@
     <Compile Include="FavoritesController.dbl" />
     <Compile Include="IsolatedMethodsBase.dbl" />
     <Compile Include="OrdersController.dbl" />
-    <Compile Include="TraditionalBridgeController.dbl" />
-    <Compile Include="TraditionalBridgeService.dbl" />
     <Compile Include="UsersController.dbl" />
-    <Compile Include="UsersController.Custom.dbl"/>
+    <Compile Include="UsersController.Custom.dbl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.synproj">

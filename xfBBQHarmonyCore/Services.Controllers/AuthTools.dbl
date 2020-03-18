@@ -75,11 +75,11 @@ namespace Services.Controllers
 
             data handler = new JwtSecurityTokenHandler()
 
-            data ident = new ClaimsIdentity()
+            data ident = new System.Security.Claims.ClaimsIdentity()
 
-            ident.AddClaim(new Claim("token", %atrimtostring(aUser)))
+            ident.AddClaim(new System.Security.Claims.Claim("token", %atrimtostring(aUser)))
             ;Add custom claims as necessary
-            ident.AddClaim(new Claim("username", %atrimtostring(aUser)))
+            ident.AddClaim(new System.Security.Claims.Claim("username", %atrimtostring(aUser)))
 
             data theFuture, DateTime, DateTime.Now.AddHours(tokenDuration)
             data current,   DateTime, DateTime.Now.AddHours(-1)
