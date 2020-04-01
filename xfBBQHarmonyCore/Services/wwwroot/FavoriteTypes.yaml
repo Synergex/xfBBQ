@@ -57,6 +57,9 @@ Favorite:
       type: integer
       example: 123
       description: ID of user who favored
+    REL_User:
+      $ref: 'UserTypes.yaml#/User'
+      description: Related User
   example:
     Id: 123
     Meat: 123

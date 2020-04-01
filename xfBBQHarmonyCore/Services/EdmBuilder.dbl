@@ -115,8 +115,12 @@ namespace Services
             data tempModel = (@EdmModel)builder.GetEdmModel()
 
             data bbqType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.Bbq")
+      
+      
 
             data orderType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.Order")
+            tempModel.AddAlternateKeyAnnotation(orderType, new Dictionary<string, IEdmProperty>() {{"Userid",orderType.FindProperty("Userid")}})
+            tempModel.AddAlternateKeyAnnotation(orderType, new Dictionary<string, IEdmProperty>() {{"Bbqid",orderType.FindProperty("Bbqid")}})
 
             data userType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.User")
       

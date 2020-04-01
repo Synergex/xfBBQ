@@ -417,6 +417,142 @@ paths:
         '404':
           description: Not found (the specified order was not found)
 
+  '/Orders(Userid={aUserid})':
+
+    get:
+      summary: Get orders
+      description: Get a orders via complete alternate key Userid.
+      operationId: GetOrdersByKeyUserid
+      deprecated: false
+      tags:
+        - Orders
+      parameters:
+        - name: aUserid
+          in: path
+          description: ID of user who ordered
+          required: true
+          type: integer
+        - name: $expand
+          in: query
+          description: Expand one or more navigation properties.
+          type: string
+        - name: $select
+          in: query
+          description: List of properties to be returned.
+          type: string
+        - name: $orderby
+          in: query
+          description: Order by some property
+          type: string
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+        - name: $top
+          in: query
+          description: Maximum number of rows to return.
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: 'OrderTypes.yaml#/Order'
+
+  '/Orders(Userid={aUserid})/$count':
+
+    get:
+      summary: Count orders
+      description: Count orders via complete alternate key Userid.
+      operationId: CountOrdersByKeyUserid
+      deprecated: false
+      tags:
+        - Orders
+      parameters:
+        - name: aUserid
+          in: path
+          description: ID of user who ordered
+          required: true
+          type: integer
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: integer
+
+  '/Orders(Bbqid={aBbqid})':
+
+    get:
+      summary: Get orders
+      description: Get a orders via complete alternate key Bbqid.
+      operationId: GetOrdersByKeyBbqid
+      deprecated: false
+      tags:
+        - Orders
+      parameters:
+        - name: aBbqid
+          in: path
+          description: ID of BBQ this order pertains to
+          required: true
+          type: integer
+        - name: $expand
+          in: query
+          description: Expand one or more navigation properties.
+          type: string
+        - name: $select
+          in: query
+          description: List of properties to be returned.
+          type: string
+        - name: $orderby
+          in: query
+          description: Order by some property
+          type: string
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+        - name: $top
+          in: query
+          description: Maximum number of rows to return.
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: 'OrderTypes.yaml#/Order'
+
+  '/Orders(Bbqid={aBbqid})/$count':
+
+    get:
+      summary: Count orders
+      description: Count orders via complete alternate key Bbqid.
+      operationId: CountOrdersByKeyBbqid
+      deprecated: false
+      tags:
+        - Orders
+      parameters:
+        - name: aBbqid
+          in: path
+          description: ID of BBQ this order pertains to
+          required: true
+          type: integer
+        - name: $filter
+          in: query
+          description: Filter expression to restrict returned rows.
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: integer
+
   /Users:
 
     get:

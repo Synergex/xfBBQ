@@ -33,6 +33,11 @@ Bbq:
       type: integer
       example: 123
       description: Timestamp of when BBQ is going tobe held
+    REL_Orders:
+      type: array
+      items:
+        $ref: 'OrderTypes.yaml#/Order'
+      description: Related Orders
   example:
     Id: 123
     Creationdate: 123

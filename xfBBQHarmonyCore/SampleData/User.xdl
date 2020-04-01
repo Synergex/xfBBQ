@@ -1,4 +1,4 @@
-!	Synergy ISAM XDL File created Wed Feb 19 14:40:06 2020
+!	Synergy ISAM XDL File created Wed Apr  1 14:35:25 2020
 FILE
 	NAME		"User.ism"
 	ADDRESSING	32
@@ -19,7 +19,7 @@ RECORD
 	!Creation version 11.1.1b {Compat Level 6.0}
 	!0 of 32 byte file text allocation in use, @0x1694
 	!Update revision count 0
-	!File created on Wed Feb 19 14:40:06 2020
+	!File created on Wed Apr  1 14:35:25 2020
 	!8 byte longest key
 	!0 free index blocks, 0x0 free list head
 	!0 records, 0 free

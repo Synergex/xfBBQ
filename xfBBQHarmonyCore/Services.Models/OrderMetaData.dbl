@@ -58,14 +58,14 @@ namespace Services.Models
 
             ;; Define all fields that are associated wity key segments
             AddKeyInfo(0, "Id")
+            AddKeyInfo(1, "Userid")
+            AddKeyInfo(2, "Bbqid")
 
             ;; Define the composition of access keys
 
             data Id_KeyParts = new FieldDataDefinition[1]
             Id_KeyParts[1] = GetFieldByName("Id")
             AddFieldInfo("KEY_ID", "COMPOSITE", 0, 0, 0, false, ^null, ^null, Id_KeyParts)
-
-            ;; Define the composition of foreign keys
 
             data Userid_KeyParts = new FieldDataDefinition[1]
             Userid_KeyParts[1] = GetFieldByName("Userid")
@@ -74,6 +74,7 @@ namespace Services.Models
             data Bbqid_KeyParts = new FieldDataDefinition[1]
             Bbqid_KeyParts[1] = GetFieldByName("Bbqid")
             AddFieldInfo("KEY_BBQID", "COMPOSITE", 0, 0, 0, false, ^null, ^null, Bbqid_KeyParts)
+
 
             ;;If we have an InitializeCustomFields method then call it.
             InitializeCustomFields()
@@ -136,6 +137,12 @@ namespace Services.Models
             stack record key0
                 Id, D8
             endrecord
+            stack record key1
+                Userid, D8
+            endrecord
+            stack record key2
+                Bbqid, D8
+            endrecord
         proc
             data startPos = 0
             data segValueLength, int
@@ -145,6 +152,18 @@ namespace Services.Models
                 if((segValueLength=KeyValueHelper(key0.Id, "Id", parts))<8 && segValueLength>0)
                     mreturn key0(1:startPos+segValueLength)
                 mreturn key0
+            end
+            (1),
+            begin
+                if((segValueLength=KeyValueHelper(key1.Userid, "Userid", parts))<8 && segValueLength>0)
+                    mreturn key1(1:startPos+segValueLength)
+                mreturn key1
+            end
+            (2),
+            begin
+                if((segValueLength=KeyValueHelper(key2.Bbqid, "Bbqid", parts))<8 && segValueLength>0)
+                    mreturn key2(1:startPos+segValueLength)
+                mreturn key2
             end
             endusing
 

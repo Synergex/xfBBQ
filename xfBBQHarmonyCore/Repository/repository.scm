@@ -1,11 +1,11 @@
  
 ;  SYNERGY DATA LANGUAGE OUTPUT
 ;
-;  REPOSITORY     : C:\Users\devadm\Desktop\xfbbq\repository\rpsmain.ism
-;                 : C:\Users\devadm\Desktop\xfbbq\repository\rpstext.ism
-;                 : Version 11.1.1b
+;  REPOSITORY     : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
+;                 : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
+;                 : Version 11.1.1c
 ;
-;  GENERATED      : 19-FEB-2020, 14:39:52
+;  GENERATED      : 01-APR-2020, 14:34:05
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -41,6 +41,8 @@ Field HELDDATE   Type DECIMAL   Size 10
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "ID of BBQ"
    Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
+ 
+Relation  1   BBQ ID   ORDER BBQID
  
 Structure FAVORITE   DBL ISAM
    Description "Favorites Table"
@@ -79,6 +81,8 @@ Key ID   ACCESS   Order ASCENDING   Dups NO
 Key USERID   ACCESS   Order ASCENDING   Dups YES
    Description "ID of user who favored"
    Segment FIELD   USERID
+ 
+Relation  1   FAVORITE USERID   USER ID
  
 Structure ORDER   DBL ISAM
    Description "Order Table"
@@ -120,11 +124,11 @@ Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "ID of order"
    Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
  
-Key USERID   FOREIGN
+Key USERID   ACCESS   Order ASCENDING   Dups YES
    Description "ID of user who ordered"
    Segment FIELD   USERID
  
-Key BBQID   FOREIGN
+Key BBQID   ACCESS   Order ASCENDING   Dups YES
    Description "ID of BBQ this order pertains to"
    Segment FIELD   BBQID
  
@@ -177,6 +181,10 @@ Field RECOVERYCODE   Type ALPHA   Size 100
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "User ID"
    Segment FIELD   ID  SegType DECIMAL  SegOrder ASCENDING
+ 
+Relation  1   USER ID   FAVORITE USERID
+ 
+Relation  2   USER ID   ORDER USERID
  
 File BBQ   DBL ISAM   "DAT:BBQ.ism"
    Description "BBQ File"

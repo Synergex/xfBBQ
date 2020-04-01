@@ -53,6 +53,16 @@ User:
       type: string
       example: "ABC"
       description: Recovery code of user
+    REL_Favorites:
+      type: array
+      items:
+        $ref: 'FavoriteTypes.yaml#/Favorite'
+      description: Related Favorites
+    REL_Orders:
+      type: array
+      items:
+        $ref: 'OrderTypes.yaml#/Order'
+      description: Related Orders
   example:
     Id: 123
     Joindate: 123

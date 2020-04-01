@@ -352,14 +352,14 @@ namespace Services.Models
 .region "Relationships to other entities"
 
         ;;; <summary>
-        ;;; Relationship (Type C)
-        ;;; ORDER.USERID (one) --> (one) USER.ID
+        ;;; Relationship (Type A)
+        ;;; ORDER.USERID (one) --> (one) --> (many) USER.ID
         ;;; </summary>
         public readwrite property REL_User, @User
 
         ;;; <summary>
-        ;;; Relationship (Type C)
-        ;;; ORDER.BBQID (one) --> (one) BBQ.ID
+        ;;; Relationship (Type A)
+        ;;; ORDER.BBQID (one) --> (one) --> (many) BBQ.ID
         ;;; </summary>
         public readwrite property REL_Bbq, @Bbq
 
@@ -371,8 +371,6 @@ namespace Services.Models
 
         private _KEY_ID, string, ""
         public readonly property KEY_ID, string, ""
-
-        ;;Foreign keys
 
         private _KEY_USERID, string, ""
         public readonly property KEY_USERID, string, ""
