@@ -1,0 +1,22 @@
+{
+  "CustomRelations": [
+    {
+      "FromStructure": "USER",
+      "FromKey": "ID",
+      "ToStructure": "FAVORITE",
+      "ToKey": "USERID",
+      "RelationName": "UserFavorites",
+      "RequiresMatch": false,
+      "RelationType": "E"
+    },
+    {
+      "FromStructure": "USER",
+      "FromKey": "ID",
+      "ToStructure": "ORDER",
+      "ToKey": "USERID",
+      "RelationName": "UserOrders",
+      "RequiresMatch": false,
+      "RelationType": "E"
+    },
+  ]
+}

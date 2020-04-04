@@ -53,12 +53,12 @@ User:
       type: string
       example: "ABC"
       description: Recovery code of user
-    REL_Favorites:
+    REL_UserFavorites:
       type: array
       items:
         $ref: 'FavoriteTypes.yaml#/Favorite'
       description: Related Favorites
-    REL_Orders:
+    REL_UserOrders:
       type: array
       items:
         $ref: 'OrderTypes.yaml#/Order'

@@ -99,7 +99,7 @@ namespace Services.Models
              ;;    From segments : USERID(D8) 
              ;;    To segments   : ID(D8) 
 
-             parm.AddOneToOneToManyRelation<Order, User>("REL_User", "KEY_USERID", "REL_Orders", "KEY_ID")
+             parm.AddOneToOneToManyRelation<Order, User>("REL_User", "KEY_USERID", "REL_UserOrders", "KEY_ID")
              ;; ORDER.BBQID (many) --> (one) --> (many) BBQ.ID
              ;;    Type          : A
              ;;    From segments : BBQID(D8) 
@@ -109,18 +109,18 @@ namespace Services.Models
             ;;--------------------------------------
             ;; Relationships from USER
 
-            ;; USER.ID (one) --> (many) --> (one) FAVORITE.USERID
-            ;;    Type          : D
+            ;; USER.ID (one) --> (many) FAVORITE.USERID
+            ;;    Type          : E
             ;;    From segments : ID(D8) 
             ;;    To segments   : USERID(D8) 
 
-            parm.AddOneToManyToOneRelation<User, Favorite>("REL_Favorites", "KEY_ID", "REL_User", "KEY_USERID")
-            ;; USER.ID (one) --> (many) --> (one) ORDER.USERID
-            ;;    Type          : D
+            parm.AddOneToManyRelation<User, Favorite>("REL_UserFavorites", "KEY_ID", "KEY_USERID")
+            ;; USER.ID (one) --> (many) ORDER.USERID
+            ;;    Type          : E
             ;;    From segments : ID(D8) 
             ;;    To segments   : USERID(D8) 
 
-            parm.AddOneToManyToOneRelation<User, Order>("REL_Orders", "KEY_ID", "REL_User", "KEY_USERID")
+            parm.AddOneToManyRelation<User, Order>("REL_UserOrders", "KEY_ID", "KEY_USERID")
             ;;--------------------------------------
             ;; Relationships from FAVORITE
 
@@ -129,7 +129,7 @@ namespace Services.Models
              ;;    From segments : USERID(D8) 
              ;;    To segments   : ID(D8) 
 
-             parm.AddOneToOneToManyRelation<Favorite, User>("REL_User", "KEY_USERID", "REL_Favorites", "KEY_ID")
+             parm.AddOneToOneToManyRelation<Favorite, User>("REL_User", "KEY_USERID", "REL_UserFavorites", "KEY_ID")
 .endregion
 
             parent.OnModelCreating(parm)
