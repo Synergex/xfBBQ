@@ -5,12 +5,24 @@ import Harmony.Core.Context
 import Harmony.Core.FileIO
 import Harmony.Core.Interface
 import Harmony.Core.Utility
+import Microsoft.AspNetCore.Builder
+import Microsoft.AspNetCore.Hosting
+import Microsoft.AspNetCore.SpaServices
 
 import Microsoft.Extensions.DependencyInjection
 
 namespace Services
 
     public partial class Startup
+
+        partial method ConfigureCustom, void
+            required in app, @IApplicationBuilder
+            required in env, @IHostingEnvironment
+        proc
+            app.UseRouting()
+
+            app.UseEndpoints(lambda (k) { k.MapDefaultControllerRoute() }).UseSpa(lambda (k) {})
+        endmethod
 
         partial method ConfigureServicesCustom, void
             services, @IServiceCollection 
