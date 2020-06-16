@@ -18,5 +18,14 @@
       "RequiresMatch": false,
       "RelationType": "E"
     },
+    {
+      "FromStructure": "BBQ",
+      "FromKey": "ID",
+      "ToStructure": "ORDER",
+      "ToKey": "BBQID",
+      "RelationName": "BBQOrders",
+      "RequiresMatch": false,
+      "RelationType": "E"
+    },
   ]
 }

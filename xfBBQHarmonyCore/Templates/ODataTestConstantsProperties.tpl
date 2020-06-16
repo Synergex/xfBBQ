@@ -1,5 +1,5 @@
 <CODEGEN_FILENAME>TestConstants.Properties.dbl</CODEGEN_FILENAME>
-<REQUIRES_CODEGEN_VERSION>5.4.6</REQUIRES_CODEGEN_VERSION>
+<REQUIRES_CODEGEN_VERSION>5.5.3</REQUIRES_CODEGEN_VERSION>
 ;//****************************************************************************
 ;//
 ;// Title:       ODataTestConstantsProperties.tpl
@@ -55,6 +55,7 @@ namespace <NAMESPACE>
 
     public static partial class TestConstants
 <STRUCTURE_LOOP>
+<IF STRUCTURE_ISAM>
 
         ;;------------------------------------------------------------
         ;;Test data for <StructureNoplural>
@@ -91,12 +92,12 @@ namespace <NAMESPACE>
 ;//
 ;//
 ;//
-  <ALTERNATE_KEY_LOOP>
+  <ALTERNATE_KEY_LOOP_UNIQUE>
     
     <SEGMENT_LOOP>
         public static readwrite property Get<StructureNoplural>_ByAltKey_<KeyName>_<SegmentName>, <SEGMENT_SNTYPE>
     </SEGMENT_LOOP>
-  </ALTERNATE_KEY_LOOP>
+  </ALTERNATE_KEY_LOOP_UNIQUE>
 ;//
 ;//
 ;//
@@ -106,6 +107,7 @@ namespace <NAMESPACE>
     </SEGMENT_LOOP>
   </PRIMARY_KEY>
 
+</IF STRUCTURE_ISAM>
 </STRUCTURE_LOOP>
     endclass
 

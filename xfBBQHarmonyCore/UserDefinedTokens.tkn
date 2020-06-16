@@ -11,11 +11,11 @@
 <API_DOCS_PATH>api-docs</API_DOCS_PATH>
 <API_TITLE>Harmony Core Sample API</API_TITLE>
 <API_VERSION>1</API_VERSION>
-<API_TERMS>Open Source</API_TERMS>
 <API_DESCRIPTION>This environment presents an example of using Harmony Core to expose a collection of RESTful Web Service endpoints that allow you to interact with a small sample dataset.</API_DESCRIPTION>
+<API_TERMS>Open Source</API_TERMS>
 <API_CONTACT_NAME>Jodah Veloper</API_CONTACT_NAME>
 <API_CONTACT_EMAIL>jodah.veloper@synergexpsg.com</API_CONTACT_EMAIL>
-<API_LICENSE_NAME>BSD 2-Clause</API_LICENSE_NAME>
+<API_LICENSE_NAME>BSD-2-Clause</API_LICENSE_NAME>
 <API_LICENSE_URL>https://opensource.org/licenses/BSD-2-Clause</API_LICENSE_URL>
 <API_ENABLE_QUERY_PARAMS>(MaxExpansionDepth=4)</API_ENABLE_QUERY_PARAMS>
 ;
@@ -32,11 +32,7 @@
 <OAUTH_TEST_USER>jodah</OAUTH_TEST_USER>
 <OAUTH_TEST_PASSWORD>P@ssw0rd</OAUTH_TEST_PASSWORD>
 ;
-<CUSTOM_JWT_ISSUER>MyCompany</CUSTOM_JWT_ISSUER>
-<CUSTOM_JWT_AUDIENCE>MyApiName</CUSTOM_JWT_AUDIENCE>
-<CUSTOM_JWT_KEYGEN>AuthTools.GetKey()</CUSTOM_JWT_KEYGEN>
-;
-<SIGNALR_PATH>/hub/myhub</SIGNALR_PATH>
+<SIGNALR_PATH>/hub/radley</SIGNALR_PATH>
 ;
 ;<ROLES_GET>Employee,Manager</ROLES_GET>
 ;<ROLES_POST>Manager</ROLES_POST>

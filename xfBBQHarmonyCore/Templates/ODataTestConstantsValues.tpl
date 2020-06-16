@@ -1,5 +1,5 @@
 <CODEGEN_FILENAME>TestConstants.Values.dbl</CODEGEN_FILENAME>
-<REQUIRES_CODEGEN_VERSION>5.4.6</REQUIRES_CODEGEN_VERSION>
+<REQUIRES_CODEGEN_VERSION>5.5.3</REQUIRES_CODEGEN_VERSION>
 ;//****************************************************************************
 ;//
 ;// Title:       ODataTestConstantsValues.tpl
@@ -60,6 +60,7 @@ namespace <NAMESPACE>
         static method TestConstants
         proc
 <STRUCTURE_LOOP>
+<IF STRUCTURE_ISAM>
 
             ;;------------------------------------------------------------
             ;;Test data for <StructureNoplural>
@@ -96,12 +97,12 @@ namespace <NAMESPACE>
 ;//
 ;//
 ;//
-    <ALTERNATE_KEY_LOOP>
+    <ALTERNATE_KEY_LOOP_UNIQUE>
     
         <SEGMENT_LOOP>
             Get<StructureNoplural>_ByAltKey_<KeyName>_<SegmentName> = <FIELD_CSDEFAULT>
         </SEGMENT_LOOP>
-    </ALTERNATE_KEY_LOOP>
+    </ALTERNATE_KEY_LOOP_UNIQUE>
 ;//
 ;//
 ;//
@@ -110,6 +111,7 @@ namespace <NAMESPACE>
             Update<StructureNoplural>_<SegmentName> = <FIELD_CSDEFAULT>
         </SEGMENT_LOOP>
     </PRIMARY_KEY>
+</IF STRUCTURE_ISAM>
 </STRUCTURE_LOOP>
 
         endmethod

@@ -24,6 +24,12 @@ namespace Services
             data postFavoritesAction, @ActionConfiguration, postFavoritesEntityCollection.Action("PostFavorites")
             postFavoritesAction.CollectionEntityParameter<Favorite>("Favorites")
             postFavoritesAction.ReturnsCollectionFromEntitySet<Favorite>("Favorites")
+
+            data postOrderEntityTypeConfiguration, @EntityTypeConfiguration<Order>, builder.EntityType<Order>()
+            data postOrderEntityCollection, @EntityCollectionConfiguration<Order>, postOrderEntityTypeConfiguration.Collection
+            data postOrderAction, @ActionConfiguration, postOrderEntityCollection.Action("PostOrders")
+            postOrderAction.CollectionEntityParameter<Order>("Orders")
+            postOrderAction.ReturnsCollectionFromEntitySet<Order>("Orders")
         endmethod
     endclass
 endnamespace

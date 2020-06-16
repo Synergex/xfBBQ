@@ -1,20 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="restore;Build">
-  <Import Project="..\Common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="restore;Build">
+  <Import Project="$(SolutionDir)Common.props" />
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <DefaultLanguageSourceExtension>.dbl</DefaultLanguageSourceExtension>
     <EnableDefaultItems>false</EnableDefaultItems>
     <Name>Services.Isolated</Name>
-    <ProjectGuid>{664BE420-80AE-4FF2-A5C9-F6472B0B4F57}</ProjectGuid>
+    <ProjectGuid>{F4A0EA17-9B27-4DA2-9F4D-9997592ABFB2}</ProjectGuid>
     <EnableCommonProperties>True</EnableCommonProperties>
     <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="HarmonyCore.CodeDomProvider">
-      <Version>1.0.7</Version>
+    <PackageReference Include="Harmony.Core">
+      <Version>3.1.90</Version>
     </PackageReference>
-    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1030.2702" />
-    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1030" />
+    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1030.2704" />
+    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1031" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IsolatedMethods.dbl" />
@@ -28,12 +28,12 @@
     </ProjectReference>
     <ProjectReference Include="..\Services.Controllers\Services.Controllers.synproj">
       <Name>Services.Controllers</Name>
-      <Project>{2C646D9F-E6F6-4796-A848-7F88531F736E}</Project>
+      <Project>{99CD9E1E-B3DE-48C1-A1FA-E4E7A837028B}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Services.Models\Services.Models.synproj">
       <Name>Services.Models</Name>
-      <Project>{FF693EE6-D3F6-47CB-9D46-120B8190A877}</Project>
+      <Project>{F37A0768-6BE0-41FC-AC46-8E9B81FB3995}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

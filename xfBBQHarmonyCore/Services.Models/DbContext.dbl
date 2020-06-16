@@ -85,12 +85,12 @@ namespace Services.Models
             ;;--------------------------------------
             ;; Relationships from BBQ
 
-            ;; BBQ.ID (one) --> (many) --> (one) ORDER.BBQID
-            ;;    Type          : D
+            ;; BBQ.ID (one) --> (many) ORDER.BBQID
+            ;;    Type          : E
             ;;    From segments : ID(D8) 
             ;;    To segments   : BBQID(D8) 
 
-            parm.AddOneToManyToOneRelation<Bbq, Order>("REL_Orders", "KEY_ID", "REL_Bbq", "KEY_BBQID")
+            parm.AddOneToManyRelation<Bbq, Order>("REL_BBQOrders", "KEY_ID", "KEY_BBQID")
             ;;--------------------------------------
             ;; Relationships from ORDER
 
@@ -105,7 +105,7 @@ namespace Services.Models
              ;;    From segments : BBQID(D8) 
              ;;    To segments   : ID(D8) 
 
-             parm.AddOneToOneToManyRelation<Order, Bbq>("REL_Bbq", "KEY_BBQID", "REL_Orders", "KEY_ID")
+             parm.AddOneToOneToManyRelation<Order, Bbq>("REL_Bbq", "KEY_BBQID", "REL_BBQOrders", "KEY_ID")
             ;;--------------------------------------
             ;; Relationships from USER
 

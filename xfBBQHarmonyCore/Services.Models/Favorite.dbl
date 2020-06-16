@@ -263,47 +263,6 @@ namespace Services.Models
             mreturn new Object[9]
         endmethod
 
-        ;;; <summary>
-        ;;; Validate data for one-to-one relations
-        ;;; </summary>
-        ;;; <param name="type">Validation type (create, update or delete)</param>
-        ;;; <param name="sp">Serices provider</param>
-        public override method Validate, void
-            required in vType, ValidationType
-            required in sp, @IServiceProvider
-
-            ;;From key for REL_User
-            record rel1FromKey
-              userid, d8
-            endrecord
-        proc
-            ;;No relation validation if the record is being deleted
-            if (vType == ValidationType.Delete)
-                mreturn
-
-            ;;Get an instance of IDataObjectProvider
-            data doProvider, @IDataObjectProvider, sp.GetService<IDataObjectProvider>()
-
-            ;;--------------------------------------------------------------------------------
-            ;;Validate data for relation 1 (REL_User)
-
-            rel1FromKey.userid = mSynergyData.userid
-            disposable data rel1FileIO = doProvider.GetFileIO<User>()
-            if (rel1FileIO.FindRecord(0,rel1FromKey) != FileAccessResults.Success)
-                throw new ValidationException("Invalid data for relation REL_User")
-
-
-            ;;If we have a ValidateCustom method, call it
-            ValidateCustom(vType,sp)
-
-        endmethod
-
-
-        private partial method ValidateCustom, void
-            required in vType, ValidationType
-            required in sp, @IServiceProvider
-        endmethod
-
 .endregion
 
 .region "Relationships to other entities"
@@ -313,6 +272,28 @@ namespace Services.Models
         ;;; FAVORITE.USERID (one) --> (one) --> (many) USER.ID
         ;;; </summary>
         public readwrite property REL_User, @User
+
+.endregion
+
+.region "Relation validation"
+
+        ;;; <summary>
+        ;;; Validate data
+        ;;; </summary>
+        ;;; <param name="type">Validation type (create, update or delete)</param>
+        ;;; <param name="sp">Serices provider</param>
+        public override method Validate, void
+            required in vType, ValidationType
+            required in sp, @IServiceProvider
+        proc
+            ;;If we have a ValidateCustom method, call it
+            ValidateCustom(vType,sp)
+        endmethod
+
+        private partial method ValidateCustom, void
+            required in vType, ValidationType
+            required in sp, @IServiceProvider
+        endmethod
 
 .endregion
 
@@ -326,9 +307,8 @@ namespace Services.Models
         private _KEY_USERID, string, ""
         public readonly property KEY_USERID, string, ""
 
-
 .endregion
 
-endclass
+    endclass
 
 endnamespace

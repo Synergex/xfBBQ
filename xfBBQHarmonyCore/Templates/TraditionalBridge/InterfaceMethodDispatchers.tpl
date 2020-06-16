@@ -251,6 +251,12 @@ namespace <NAMESPACE>.<INTERFACE_NAME>
         </IF STRUCTURE>
 ;//
     </IF COLLECTION>
+    <ELSE OUT>
+        <IF COLLECTION>
+            <IF COLLECTION_HANDLE>
+            arg<COUNTER_1_VALUE>Handle = %mem_proc(DM_ALLOC,1)
+            </IF COLLECTION_HANDLE>
+        </IF COLLECTION>
     </IF IN_OR_INOUT>
 </PARAMETER_LOOP>
 ;//

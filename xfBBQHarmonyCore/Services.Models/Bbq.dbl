@@ -173,56 +173,37 @@ namespace Services.Models
             mreturn new Object[3]
         endmethod
 
+.endregion
+
+.region "Relationships to other entities"
+
         ;;; <summary>
-        ;;; Validate data for one-to-one relations
+        ;;; Relationship (Type E)
+        ;;; BBQ.ID (one) --> (many) ORDER.BBQID
+        ;;; </summary>
+        public readwrite property REL_BBQOrders, @ICollection<Order>
+
+.endregion
+
+.region "Relation validation"
+
+        ;;; <summary>
+        ;;; Validate data
         ;;; </summary>
         ;;; <param name="type">Validation type (create, update or delete)</param>
         ;;; <param name="sp">Serices provider</param>
         public override method Validate, void
             required in vType, ValidationType
             required in sp, @IServiceProvider
-
-            ;;From key for REL_Orders
-            record rel1FromKey
-              id, d8
-            endrecord
         proc
-            ;;No relation validation if the record is being deleted
-            if (vType == ValidationType.Delete)
-                mreturn
-
-            ;;Get an instance of IDataObjectProvider
-            data doProvider, @IDataObjectProvider, sp.GetService<IDataObjectProvider>()
-
-            ;;--------------------------------------------------------------------------------
-            ;;Validate data for relation 1 (REL_Orders)
-
-            rel1FromKey.id = mSynergyData.id
-            disposable data rel1FileIO = doProvider.GetFileIO<Order>()
-            if (rel1FileIO.FindRecord(0,rel1FromKey) != FileAccessResults.Success)
-                throw new ValidationException("Invalid data for relation REL_Orders")
-
-
             ;;If we have a ValidateCustom method, call it
             ValidateCustom(vType,sp)
-
         endmethod
-
 
         private partial method ValidateCustom, void
             required in vType, ValidationType
             required in sp, @IServiceProvider
         endmethod
-
-.endregion
-
-.region "Relationships to other entities"
-
-        ;;; <summary>
-        ;;; Relationship (Type D)
-        ;;; BBQ.ID (one) <-> (many) ORDER.BBQID
-        ;;; </summary>
-        public readwrite property REL_Orders, @ICollection<Order>
 
 .endregion
 
@@ -233,9 +214,8 @@ namespace Services.Models
         private _KEY_ID, string, ""
         public readonly property KEY_ID, string, ""
 
-
 .endregion
 
-endclass
+    endclass
 
 endnamespace
