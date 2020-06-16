@@ -1,11 +1,11 @@
  
 ;  SYNERGY DATA LANGUAGE OUTPUT
 ;
-;  REPOSITORY     : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
-;                 : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
+;  REPOSITORY     : C:\Users\devadm\Desktop\devfolder\xfbbq\HarmonyCore\Reposito
+;                 : C:\Users\devadm\Desktop\devfolder\xfbbq\HarmonyCore\Reposito
 ;                 : Version 11.1.1c
 ;
-;  GENERATED      : 01-APR-2020, 14:34:05
+;  GENERATED      : 11-JUN-2020, 14:54:50
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -46,6 +46,8 @@ Relation  1   BBQ ID   ORDER BBQID
  
 Structure FAVORITE   DBL ISAM
    Description "Favorites Table"
+   Long Description
+      "NO_POST_ENDPOINT"
  
 Field ID   Type DECIMAL   Size 8
    Description "ID of favorite"
@@ -86,6 +88,8 @@ Relation  1   FAVORITE USERID   USER ID
  
 Structure ORDER   DBL ISAM
    Description "Order Table"
+   Long Description
+      "NO_POST_ENDPOINT"
  
 Field ID   Type DECIMAL   Size 8
    Description "ID of order"
@@ -150,6 +154,9 @@ Key RECORD_NUMBER   ACCESS   Order ASCENDING   Dups NO
  
 Structure USER   DBL ISAM
    Description "User table"
+   Long Description
+      "NO_POST_ENDPOINT"
+      "NO_DELETE_ENDPOINT"
  
 Field ID   Type DECIMAL   Size 8
    Description "ID of user"
