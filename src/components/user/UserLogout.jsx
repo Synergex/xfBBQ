@@ -3,9 +3,12 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/actions/loginActions";
-import Spinner from "./../../Spinner";
+import { removeToken } from "../../redux/actions/tokenActions";
 
-export default function LogoutPage() {
+import Jumbotron from "react-bootstrap/Jumbotron";
+import Spinner from "react-bootstrap/Spinner";
+
+export default function UserLogout() {
   document.title = "𝘹𝘧BBQ - Logout";
 
   const history = useHistory();
@@ -13,17 +16,20 @@ export default function LogoutPage() {
 
   setTimeout(() => {
     dispatch(logoutUser());
+    dispatch(removeToken());
     history.push("/");
     toast.success("Successfully logged out");
   }, 2500);
 
   return (
-    <div className="jumbotron">
+    <Jumbotron>
       <center>
-        <h2>kthxbye</h2>
+        <h2>Logging you out...</h2>
+        <br />
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
       </center>
-      <br />
-      <Spinner />
-    </div>
+    </Jumbotron>
   );
 }

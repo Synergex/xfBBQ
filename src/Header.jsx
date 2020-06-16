@@ -1,195 +1,75 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import isEmpty from "./scripts/isEmpty";
+import { LinkContainer } from "react-router-bootstrap";
+
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 
 export default function Header() {
   const activeStyle = { color: "#5bffd5" };
-  const login = useSelector(state => state.login);
+  const login = useSelector((state) => state.login);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      {isEmpty(login) ? (
-        // Not logged in
-        <>
-          <NavLink to="/" exact className="navbar-brand">
-            <i>xf</i>BBQ
-          </NavLink>
-          <button
-            className="navbar-toggler collapsed"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarColor01"
-            aria-controls="navbarColor01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div
-            className="collapse navbar-collapse"
-            id="navbarColor01"
-            style={{}}
-          >
-            <ul className="navbar-nav mr-auto">
-              <li className="navbar-item">
-                <NavLink
-                  to="/Login"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  Login
-                </NavLink>
-              </li>
-              <li className="navbar-item">
-                <NavLink
-                  to="/UserRegistrationForm"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  User&nbsp;Registration
-                </NavLink>
-              </li>
-              <li className="navbar-item">
-                <NavLink
-                  to="/AccountRecovery"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  Account&nbsp;Recovery
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </>
-      ) : (
-        // Logged in
-        <>
-          <NavLink to="/" exact className="navbar-brand">
-            <i>xf</i>BBQ
-          </NavLink>
-          <button
-            className="navbar-toggler collapsed"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarColor01"
-            aria-controls="navbarColor01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div
-            className="collapse navbar-collapse"
-            id="navbarColor01"
-            style={{}}
-          >
-            <ul className="navbar-nav mr-auto">
-              {login.Type === 1 ? (
-                // Only admins can access user maintenance
-                <>
-                  <li className="navbar-item">
-                    <NavLink
-                      to="/UserRegistrationForm"
-                      activeStyle={activeStyle}
-                      className="nav-link"
-                    >
-                      New&nbsp;User&nbsp;Registration
-                    </NavLink>
-                  </li>
-                  <li className="navbar-item">
-                    <NavLink
-                      to="/UsersList"
-                      activeStyle={activeStyle}
-                      className="nav-link"
-                    >
-                      Users
-                    </NavLink>
-                  </li>
-                </>
-              ) : (
-                <></>
-              )}
-
-              {login.Type !== 3 ? (
-                // Attendees can't access BBQ maintenance or see shopping cart
-                <>
-                  <li className="navbar-item">
-                    <NavLink
-                      to="/BBQRegistrationForm"
-                      activeStyle={activeStyle}
-                      className="nav-link"
-                    >
-                      BBQ&nbsp;Registration
-                    </NavLink>
-                  </li>
-                  <li className="navbar-item">
-                    <NavLink
-                      to="/BBQList"
-                      activeStyle={activeStyle}
-                      className="nav-link"
-                    >
-                      BBQs
-                    </NavLink>
-                  </li>
-                  <li className="navbar-item">
-                    <NavLink
-                      to="/ShoppingList"
-                      activeStyle={activeStyle}
-                      className="nav-link"
-                    >
-                      Shopping&nbsp;List
-                    </NavLink>
-                  </li>
-                </>
-              ) : (
-                <></>
-              )}
-
-              <li className="navbar-item">
-                <NavLink
-                  to="/NewOrderForm"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  Place&nbsp;an&nbsp;Order
-                </NavLink>
-              </li>
-              <li className="navbar-item">
-                <NavLink
-                  to="/OrderHistory"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  Order&nbsp;History
-                </NavLink>
-              </li>
-              <li className="navbar-item">
-                <NavLink
-                  to="/Favorites"
-                  activeStyle={activeStyle}
-                  className="nav-link"
-                >
-                  Favorites
-                </NavLink>
-              </li>
-            </ul>
-            <div className="text-left text-lg-right">
-              <ul className="navbar-nav mr-auto navbar-right">
-                <li className="navbar-item">
-                  <NavLink
-                    to="/Logout"
-                    activeStyle={activeStyle}
-                    className="nav-link"
-                  >
-                    Logout
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </>
-      )}
-    </nav>
+    <Navbar expand="lg" variant="dark" bg="primary" sticky="top">
+      <LinkContainer to="/" exact>
+        <Navbar.Brand>
+          <i>xf</i>BBQ
+        </Navbar.Brand>
+      </LinkContainer>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          {login.Type <= 2 ? (
+            <>
+              <LinkContainer to="/BBQ" activeStyle={activeStyle}>
+                <Nav.Link>BBQ</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/NewBBQForm" activeStyle={activeStyle}>
+                <Nav.Link>New BBQ</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/ShoppingList" activeStyle={activeStyle}>
+                <Nav.Link>Shopping List</Nav.Link>
+              </LinkContainer>
+            </>
+          ) : (
+            <></>
+          )}
+          {login.Type <= 3 ? (
+            <>
+              <LinkContainer to="/Favorite" activeStyle={activeStyle}>
+                <Nav.Link>Favorite</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/Order" activeStyle={activeStyle}>
+                <Nav.Link>Order</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/NewOrderForm" activeStyle={activeStyle}>
+                <Nav.Link>New Order</Nav.Link>
+              </LinkContainer>
+            </>
+          ) : (
+            <></>
+          )}
+          {login.Type <= 1 ? (
+            <LinkContainer to="/User" activeStyle={activeStyle}>
+              <Nav.Link>User</Nav.Link>
+            </LinkContainer>
+          ) : (
+            <></>
+          )}
+          <LinkContainer to="/UserRegistrationForm" activeStyle={activeStyle}>
+            <Nav.Link>User Registration</Nav.Link>
+          </LinkContainer>
+          {login.Type ? (
+            <LinkContainer to="/UserLogout" activeStyle={activeStyle}>
+              <Nav.Link>User Logout</Nav.Link>
+            </LinkContainer>
+          ) : (
+            <LinkContainer to="/UserLogin" activeStyle={activeStyle}>
+              <Nav.Link>User Login</Nav.Link>
+            </LinkContainer>
+          )}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }

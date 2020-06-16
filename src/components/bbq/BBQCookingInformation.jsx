@@ -1,10 +1,11 @@
-import React, { useReducer, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadUsers } from "../../redux/actions/userActions";
+import React, { useReducer, useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import fetchQuery from "../../scripts/fetchQuery";
-import PropTypes from "prop-types";
-import Spinner from "../../Spinner";
+import getQuery from "../../api/generalApi";
+import * as userApi from "../../api/userApi";
+
+import Table from "react-bootstrap/Table";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import BootstrapForm from "react-bootstrap/Form";
 
 export default function BBQCookingInformation({ ...props }) {
   const history = useHistory();
@@ -13,11 +14,16 @@ export default function BBQCookingInformation({ ...props }) {
   if (!props.location.state) history.push("/BBQList");
 
   // Get users
-  const dispatch = useDispatch();
-  const users = useSelector(state => state.users);
+  const [users, setUsers] = useState({ value: [] });
+
+  const getUsers = useCallback(async () => {
+    const response = await userApi.getUsers();
+    setUsers(response);
+  }, []);
+
   useEffect(() => {
-    dispatch(loadUsers());
-  }, [dispatch]);
+    getUsers();
+  }, [getUsers]);
 
   // Set reducer state
   const [reducerState, setReducerState] = useReducer(
@@ -73,174 +79,174 @@ export default function BBQCookingInformation({ ...props }) {
 
       hotdogNormal: "?",
       hotdogBurnt: "?",
-      hotdogTotal: "?"
+      hotdogTotal: "?",
     }
   );
 
   // Query for everything
-  const bbqID = props.location.state ? props.location.state.Id : 0;
-  document.title = "BBQ Information for BBQ " + bbqID;
+  const bbqID = props.location.state?.Id ?? 0;
+  document.title = "𝘹𝘧BBQ - BBQ Information for BBQ " + bbqID;
   const [queryResult, setQueryResult] = useState(undefined);
   useEffect(() => {
-    fetchQuery(
+    getQuery(
       `Orders?$filter=Bbqid eq ${bbqID} &$orderby=Userid`
-    ).then(value => setQueryResult(value));
+    ).then((value) => setQueryResult(value));
 
     // Rare Beef
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ rareNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ rareNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ rareCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ rareCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ rareSpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ rareSpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ rareCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ rareCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 1`
-    ).then(value => setReducerState({ rareTotal: value }));
+    ).then((value) => setReducerState({ rareTotal: value }));
 
     // Med Rare Beef
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ medRareNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medRareNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ medRareCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medRareCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ medRareSpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medRareSpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ medRareCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medRareCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 2`
-    ).then(value => setReducerState({ medRareTotal: value }));
+    ).then((value) => setReducerState({ medRareTotal: value }));
 
     // Med Beef
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ medNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ medCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ medSpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medSpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ medCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 3`
-    ).then(value => setReducerState({ medTotal: value }));
+    ).then((value) => setReducerState({ medTotal: value }));
 
     // Med Well Beef
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ medWellNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medWellNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ medWellCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medWellCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ medWellSpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medWellSpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ medWellCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ medWellCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 4`
-    ).then(value => setReducerState({ medWellTotal: value }));
+    ).then((value) => setReducerState({ medWellTotal: value }));
 
     // Well Beef
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ wellNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ wellNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ wellCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ wellCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ wellSpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ wellSpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ wellCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ wellCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Doneness eq 5`
-    ).then(value => setReducerState({ wellTotal: value }));
+    ).then((value) => setReducerState({ wellTotal: value }));
 
     // Totals
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ totalNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ totalNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ totalCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ totalCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ totalSpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ totalSpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ totalCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ totalCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 1`
-    ).then(value => setReducerState({ totalTotal: value }));
+    ).then((value) => setReducerState({ totalTotal: value }));
 
     // Turkey
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ turkeyNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ turkeyNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ turkeyCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ turkeyCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ turkeySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ turkeySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ turkeyCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ turkeyCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 2`
-    ).then(value => setReducerState({ turkeyTotal: value }));
+    ).then((value) => setReducerState({ turkeyTotal: value }));
 
     // Vegetarian
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese eq 0 and Spicy eq 0`
-    ).then(value => setReducerState({ vegetarianNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ vegetarianNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese ge 1 and Spicy eq 0`
-    ).then(value => setReducerState({ vegetarianCheesy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ vegetarianCheesy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese eq 0 and Spicy ge 1`
-    ).then(value => setReducerState({ vegetarianSpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ vegetarianSpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3 and Cheese ge 1 and Spicy ge 1`
-    ).then(value => setReducerState({ vegetarianCheesySpicy: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ vegetarianCheesySpicy: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Meat eq 3`
-    ).then(value => setReducerState({ vegetarianTotal: value }));
+    ).then((value) => setReducerState({ vegetarianTotal: value }));
 
     // Hotdogs
-    fetchQuery(
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Type ge 1 and Burnt eq 0`
-    ).then(value => setReducerState({ hotdogNormal: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ hotdogNormal: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Type ge 1 and Burnt ge 1`
-    ).then(value => setReducerState({ hotdogBurnt: value }));
-    fetchQuery(
+    ).then((value) => setReducerState({ hotdogBurnt: value }));
+    getQuery(
       `Orders/$count?$filter=Bbqid eq ${bbqID} and Type ge 1`
-    ).then(value => setReducerState({ hotdogTotal: value }));
+    ).then((value) => setReducerState({ hotdogTotal: value }));
   }, [bbqID]);
 
   // Display results
   return (
-    <div className="jumbotron">
+    <Jumbotron>
       {queryResult ? (
         <>
           <h2>BBQ Information for BBQ {bbqID}</h2>
-          <table className="table">
+          <Table>
             <thead>
               <tr className="table-primary">
                 <th style={{ width: "10%" }}>Served</th>
@@ -249,7 +255,7 @@ export default function BBQCookingInformation({ ...props }) {
               </tr>
             </thead>
             <tbody>
-              {queryResult.value.map(result => {
+              {queryResult.value.map((result) => {
                 // Figure out what to print
                 let order = "";
                 if (result.Meat > 0) {
@@ -299,13 +305,14 @@ export default function BBQCookingInformation({ ...props }) {
                   <tr key={result.Id}>
                     <td>
                       <center>
-                        <input type="checkbox" />
+                        <BootstrapForm.Check type="checkbox" />
                       </center>
                     </td>
                     <td>
                       {
-                        users.value.filter(user => result.Userid === user.Id)[0]
-                          .Name
+                        users.value.filter(
+                          (user) => result.Userid === user.Id
+                        )[0]?.Name
                       }
                     </td>
                     <td>{order}</td>
@@ -313,10 +320,10 @@ export default function BBQCookingInformation({ ...props }) {
                 );
               })}
             </tbody>
-          </table>
+          </Table>
           <hr />
           <h3>Beef Burger Orders</h3>
-          <table className="table">
+          <Table>
             <thead>
               <tr className="table-primary">
                 <th style={{ width: "10%" }} />
@@ -377,10 +384,10 @@ export default function BBQCookingInformation({ ...props }) {
                 <td>{reducerState.totalTotal}</td>
               </tr>
             </tbody>
-          </table>
+          </Table>
           <hr />
           <h3>Turkey Burger Orders</h3>
-          <table className="table">
+          <Table>
             <thead>
               <tr className="table-primary">
                 <th style={{ width: "10%" }} />
@@ -401,10 +408,10 @@ export default function BBQCookingInformation({ ...props }) {
                 <td>{reducerState.turkeyTotal}</td>
               </tr>
             </tbody>
-          </table>
+          </Table>
           <hr />
           <h3>Vegetarian Burger Orders</h3>
-          <table className="table">
+          <Table>
             <thead>
               <tr className="table-primary">
                 <th style={{ width: "10%" }} />
@@ -425,10 +432,10 @@ export default function BBQCookingInformation({ ...props }) {
                 <td>{reducerState.vegetarianTotal}</td>
               </tr>
             </tbody>
-          </table>
+          </Table>
           <hr />
           <h3>Hotdog Orders</h3>
-          <table className="table">
+          <Table>
             <thead>
               <tr className="table-primary">
                 <th style={{ width: "10%" }} />
@@ -445,15 +452,11 @@ export default function BBQCookingInformation({ ...props }) {
                 <td>{reducerState.hotdogTotal}</td>
               </tr>
             </tbody>
-          </table>
+          </Table>
         </>
       ) : (
-        <Spinner />
+        <></>
       )}
-    </div>
+    </Jumbotron>
   );
 }
-
-BBQCookingInformation.propTypes = {
-  location: PropTypes.object.isRequired
-};

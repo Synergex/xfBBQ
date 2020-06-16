@@ -1,19 +1,22 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer, useEffect, useState, useCallback } from "react";
 import moment from "moment";
-import fetchQuery from "../../scripts/fetchQuery";
-import { useDispatch, useSelector } from "react-redux";
-import { loadBBQs } from "../../redux/actions/bbqActions";
-import Spinner from "../../Spinner";
+import getQuery from "../../api/generalApi";
+import * as bbqApi from "../../api/bbqApi";
+
+import Jumbotron from "react-bootstrap/Jumbotron";
 
 export default function ShoppingList() {
   document.title = "𝘹𝘧BBQ - Shopping List";
 
   // Get BBQS
-  const dispatch = useDispatch();
-  const bbqs = useSelector(state => state.bbqs);
+  const [bbqs, setBbqs] = useState({ value: [] });
+  const getBBQs = useCallback(async () => {
+    const response = await bbqApi.getBBQs();
+    setBbqs(response);
+  }, []);
   useEffect(() => {
-    dispatch(loadBBQs());
-  }, [dispatch]);
+    getBBQs();
+  }, [getBBQs]);
 
   // Set reducers for state of shopping list
   const [reducerState, setReducerState] = useReducer(
@@ -24,7 +27,7 @@ export default function ShoppingList() {
       turkeyCount: 0,
       vegetarianCount: 0,
       cheeseCount: 0,
-      hotdogCount: 0
+      hotdogCount: 0,
     }
   );
   const [upcomingBBQs, setUpcomingBBQs] = useState(0);
@@ -33,37 +36,37 @@ export default function ShoppingList() {
   useEffect(() => {
     setUpcomingBBQs(
       bbqs.value
-        .filter(bbq => bbq.Helddate >= parseInt(moment().format("X")))
+        .filter((bbq) => bbq.Helddate >= parseInt(moment().format("X")))
         .sort((a, b) => a.Helddate - b.Helddate)
     );
     const nextBBQ = bbqs.value
-      .filter(bbq => bbq.Helddate >= parseInt(moment().format("X")))
+      .filter((bbq) => bbq.Helddate >= parseInt(moment().format("X")))
       .sort((a, b) => a.Helddate - b.Helddate)[0];
 
     if (nextBBQ) {
       const nextBBQID = nextBBQ.Id;
 
-      fetchQuery(
+      getQuery(
         `Orders/$count?$filter=Bbqid eq ${nextBBQID} and Meat eq 1`
-      ).then(value => setReducerState({ beefCount: value }));
-      fetchQuery(
+      ).then((value) => setReducerState({ beefCount: value }));
+      getQuery(
         `Orders/$count?$filter=Bbqid eq ${nextBBQID} and Meat eq 2`
-      ).then(value => setReducerState({ turkeyCount: value }));
-      fetchQuery(
+      ).then((value) => setReducerState({ turkeyCount: value }));
+      getQuery(
         `Orders/$count?$filter=Bbqid eq ${nextBBQID} and Meat eq 3`
-      ).then(value => setReducerState({ vegetarianCount: value }));
+      ).then((value) => setReducerState({ vegetarianCount: value }));
 
-      fetchQuery(`Orders?$filter=Bbqid eq ${nextBBQID} &$select=Cheese`).then(
-        value =>
+      getQuery(`Orders?$filter=Bbqid eq ${nextBBQID} &$select=Cheese`).then(
+        (value) =>
           setReducerState({
-            cheeseCount: value.value.reduce((a, b) => a + b.Cheese, 0)
+            cheeseCount: value.value.reduce((a, b) => a + b.Cheese, 0),
           })
       );
 
-      fetchQuery(`Orders?$filter=Bbqid eq ${nextBBQID} &$select=Count`).then(
-        value =>
+      getQuery(`Orders?$filter=Bbqid eq ${nextBBQID} &$select=Count`).then(
+        (value) =>
           setReducerState({
-            hotdogCount: value.value.reduce((a, b) => a + b.Count, 0)
+            hotdogCount: value.value.reduce((a, b) => a + b.Count, 0),
           })
       );
 
@@ -73,7 +76,7 @@ export default function ShoppingList() {
 
   // Present results
   return (
-    <div className="jumbotron">
+    <Jumbotron>
       <h2>Shopping List</h2>
       {bbqs.value.length > 0 && reducerState.nextBBQ.Helddate ? (
         <>
@@ -100,8 +103,8 @@ export default function ShoppingList() {
       ) : bbqs.value.length > 0 && upcomingBBQs.length <= 0 ? (
         <>There are no upcoming BBQs.</>
       ) : (
-        <Spinner />
+        <></>
       )}
-    </div>
+    </Jumbotron>
   );
 }

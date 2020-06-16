@@ -1,39 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./orders.css";
 import { Form } from "react-final-form";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loadBBQs } from "../../redux/actions/bbqActions";
-import { saveOrder, deleteOrder } from "../../redux/actions/orderActions";
-import {
-  saveFavorites,
-  loadUserFavorites
-} from "../../redux/actions/favoriteActions";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import moment from "moment";
 import * as favoriteApi from "../../api/favoriteApi";
+import * as orderApi from "../../api/orderApi";
+import * as bbqApi from "../../api/bbqApi";
 
 let counter = 0;
 export default function NewOrderForm({ ...props }) {
   document.title = "𝘹𝘧BBQ - Place an Order";
 
-  const login = useSelector(state => state.login);
-  const bbqs = useSelector(state => state.bbqs);
-  const favorites = useSelector(state => state.favorites);
+  const login = useSelector((state) => state.login);
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [bbqs, setBbqs] = useState({ value: [] });
+  const [favorites, setFavorites] = useState({ value: [] });
+
+  const getFavorites = useCallback(() => {
+    async function getFavorites() {
+      const response = await favoriteApi.getFavorites(`(Userid=${login.Id})`);
+      setFavorites(response);
+    }
+    getFavorites();
+  }, [login]);
+
   useEffect(() => {
-    dispatch(loadBBQs());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(loadUserFavorites(login.Id));
-  }, [dispatch, login]);
+    async function getBBQs() {
+      const response = await bbqApi.getBBQs();
+      setBbqs(response);
+    }
+    getBBQs();
+    getFavorites();
+  }, [getFavorites]);
 
   const ordersToEdit = props.location.state;
   const [orderCardArray, setOrderCardArray] = useState(
     ordersToEdit
-      ? ordersToEdit.map(order => {
+      ? ordersToEdit.map((order) => {
           if (order.Meat === 0) {
             return {
               key: Math.random() * 1000000000000000000,
@@ -42,10 +48,10 @@ export default function NewOrderForm({ ...props }) {
               foodCategory: "Hotdog",
               foodAttributes: {
                 burnt: order.Burnt ? true : false,
-                quantity: order.Count
+                quantity: order.Count,
               },
               orderID: order.Id,
-              userID: order.Userid
+              userID: order.Userid,
             };
           } else {
             return {
@@ -63,10 +69,10 @@ export default function NewOrderForm({ ...props }) {
                 doneness:
                   order.Doneness === undefined
                     ? ""
-                    : numberToDoneness(order.Doneness)
+                    : numberToDoneness(order.Doneness),
               },
               orderID: order.Id,
-              userID: order.Userid
+              userID: order.Userid,
             };
           }
         })
@@ -75,7 +81,7 @@ export default function NewOrderForm({ ...props }) {
   useEffect(() => {
     if (favorites.value && !ordersToEdit) {
       setOrderCardArray(
-        favorites.value.map(favorite => {
+        favorites.value.map((favorite) => {
           if (favorite.Meat === 0) {
             return {
               key: Math.random() * 1000000000000000000,
@@ -84,10 +90,10 @@ export default function NewOrderForm({ ...props }) {
               foodCategory: "Hotdog",
               foodAttributes: {
                 burnt: favorite.Burnt ? true : false,
-                quantity: favorite.Count
+                quantity: favorite.Count,
               },
               userID: favorite.Userid,
-              favoriteID: favorite.Id
+              favoriteID: favorite.Id,
             };
           } else {
             return {
@@ -105,10 +111,10 @@ export default function NewOrderForm({ ...props }) {
                 doneness:
                   favorite.Doneness === undefined
                     ? ""
-                    : numberToDoneness(favorite.Doneness)
+                    : numberToDoneness(favorite.Doneness),
               },
               userID: favorite.Userid,
-              favoriteID: favorite.Id
+              favoriteID: favorite.Id,
             };
           }
         })
@@ -225,7 +231,7 @@ export default function NewOrderForm({ ...props }) {
     }
     myArray.splice(
       myArray
-        .map(function(e) {
+        .map(function (e) {
           return e.key;
         })
         .indexOf(item.key),
@@ -235,7 +241,7 @@ export default function NewOrderForm({ ...props }) {
         id: idCounter,
         foodFlavor: item.foodFlavor,
         foodCategory: item.foodCategory,
-        foodAttributes: { ...item.foodAttributes }
+        foodAttributes: { ...item.foodAttributes },
       }
     );
     setOrderCardArray([...myArray]);
@@ -268,9 +274,9 @@ export default function NewOrderForm({ ...props }) {
         id: idCounter,
         foodFlavor: foodFlavor,
         foodCategory: foodCategory,
-        foodAttributes: foodAttributes
+        foodAttributes: foodAttributes,
       },
-      ...myArray
+      ...myArray,
     ]);
   }
 
@@ -284,7 +290,7 @@ export default function NewOrderForm({ ...props }) {
         myArray[index].id--;
     }
 
-    const arrayIndex = myArray.findIndex(k => k.key === item.key);
+    const arrayIndex = myArray.findIndex((k) => k.key === item.key);
     if (myArray[arrayIndex].orderID === undefined)
       myArray.splice(arrayIndex, 1);
     else myArray[arrayIndex].delete = true;
@@ -305,12 +311,12 @@ export default function NewOrderForm({ ...props }) {
               className={
                 item.foodAttributes.burnt === false
                   ? "btn btn-primary"
-                  : "btn btn-light"
+                  : "btn btn-dark"
               }
               onClick={() => {
                 item.foodAttributes.burnt = false;
                 orderCardArray[
-                  orderCardArray.findIndex(k => k.key === item.key)
+                  orderCardArray.findIndex((k) => k.key === item.key)
                 ].foodAttributes.burnt = item.foodAttributes.burnt;
                 setOrderCardArray([...orderCardArray]);
               }}
@@ -321,12 +327,12 @@ export default function NewOrderForm({ ...props }) {
               className={
                 item.foodAttributes.burnt === true
                   ? "btn btn-primary"
-                  : "btn btn-light"
+                  : "btn btn-dark"
               }
               onClick={() => {
                 item.foodAttributes.burnt = true;
                 orderCardArray[
-                  orderCardArray.findIndex(k => k.key === item.key)
+                  orderCardArray.findIndex((k) => k.key === item.key)
                 ].foodAttributes.burnt = item.foodAttributes.burnt;
                 setOrderCardArray([...orderCardArray]);
               }}
@@ -343,12 +349,12 @@ export default function NewOrderForm({ ...props }) {
               className={
                 item.foodAttributes.quantity === 1
                   ? "btn btn-primary"
-                  : "btn btn-light"
+                  : "btn btn-dark"
               }
               onClick={() => {
                 item.foodAttributes.quantity = 1;
                 orderCardArray[
-                  orderCardArray.findIndex(k => k.key === item.key)
+                  orderCardArray.findIndex((k) => k.key === item.key)
                 ].foodAttributes.quantity = item.foodAttributes.quantity;
                 setOrderCardArray([...orderCardArray]);
               }}
@@ -359,12 +365,12 @@ export default function NewOrderForm({ ...props }) {
               className={
                 item.foodAttributes.quantity === 2
                   ? "btn btn-primary"
-                  : "btn btn-light"
+                  : "btn btn-dark"
               }
               onClick={() => {
                 item.foodAttributes.quantity = 2;
                 orderCardArray[
-                  orderCardArray.findIndex(k => k.key === item.key)
+                  orderCardArray.findIndex((k) => k.key === item.key)
                 ].foodAttributes.quantity = item.foodAttributes.quantity;
                 setOrderCardArray([...orderCardArray]);
               }}
@@ -392,12 +398,12 @@ export default function NewOrderForm({ ...props }) {
                 className={
                   item.foodAttributes.doneness === "Rare"
                     ? "btn btn-primary"
-                    : "btn btn-light"
+                    : "btn btn-dark"
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "Rare";
                   orderCardArray[
-                    orderCardArray.findIndex(k => k.key === item.key)
+                    orderCardArray.findIndex((k) => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setOrderCardArray([...orderCardArray]);
                 }}
@@ -408,12 +414,12 @@ export default function NewOrderForm({ ...props }) {
                 className={
                   item.foodAttributes.doneness === "MedRare"
                     ? "btn btn-primary"
-                    : "btn btn-light"
+                    : "btn btn-dark"
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "MedRare";
                   orderCardArray[
-                    orderCardArray.findIndex(k => k.key === item.key)
+                    orderCardArray.findIndex((k) => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setOrderCardArray([...orderCardArray]);
                 }}
@@ -424,12 +430,12 @@ export default function NewOrderForm({ ...props }) {
                 className={
                   item.foodAttributes.doneness === "Med"
                     ? "btn btn-primary"
-                    : "btn btn-light"
+                    : "btn btn-dark"
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "Med";
                   orderCardArray[
-                    orderCardArray.findIndex(k => k.key === item.key)
+                    orderCardArray.findIndex((k) => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setOrderCardArray([...orderCardArray]);
                 }}
@@ -440,12 +446,12 @@ export default function NewOrderForm({ ...props }) {
                 className={
                   item.foodAttributes.doneness === "MedWell"
                     ? "btn btn-primary"
-                    : "btn btn-light"
+                    : "btn btn-dark"
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "MedWell";
                   orderCardArray[
-                    orderCardArray.findIndex(k => k.key === item.key)
+                    orderCardArray.findIndex((k) => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setOrderCardArray([...orderCardArray]);
                 }}
@@ -456,12 +462,12 @@ export default function NewOrderForm({ ...props }) {
                 className={
                   item.foodAttributes.doneness === "Well"
                     ? "btn btn-primary"
-                    : "btn btn-light"
+                    : "btn btn-dark"
                 }
                 onClick={() => {
                   item.foodAttributes.doneness = "Well";
                   orderCardArray[
-                    orderCardArray.findIndex(k => k.key === item.key)
+                    orderCardArray.findIndex((k) => k.key === item.key)
                   ].foodAttributes.doneness = item.foodAttributes.doneness;
                   setOrderCardArray([...orderCardArray]);
                 }}
@@ -485,7 +491,7 @@ export default function NewOrderForm({ ...props }) {
                 onClick={() => {
                   item.foodAttributes.cheese = !item.foodAttributes.cheese;
                   orderCardArray[
-                    orderCardArray.findIndex(k => k.key === item.key)
+                    orderCardArray.findIndex((k) => k.key === item.key)
                   ].foodAttributes.cheese = item.foodAttributes.cheese;
                   setOrderCardArray([...orderCardArray]);
                 }}
@@ -494,7 +500,7 @@ export default function NewOrderForm({ ...props }) {
                 defaultChecked={item.foodAttributes.cheese}
               />
               <label
-                className="form-check-label btn btn-block btn-light btn-lg"
+                className="form-check-label btn btn-block btn-dark btn-lg"
                 htmlFor={item.foodFlavor + item.id + "Cheese"}
               >
                 Cheese
@@ -507,7 +513,7 @@ export default function NewOrderForm({ ...props }) {
                 onClick={() => {
                   item.foodAttributes.spice = !item.foodAttributes.spice;
                   orderCardArray[
-                    orderCardArray.findIndex(k => k.key === item.key)
+                    orderCardArray.findIndex((k) => k.key === item.key)
                   ].foodAttributes.spice = item.foodAttributes.spice;
                   setOrderCardArray([...orderCardArray]);
                 }}
@@ -516,7 +522,7 @@ export default function NewOrderForm({ ...props }) {
                 defaultChecked={item.foodAttributes.spice}
               />
               <label
-                className="form-check-label btn btn btn-block btn-light btn-lg"
+                className="form-check-label btn btn btn-block btn-dark btn-lg"
                 htmlFor={item.foodFlavor + item.id + "Spice"}
               >
                 Spice
@@ -543,7 +549,7 @@ export default function NewOrderForm({ ...props }) {
       window.confirm(
         "Make sure your order is correct before submitting.\r\nIs this what you want to order?\r\n" +
           orderCardArray
-            .map(item => {
+            .map((item) => {
               if (item.foodCategory === "Burger") {
                 switch (item.foodFlavor) {
                   case "Beef":
@@ -556,7 +562,7 @@ export default function NewOrderForm({ ...props }) {
                       cheese: item.foodAttributes.cheese ? 1 : 0,
                       spicy: item.foodAttributes.spice ? 1 : 0,
                       id: item.orderID,
-                      delete: item.delete ? true : ""
+                      delete: item.delete ? true : "",
                     });
 
                     return (
@@ -578,7 +584,7 @@ export default function NewOrderForm({ ...props }) {
                       cheese: item.foodAttributes.cheese ? 1 : 0,
                       spicy: item.foodAttributes.spice ? 1 : 0,
                       id: item.orderID,
-                      delete: item.delete ? true : ""
+                      delete: item.delete ? true : "",
                     });
 
                     return (
@@ -598,7 +604,7 @@ export default function NewOrderForm({ ...props }) {
                       cheese: item.foodAttributes.cheese ? 1 : 0,
                       spicy: item.foodAttributes.spice ? 1 : 0,
                       id: item.orderID,
-                      delete: item.delete ? true : ""
+                      delete: item.delete ? true : "",
                     });
 
                     return (
@@ -621,7 +627,7 @@ export default function NewOrderForm({ ...props }) {
                   count: item.foodAttributes.quantity,
                   burnt: item.foodAttributes.burnt ? 1 : 0,
                   id: item.orderID,
-                  delete: item.delete ? true : ""
+                  delete: item.delete ? true : "",
                 });
 
                 return (
@@ -643,31 +649,26 @@ export default function NewOrderForm({ ...props }) {
           (orders.length > 1 ? "s" : "") +
           " ..."
       );
-      orders.forEach(order => {
-        if (order.delete)
-          dispatch(
-            deleteOrder({
-              Id: order.id
-            })
-          );
+      let orderArray = [];
+      orders.forEach((order) => {
+        if (order.delete) orderApi.deleteOrder(order.id);
         else
-          dispatch(
-            saveOrder({
-              Meat: order.meat ? order.meat : 0,
-              Cheese: order.cheese ? order.cheese : 0,
-              Doneness: order.doneness ? order.doneness : 0,
-              Spicy: order.spicy ? order.spicy : 0,
-              Type: order.type ? order.type : 0,
-              Count: order.count ? order.count : 0,
-              Burnt: order.burnt ? order.burnt : 0,
-              Orderdate: order.orderDate,
-              Userid: order.userID,
-              Bbqid: order.bbqID,
-              Id: order.id
-            })
-          );
+          orderArray.push({
+            Meat: order.meat ? order.meat : 0,
+            Cheese: order.cheese ? order.cheese : 0,
+            Doneness: order.doneness ? order.doneness : 0,
+            Spicy: order.spicy ? order.spicy : 0,
+            Type: order.type ? order.type : 0,
+            Count: order.count ? order.count : 0,
+            Burnt: order.burnt ? order.burnt : 0,
+            Orderdate: order.orderDate,
+            Userid: order.userID,
+            Bbqid: order.bbqID,
+            Id: order.id,
+          });
       });
-      history.push("/OrderHistory");
+      orderApi.saveBatchOrders({ Orders: orderArray });
+      history.push("/Order");
     }
   }
 
@@ -680,60 +681,39 @@ export default function NewOrderForm({ ...props }) {
           <form onSubmit={handleSubmit}>
             <div className="row">
               <div className="col-6">
-                <div className="dropdown">
-                  <button
-                    className="btn btn-lg btn-primary dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Add food
-                  </button>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <button
-                      className="dropdown-item lead"
-                      id="addBeefButton"
-                      onClick={() => addFood(orderCardArray, "Beef", "Burger")}
-                      type="button"
-                    >
-                      Beef Burger
-                    </button>
-                    <button
-                      className="dropdown-item lead"
-                      id="addTurkeyButton"
-                      onClick={() =>
-                        addFood(orderCardArray, "Turkey", "Burger")
-                      }
-                      type="button"
-                    >
-                      Turkey Burger
-                    </button>
-                    <button
-                      className="dropdown-item lead"
-                      id="addVeggieButton"
-                      onClick={() =>
-                        addFood(orderCardArray, "Veggie", "Burger")
-                      }
-                      type="button"
-                    >
-                      Veggie Burger
-                    </button>
-                    <div className="dropdown-divider" />
-                    <button
-                      className="dropdown-item lead"
-                      id="addHotdogButton"
-                      onClick={() => addFood(orderCardArray, "", "Hotdog")}
-                      type="button"
-                    >
-                      Hotdog
-                    </button>
-                  </div>
-                </div>
+                <button
+                  className="btn"
+                  id="addBeefButton"
+                  onClick={() => addFood(orderCardArray, "Beef", "Burger")}
+                  type="button"
+                >
+                  Beef Burger
+                </button>
+                <button
+                  className="btn"
+                  id="addTurkeyButton"
+                  onClick={() => addFood(orderCardArray, "Turkey", "Burger")}
+                  type="button"
+                >
+                  Turkey Burger
+                </button>
+                <button
+                  className="btn"
+                  id="addVeggieButton"
+                  onClick={() => addFood(orderCardArray, "Veggie", "Burger")}
+                  type="button"
+                >
+                  Veggie Burger
+                </button>
+                <div className="dropdown-divider" />
+                <button
+                  className="btn"
+                  id="addHotdogButton"
+                  onClick={() => addFood(orderCardArray, "", "Hotdog")}
+                  type="button"
+                >
+                  Hotdog
+                </button>
               </div>
               <div className="col-6 text-right">
                 <button
@@ -752,7 +732,7 @@ export default function NewOrderForm({ ...props }) {
                       window.confirm(
                         "Are you sure you want to save this order as your favorite?\r\n" +
                           orderCardArray
-                            .map(item => {
+                            .map((item) => {
                               if (item.foodCategory === "Burger") {
                                 switch (item.foodFlavor) {
                                   case "Beef":
@@ -767,7 +747,7 @@ export default function NewOrderForm({ ...props }) {
                                         : 0,
                                       spicy: item.foodAttributes.spice ? 1 : 0,
                                       id: item.favoriteID,
-                                      delete: item.delete ? true : ""
+                                      delete: item.delete ? true : "",
                                     });
 
                                     return (
@@ -793,7 +773,7 @@ export default function NewOrderForm({ ...props }) {
                                         : 0,
                                       spicy: item.foodAttributes.spice ? 1 : 0,
                                       id: item.favoriteID,
-                                      delete: item.delete ? true : ""
+                                      delete: item.delete ? true : "",
                                     });
 
                                     return (
@@ -815,7 +795,7 @@ export default function NewOrderForm({ ...props }) {
                                         : 0,
                                       spicy: item.foodAttributes.spice ? 1 : 0,
                                       id: item.favoriteID,
-                                      delete: item.delete ? true : ""
+                                      delete: item.delete ? true : "",
                                     });
 
                                     return (
@@ -838,7 +818,7 @@ export default function NewOrderForm({ ...props }) {
                                   count: item.foodAttributes.quantity,
                                   burnt: item.foodAttributes.burnt ? 1 : 0,
                                   id: item.favoriteID,
-                                  delete: item.delete ? true : ""
+                                  delete: item.delete ? true : "",
                                 });
 
                                 return (
@@ -861,13 +841,9 @@ export default function NewOrderForm({ ...props }) {
                           " ..."
                       );
                       let favoritesArray = [];
-                      favorites.forEach(favorite => {
+                      favorites.forEach((favorite) => {
                         if (favorite.delete)
-                          dispatch(
-                            deleteOrder({
-                              Id: favorite.id
-                            })
-                          );
+                          favoriteApi.deleteFavorites(favorite.id);
                         else
                           favoritesArray.push({
                             Meat: favorite.meat ? favorite.meat : 0,
@@ -878,16 +854,14 @@ export default function NewOrderForm({ ...props }) {
                             Count: favorite.count ? favorite.count : 0,
                             Burnt: favorite.burnt ? favorite.burnt : 0,
                             Userid: favorite.userID,
-                            Id: favorite.id
+                            Id: favorite.id,
                           });
                       });
 
-                      favoriteApi.deleteUserFavorites(userID).then(
-                        dispatch(
-                          saveFavorites({
-                            Favorites: favoritesArray
-                          })
-                        )
+                      favoriteApi.deleteFavoritesByUserID(userID).then(
+                        favoriteApi.saveBatchFavorites({
+                          Favorites: favoritesArray,
+                        })
                       );
                     }
                   }}
@@ -913,7 +887,7 @@ export default function NewOrderForm({ ...props }) {
           </form>
         )}
       />
-      {orderCardArray.map(item => (
+      {orderCardArray.map((item) => (
         <div key={item.key}>
           {drawCard(orderCardArray, item)}
           <p />
@@ -924,5 +898,5 @@ export default function NewOrderForm({ ...props }) {
 }
 
 NewOrderForm.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };

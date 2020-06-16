@@ -1,40 +1,11 @@
 import { handleResponse, handleError } from "./apiUtils";
+import * as tokenApi from "./tokenApi";
 const baseUrl = "https://localhost:8086/odata/v1/Favorites";
 
-export async function getFavorites() {
+export async function getFavorites(opts) {
   try {
-    let response = await fetch(baseUrl);
-    return handleResponse(response);
-  } catch (error) {
-    return handleError(error);
-  }
-}
-
-export async function getUserFavorites(userID) {
-  try {
-    let response = await fetch(baseUrl + "(Userid=" + userID + ")");
-    return handleResponse(response);
-  } catch (error) {
-    return handleError(error);
-  }
-}
-
-export async function deleteFavorite(favoriteID) {
-  try {
-    let response = await fetch(baseUrl + "/" + favoriteID, {
-      method: "DELETE"
-    });
-
-    return handleResponse(response);
-  } catch (error) {
-    return handleError(error);
-  }
-}
-
-export async function deleteUserFavorites(userID) {
-  try {
-    let response = await fetch(baseUrl + "(Userid=" + userID + ")", {
-      method: "DELETE"
+    let response = await fetch(baseUrl + opts, {
+      headers: { authorization: `Bearer ${tokenApi.authToken}` },
     });
     return handleResponse(response);
   } catch (error) {
@@ -42,21 +13,28 @@ export async function deleteUserFavorites(userID) {
   }
 }
 
-export async function saveFavorite(favorite) {
+export async function deleteFavorites(favoriteId) {
   try {
-    let response = await fetch(baseUrl + "/" + (favorite.Id || ""), {
+    let response = await fetch(`${baseUrl}/${favoriteId}`, {
+      method: "DELETE",
+      headers: { authorization: `Bearer ${tokenApi.authToken}` },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function saveFavorites(favorite) {
+  try {
+    let response = await fetch(`${baseUrl}/${favorite.Id || ""}`, {
       method: favorite.Id ? "PUT" : "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(favorite)
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${tokenApi.authToken}`,
+      },
+      body: JSON.stringify(favorite),
     });
-
-    // Give the order back, if 204
-    if (response.status === 204) {
-      let blob = new Blob([JSON.stringify(favorite)], {
-        "content-type": "application/json"
-      });
-      response = new Response(blob);
-    }
 
     return handleResponse(response);
   } catch (error) {
@@ -64,12 +42,27 @@ export async function saveFavorite(favorite) {
   }
 }
 
-export async function saveFavorites(favorites) {
+export async function deleteFavoritesByUserID(userID) {
   try {
-    let response = await fetch(baseUrl + "/PostFavorites", {
+    let response = await fetch(`${baseUrl}(Userid=${userID})`, {
+      method: "DELETE",
+      headers: { authorization: `Bearer ${tokenApi.authToken}` },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function saveBatchFavorites(favorites) {
+  try {
+    let response = await fetch(`${baseUrl}/PostFavorites`, {
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(favorites)
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${tokenApi.authToken}`,
+      },
+      body: JSON.stringify(favorites),
     });
 
     return handleResponse(response);

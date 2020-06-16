@@ -1,19 +1,35 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = "https://localhost:8086/odata/v1/Users/";
+import * as tokenApi from "./tokenApi";
+const baseUrl = "https://localhost:8086/odata/v1/Users";
 
 export async function getUsers() {
   try {
-    let response = await fetch(baseUrl);
+    let response = await fetch(baseUrl, {
+      headers: { authorization: `Bearer ${tokenApi.authToken}` },
+    });
     return handleResponse(response);
   } catch (error) {
     return handleError(error);
   }
 }
 
-export async function deleteUser(userID) {
+export async function getUserByName(username) {
   try {
-    let response = await fetch(baseUrl + userID, { method: "DELETE" });
+    let response = await fetch(`${baseUrl}?$filter=Name eq '${username}'`, {
+      headers: { authorization: `Bearer ${tokenApi.authToken}` },
+    });
+    return handleResponse(response);
+  } catch (error) {
+    return handleError(error);
+  }
+}
 
+export async function deleteUser(userId) {
+  try {
+    let response = await fetch(`${baseUrl}/${userId}`, {
+      method: "DELETE",
+      headers: { authorization: `Bearer ${tokenApi.authToken}` },
+    });
     return handleResponse(response);
   } catch (error) {
     return handleError(error);
@@ -22,25 +38,18 @@ export async function deleteUser(userID) {
 
 export async function saveUser(user, captchaValue) {
   try {
-    let response = await fetch(baseUrl + (user.Id || ""), {
+    let response = await fetch(`${baseUrl}/${user.Id || ""}`, {
       method: user.Id ? "PUT" : "POST",
       headers: {
+        authorization: `Bearer ${tokenApi.authToken}`,
         "content-type": "application/json",
-        "x-response": captchaValue
+        "x-response": captchaValue,
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     });
-
-    // Give the user back, if 204
-    if (response.status === 204) {
-      let blob = new Blob([JSON.stringify(user)], {
-        "content-type": "application/json"
-      });
-      response = new Response(blob);
-    }
 
     return handleResponse(response);
   } catch (error) {
-    return handleError(error);
+    handleError(error);
   }
 }

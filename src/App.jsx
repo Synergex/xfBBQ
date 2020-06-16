@@ -1,105 +1,101 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 
-import isEmpty from "./scripts/isEmpty";
+import "bootswatch/dist/darkly/bootstrap.min.css";
+import Container from "react-bootstrap/Container";
 
 import Header from "./Header";
-import PageNotFound from "./PageNotFound";
-import LoginPage from "./components/login/UserLogin";
+
 import HomePage from "./components/home/HomePage";
-
-import AccountRecoveryPage from "./components/login/AccountRecovery";
-import RecoveryCode from "./components/login/RecoveryCode";
-import UserRegistrationForm from "./components/users/UserRegistrationForm";
-import UserList from "./components/users/UsersList";
-
-import BBQRegistrationForm from "./components/bbq/BBQRegistrationForm";
-import BBQList from "./components/bbq/BBQList";
-
-import NewOrderForm from "./components/orders/NewOrderForm";
-import OrderHistory from "./components/orders/OrderHistory";
-
+import BBQ from "./components/bbq/BBQ";
+import BBQCookingInformation from "./components/bbq/BBQCookingInformation";
+import NewBBQForm from "./components/bbq/NewBBQForm";
 import ShoppingList from "./components/shopping/ShoppingList";
+import Favorite from "./components/favorite/Favorite";
+import Order from "./components/order/Order";
+import NewOrderForm from "./components/order/NewOrderForm";
+import User from "./components/user/User";
+import UserRegistrationForm from "./components/user/UserRegistrationForm";
+import UserLogin from "./components/user/UserLogin";
+import UserLogout from "./components/user/UserLogout";
 
-import FavoritesList from "./components/favorites/FavoritesList";
-
-import BBQCookingInformation from "./components/bbq/CookingInformation";
-
-import LogoutPage from "./components/login/UserLogout";
+import PageNotFound from "./PageNotFound";
 
 export default function App() {
-  const login = useSelector(state => state.login);
+  const login = useSelector((state) => state.login);
 
   return (
-    <div className="container-fluid">
+    <Container fluid>
       <Header />
-      {isEmpty(login) ? (
-        // Not logged in
+      {login.Type <= 1 ? (
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route
-            path="/UserRegistrationForm"
-            component={UserRegistrationForm}
-          />
-          <Route path="/Login" component={LoginPage} />
-          <Route path="/AccountRecovery" component={AccountRecoveryPage} />
-          <Route path="/RecoveryCode" component={RecoveryCode} />
-          <Route component={PageNotFound} />
-        </Switch>
-      ) : login.Type === 1 ? (
-        // Admin logged in
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route
-            path="/UserRegistrationForm"
-            component={UserRegistrationForm}
-          />
-          <Route path="/UsersList" component={UserList} />
-          <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
-          <Route path="/BBQList" component={BBQList} />
-          <Route path="/NewOrderForm" component={NewOrderForm} />
-          <Route path="/OrderHistory" component={OrderHistory} />
-          <Route path="/Favorites" component={FavoritesList} />
-          <Route path="/ShoppingList" component={ShoppingList} />
+          <Route path="/BBQ" component={BBQ} />
           <Route
             path="/BBQCookingInformation"
             component={BBQCookingInformation}
           />
-          <Route path="/Logout" component={LogoutPage} />
+          <Route path="/NewBBQForm" component={NewBBQForm} />
+          <Route path="/ShoppingList" component={ShoppingList} />
+          <Route path="/Favorite" component={Favorite} />
+          <Route path="/Order" component={Order} />
+          <Route path="/NewOrderForm" component={NewOrderForm} />
+          <Route path="/User" component={User} />
+          <Route
+            path="/UserRegistrationForm"
+            component={UserRegistrationForm}
+          />
+          <Route path="/UserLogout" component={UserLogout} />
           <Route component={PageNotFound} />
         </Switch>
-      ) : login.Type !== 3 ? (
-        // Host logged in
+      ) : login.Type <= 2 ? (
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/BBQRegistrationForm" component={BBQRegistrationForm} />
-          <Route path="/BBQList" component={BBQList} />
-          <Route path="/NewOrderForm" component={NewOrderForm} />
-          <Route path="/OrderHistory" component={OrderHistory} />
-          <Route path="/Favorites" component={FavoritesList} />
-          <Route path="/ShoppingList" component={ShoppingList} />
+          <Route path="/BBQ" component={BBQ} />
           <Route
             path="/BBQCookingInformation"
             component={BBQCookingInformation}
           />
-          <Route path="/Logout" component={LogoutPage} />
+          <Route path="/NewBBQForm" component={NewBBQForm} />
+          <Route path="/ShoppingList" component={ShoppingList} />
+          <Route path="/Favorite" component={Favorite} />
+          <Route path="/Order" component={Order} />
+          <Route path="/NewOrderForm" component={NewOrderForm} />
+          <Route
+            path="/UserRegistrationForm"
+            component={UserRegistrationForm}
+          />
+          <Route path="/UserLogout" component={UserLogout} />
+          <Route component={PageNotFound} />
+        </Switch>
+      ) : login.Type <= 3 ? (
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/Favorite" component={Favorite} />
+          <Route path="/Order" component={Order} />
+          <Route path="/NewOrderForm" component={NewOrderForm} />
+          <Route
+            path="/UserRegistrationForm"
+            component={UserRegistrationForm}
+          />
+          <Route path="/UserLogout" component={UserLogout} />
           <Route component={PageNotFound} />
         </Switch>
       ) : (
-        // Attendee logged in
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/NewOrderForm" component={NewOrderForm} />
-          <Route path="/OrderHistory" component={OrderHistory} />
-          <Route path="/Favorites" component={FavoritesList} />
-          <Route path="/Logout" component={LogoutPage} />
+          <Route
+            path="/UserRegistrationForm"
+            component={UserRegistrationForm}
+          />
+          <Route path="/UserLogin" component={UserLogin} />
           <Route component={PageNotFound} />
         </Switch>
       )}
       <ToastContainer hideProgressBar />
-    </div>
+    </Container>
   );
 }

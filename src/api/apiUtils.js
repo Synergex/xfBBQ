@@ -2,6 +2,11 @@ export async function handleResponse(response) {
   // Have 204 return blank
   if (response.status === 204) return "{}";
   if (response.ok) return response.json();
+  // Return to login on 401, reset state
+  if (response.status === 401) {
+    window.alert("You are being signed out due to inactivity");
+    window.location.href = "/UserLogout";
+  }
   if (response.status === 400) {
     // So, a server-side validation error occurred.
     // Server side validation returns a string error message, so parse as text instead of json.
