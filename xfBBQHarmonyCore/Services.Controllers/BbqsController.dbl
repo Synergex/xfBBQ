@@ -240,33 +240,6 @@ namespace Services.Controllers
             mreturn NoContent()
 
         endmethod
-;        {ODataRoute("(Id={aId})")}
-;        {ProducesResponseType(StatusCodes.Status204NoContent)}
-;        {ProducesResponseType(StatusCodes.Status404NotFound)}
-;        {HttpDelete}
-;        ;;; <summary>
-;        ;;; Delete a bbq.
-;        ;;; </summary>
-;        ;;; <param name="aId">ID of BBQ</param>
-;        ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-;        public method DeleteBbq, @IActionResult
-;            {FromODataUri}
-;            required in aId, int
-;        proc
-;            ;;Get the bbq to be deleted
-;            data bbqToRemove = _DbContext.Bbqs.Find(aId)
-;
-;            ;;Did we find it?
-;            if (bbqToRemove == ^null)
-;                mreturn NotFound()
-;
-;            ;;Delete and commit
-;            _DbContext.Bbqs.Remove(bbqToRemove)
-;            _DbContext.SaveChanges()
-;
-;            mreturn NoContent()
-;
-;        endmethod
     endclass
 
 endnamespace

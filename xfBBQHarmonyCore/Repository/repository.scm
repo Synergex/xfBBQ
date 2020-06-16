@@ -1,11 +1,11 @@
  
 ;  SYNERGY DATA LANGUAGE OUTPUT
 ;
-;  REPOSITORY     : C:\Users\devadm\Desktop\devfolder\xfbbq\HarmonyCore\Reposito
-;                 : C:\Users\devadm\Desktop\devfolder\xfbbq\HarmonyCore\Reposito
+;  REPOSITORY     : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
+;                 : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
 ;                 : Version 11.1.1c
 ;
-;  GENERATED      : 11-JUN-2020, 14:54:50
+;  GENERATED      : 16-JUN-2020, 11:51:19
 ;                 : Version 11.1.1b
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -28,6 +28,8 @@ Enumeration USERTYPE
  
 Structure BBQ   DBL ISAM
    Description "BBQ Table"
+   Long Description
+      "NO_DELETE_ENDPOINT"
  
 Field ID   Type DECIMAL   Size 8
    Description "ID of BBQ"
