@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export async function handleResponse(response) {
   // Have 204 return blank
   if (response.status === 204) return "{}";
@@ -13,6 +15,7 @@ export async function handleResponse(response) {
     const error = await response.text();
     throw new Error(error);
   }
+  toast.error("A server error has occurred");
   throw new Error("Network response was not ok.");
 }
 
