@@ -44,7 +44,14 @@ export default function UserLogin() {
               toast.success("Logged in!");
               history.push("/");
             });
-          } else toast.error("Wrong Name or Password");
+          } else
+            toast.error(
+              <>
+                Wrong Name or Password
+                <br />
+                Try logging in with the exact name you registered with
+              </>
+            );
         }}
         validate={(values) => {
           const errors = {};
