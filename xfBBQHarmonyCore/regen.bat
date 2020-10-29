@@ -28,7 +28,7 @@ set TraditionalBridgeProject=TraditionalBridge
 rem ================================================================================================================================
 rem Specify the names of the repository structures to generate code from:
 
-set DATA_STRUCTURES=BBQ ORDER USER FAVORITE
+set DATA_STRUCTURES=BBQ ORDER USER FAVORITE POTLUCK_FULLFILLMENT POTLUCK_ITEMS POTLUCK_WISHLIST
 set DATA_ALIASES=%DATA_STRUCTURES%
 set DATA_FILES=%DATA_STRUCTURES%
 
@@ -150,7 +150,7 @@ if DEFINED ENABLE_ODATA_ENVIRONMENT (
           -n  %ModelsProject% ^
               %STDOPTS%
   if ERRORLEVEL 1 goto error
-  
+
   rem Generate controller classes
   codegen -s  %DATA_STRUCTURES% ^
           -a  %DATA_ALIASES% ^
@@ -161,7 +161,7 @@ if DEFINED ENABLE_ODATA_ENVIRONMENT (
           -n  %ControllersProject% ^
               %STDOPTS%
   if ERRORLEVEL 1 goto error
-  
+
 if DEFINED ENABLE_PROPERTY_ENDPOINTS (
   rem Generate partial controller class for individual property endpoints
 
@@ -185,7 +185,7 @@ if DEFINED ENABLE_PROPERTY_ENDPOINTS (
           -n  %ModelsProject% ^
               %STDOPTS%
   if ERRORLEVEL 1 goto error
-  
+
   rem Generate the EdmBuilder and Startup classes
   codegen -s  %DATA_STRUCTURES% -ms ^
           -a  %DATA_ALIASES% ^
@@ -388,7 +388,7 @@ goto :eof
   if ERRORLEVEL 1 goto error
 
   rem Generate the main dispatcher class (TRADITIONAL SIDE)
-  
+
   codegen -smc %SMC_XML_FILE% ^
           -interface %1 ^
           -t InterfaceDispatcher ^
@@ -484,6 +484,6 @@ GOTO:eof
           -n %ControllersProject% ^
           -ut MODELS_NAMESPACE=%ModelsProject% DTOS_NAMESPACE=%SMC_INTERFACE% ^
           %STDOPTS%
-  if ERRORLEVEL 1 goto error  
+  if ERRORLEVEL 1 goto error
 
 GOTO:eof

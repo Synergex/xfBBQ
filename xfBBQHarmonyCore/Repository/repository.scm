@@ -1,12 +1,12 @@
  
 ;  SYNERGY DATA LANGUAGE OUTPUT
 ;
-;  REPOSITORY     : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
-;                 : C:\Users\devadm\Desktop\xfbbq\xfBBQHarmonyCore\Repository\bi
+;  REPOSITORY     : E:\DEV\xfbbq\xfBBQ\xfBBQHarmonyCore\Repository\bin\Debug\rpsmain.ism
+;                 : E:\DEV\xfbbq\xfBBQ\xfBBQHarmonyCore\Repository\bin\Debug\rpstext.ism
 ;                 : Version 11.1.1c
 ;
-;  GENERATED      : 16-JUN-2020, 11:51:19
-;                 : Version 11.1.1b
+;  GENERATED      : 29-OCT-2020, 10:35:37
+;                 : Version 11.1.1f
 ;  EXPORT OPTIONS : [ALL] 
  
  
@@ -142,6 +142,103 @@ Relation  1   ORDER USERID   USER ID
  
 Relation  2   ORDER BBQID   BBQ ID
  
+Structure POTLUCK_FULLFILLMENT   DBL ISAM
+   Description "Potluck items being brought"
+ 
+Field ID   Type DECIMAL   Size 8
+   Description "Item id"
+ 
+Field BBQID   Type DECIMAL   Size 8
+   Description "BBQ id"
+ 
+Field ITEMID   Type DECIMAL   Size 8
+   Description "Item id"
+ 
+Field USERID   Type DECIMAL   Size 8
+   Description "user id bringing item"
+ 
+Field QTY   Type DECIMAL   Size 4
+   Description "Quantity"
+ 
+Key ID   ACCESS   Order ASCENDING   Dups NO
+   Description "id"
+   Segment FIELD   ID
+ 
+Key BBQID   ACCESS   Order ASCENDING   Dups YES   Insert END   Krf 001
+   Description "bbq id"
+   Segment FIELD   BBQID
+   Segment FIELD   ITEMID
+ 
+Key USER   ACCESS   Order ASCENDING   Dups YES   Insert END   Modifiable YES
+   Krf 002
+   Description "user"
+   Segment FIELD   USERID
+   Segment FIELD   BBQID
+   Segment FIELD   ITEMID
+ 
+Key ITEMID   ACCESS   Order ASCENDING   Dups YES   Insert END   Krf 003
+   Description "item id"
+   Segment FIELD   ITEMID
+ 
+Relation  1   POTLUCK_FULLFILLMENT BBQID   BBQ ID
+ 
+Relation  2   POTLUCK_FULLFILLMENT BBQID   POTLUCK_WISHLIST BBQID
+ 
+Relation  3   POTLUCK_FULLFILLMENT USER   USER ID
+ 
+Relation  4   POTLUCK_FULLFILLMENT ITEMID   POTLUCK_ITEMS ID
+ 
+Structure POTLUCK_ITEMS   DBL ISAM
+   Description "Potluck items"
+ 
+Field ID   Type DECIMAL   Size 8
+   Description "Potluck Item id"
+   Report Just LEFT   Input Just LEFT
+ 
+Field DESCRIPTION   Type ALPHA   Size 200
+   Description "Description"
+ 
+Field ICON   Type ALPHA   Size 256
+   Description "Icon/image URL"
+ 
+Key ID   ACCESS   Order ASCENDING   Dups NO
+   Description "id"
+   Segment FIELD   ID
+ 
+Structure POTLUCK_WISHLIST   DBL ISAM
+   Description "Potluck"
+ 
+Field ID   Type DECIMAL   Size 8
+   Description "Item id"
+ 
+Field BBQID   Type DECIMAL   Size 8
+   Description "BBQ id"
+ 
+Field ITEMID   Type DECIMAL   Size 8
+   Description "Item id"
+ 
+Field QTY   Type DECIMAL   Size 4
+   Description "Quantity"
+ 
+Key ID   ACCESS   Order ASCENDING   Dups NO
+   Description "ID"
+   Segment FIELD   ID
+ 
+Key BBQID   ACCESS   Order ASCENDING   Dups YES   Insert END   Krf 001
+   Description "BBQ id"
+   Segment FIELD   BBQID
+   Segment FIELD   ITEMID
+ 
+Key ITEMID   FOREIGN
+   Description "item id"
+   Segment FIELD   ITEMID
+ 
+Relation  1   POTLUCK_WISHLIST BBQID   BBQ ID
+ 
+Relation  2   POTLUCK_WISHLIST ITEMID   POTLUCK_ITEMS ID
+ 
+Relation  3   POTLUCK_WISHLIST ITEMID   POTLUCK_FULLFILLMENT ITEMID
+ 
 Structure SYSPARAMS   RELATIVE
    Description "System parameter file"
  
@@ -206,6 +303,21 @@ File FAVORITE   DBL ISAM   "DAT:FAVORITE.ism"
 File ORDER   DBL ISAM   "DAT:Order.ism"
    Description "Order File"
    Assign ORDER
+ 
+File POTLUCK_FULLFILLMENT   DBL ISAM   "DAT:POTLUCK_FULLFILLMENT.ism"
+   Description "Potluck Fulfillment"
+   Page Size 4096   Compress
+   Assign POTLUCK_FULLFILLMENT
+ 
+File POTLUCK_ITEMS   DBL ISAM   "DAT:POTLUCK_ITEMS.ism"
+   Description "Potluck items"
+   Page Size 4096   Compress
+   Assign POTLUCK_ITEMS
+ 
+File POTLUCK_WISHLIST   DBL ISAM   "DAT:POTLUC_WISKLIST.ism"
+   Description "Potluck wishlist items"
+   Page Size 4096   Compress
+   Assign POTLUCK_WISHLIST
  
 File SYSPARAMS   RELATIVE   "DAT:sysparams.ddf"
    Description "System parameter file"

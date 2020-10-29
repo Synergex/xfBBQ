@@ -128,6 +128,45 @@ namespace Services.Host
                     Startup.LogicalNames.Add(fileSpec)
             end
 
+            fileSpec = "DAT:POTLUCK_FULLFILlment.ism"
+            if (fileSpec.Contains(":")) then
+            begin
+                logical = fileSpec.Split(":")[1].ToUpper()
+                if (!Startup.LogicalNames.Contains(logical))
+                    Startup.LogicalNames.Add(logical)
+            end
+            else if (!fileSpec.Contains("."))
+            begin
+                if (!Startup.LogicalNames.Contains(fileSpec))
+                    Startup.LogicalNames.Add(fileSpec)
+            end
+
+            fileSpec = "DAT:POTLUCK_ITEMS.ism"
+            if (fileSpec.Contains(":")) then
+            begin
+                logical = fileSpec.Split(":")[1].ToUpper()
+                if (!Startup.LogicalNames.Contains(logical))
+                    Startup.LogicalNames.Add(logical)
+            end
+            else if (!fileSpec.Contains("."))
+            begin
+                if (!Startup.LogicalNames.Contains(fileSpec))
+                    Startup.LogicalNames.Add(fileSpec)
+            end
+
+            fileSpec = "DAT:POTLUC_WISKLIST.ism"
+            if (fileSpec.Contains(":")) then
+            begin
+                logical = fileSpec.Split(":")[1].ToUpper()
+                if (!Startup.LogicalNames.Contains(logical))
+                    Startup.LogicalNames.Add(logical)
+            end
+            else if (!fileSpec.Contains("."))
+            begin
+                if (!Startup.LogicalNames.Contains(fileSpec))
+                    Startup.LogicalNames.Add(fileSpec)
+            end
+
             ;;If we have a SetLogicalsCustom method, call it
             SetLogicalsCustom(Startup.LogicalNames)
 
@@ -159,6 +198,9 @@ namespace Services.Host
             data orders = loadOrders()
             data users = loadUsers()
             data favorites = loadFavorites()
+            data potluckFullfillments = loadPotluckFullfillments()
+            data potluckItems = loadPotluckItems()
+            data potluckWishlists = loadPotluckWishlists()
 
             ;;Create and load the bbqs file
 
@@ -204,6 +246,39 @@ namespace Services.Host
                 store(chout,favorite.SynergyRecord)
             close chout
 
+            ;;Create and load the potluckFullfillments file
+
+            dataFile = "DAT:POTLUCK_FULLFILlment.ism"
+            xdlFile = "@" + dataFile.ToLower().Replace(".ism",".xdl")
+
+            data potluckFullfillment, @PotluckFullfillment
+            open(chout=0,o:i,dataFile,FDL:xdlFile)
+            foreach potluckFullfillment in potluckFullfillments
+                store(chout,potluckFullfillment.SynergyRecord)
+            close chout
+
+            ;;Create and load the potluckItems file
+
+            dataFile = "DAT:POTLUCK_ITEMS.ism"
+            xdlFile = "@" + dataFile.ToLower().Replace(".ism",".xdl")
+
+            data potluckItem, @PotluckItem
+            open(chout=0,o:i,dataFile,FDL:xdlFile)
+            foreach potluckItem in potluckItems
+                store(chout,potluckItem.SynergyRecord)
+            close chout
+
+            ;;Create and load the potluckWishlists file
+
+            dataFile = "DAT:POTLUC_WISKLIST.ism"
+            xdlFile = "@" + dataFile.ToLower().Replace(".ism",".xdl")
+
+            data potluckWishlist, @PotluckWishlist
+            open(chout=0,o:i,dataFile,FDL:xdlFile)
+            foreach potluckWishlist in potluckWishlists
+                store(chout,potluckWishlist.SynergyRecord)
+            close chout
+
         endmethod
 
         private static method deleteFiles, void
@@ -245,6 +320,39 @@ namespace Services.Host
             try
             begin
                 xcall delet("DAT:FAVORITE.ism")
+            end
+            catch (e, @NoFileFoundException)
+            begin
+                nop
+            end
+            endtry
+
+            ;;Delete the potluckFullfillments file
+            try
+            begin
+                xcall delet("DAT:POTLUCK_FULLFILlment.ism")
+            end
+            catch (e, @NoFileFoundException)
+            begin
+                nop
+            end
+            endtry
+
+            ;;Delete the potluckItems file
+            try
+            begin
+                xcall delet("DAT:POTLUCK_ITEMS.ism")
+            end
+            catch (e, @NoFileFoundException)
+            begin
+                nop
+            end
+            endtry
+
+            ;;Delete the potluckWishlists file
+            try
+            begin
+                xcall delet("DAT:POTLUC_WISKLIST.ism")
             end
             catch (e, @NoFileFoundException)
             begin
@@ -328,6 +436,63 @@ namespace Services.Host
         eof,
             close favoriteCh
             mreturn favorites
+        endmethod
+
+        public static method loadPotluckFullfillments, @List<PotluckFullfillment>
+        proc
+            data dataFile = "DAT:POTLUCK_FULLFILlment.ism"
+            data textFile = dataFile.ToLower().Replace(".ism",".txt")
+            data potluckFullfillmentCh, int, 0
+            data potluckFullfillmentRec, strPotluckFullfillment
+            data potluckFullfillments = new List<PotluckFullfillment>()
+            data grfa, a10
+            open(potluckFullfillmentCh,i:s,textFile)
+            repeat
+            begin
+                reads(potluckFullfillmentCh,potluckFullfillmentRec,eof)
+                potluckFullfillments.Add(new PotluckFullfillment(potluckFullfillmentRec, grfa))
+            end
+        eof,
+            close potluckFullfillmentCh
+            mreturn potluckFullfillments
+        endmethod
+
+        public static method loadPotluckItems, @List<PotluckItem>
+        proc
+            data dataFile = "DAT:POTLUCK_ITEMS.ism"
+            data textFile = dataFile.ToLower().Replace(".ism",".txt")
+            data potluckItemCh, int, 0
+            data potluckItemRec, strPotluckItem
+            data potluckItems = new List<PotluckItem>()
+            data grfa, a10
+            open(potluckItemCh,i:s,textFile)
+            repeat
+            begin
+                reads(potluckItemCh,potluckItemRec,eof)
+                potluckItems.Add(new PotluckItem(potluckItemRec, grfa))
+            end
+        eof,
+            close potluckItemCh
+            mreturn potluckItems
+        endmethod
+
+        public static method loadPotluckWishlists, @List<PotluckWishlist>
+        proc
+            data dataFile = "DAT:POTLUC_WISKLIST.ism"
+            data textFile = dataFile.ToLower().Replace(".ism",".txt")
+            data potluckWishlistCh, int, 0
+            data potluckWishlistRec, strPotluckWishlist
+            data potluckWishlists = new List<PotluckWishlist>()
+            data grfa, a10
+            open(potluckWishlistCh,i:s,textFile)
+            repeat
+            begin
+                reads(potluckWishlistCh,potluckWishlistRec,eof)
+                potluckWishlists.Add(new PotluckWishlist(potluckWishlistRec, grfa))
+            end
+        eof,
+            close potluckWishlistCh
+            mreturn potluckWishlists
         endmethod
 
         private static method findRelativeFolderForAssembly, string

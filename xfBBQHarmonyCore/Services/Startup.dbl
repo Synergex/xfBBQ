@@ -157,6 +157,9 @@ namespace Services
                 objectProvider.AddDataObjectMapping<Order>("DAT:Order.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<User>("DAT:User.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<Favorite>("DAT:FAVORITE.ism", FileOpenMode.UpdateIndexed)
+                objectProvider.AddDataObjectMapping<PotluckFullfillment>("DAT:POTLUCK_FULLFILlment.ism", FileOpenMode.UpdateIndexed)
+                objectProvider.AddDataObjectMapping<PotluckItem>("DAT:POTLUCK_ITEMS.ism", FileOpenMode.UpdateIndexed)
+                objectProvider.AddDataObjectMapping<PotluckWishlist>("DAT:POTLUC_WISKLIST.ism", FileOpenMode.UpdateIndexed)
                 mreturn objectProvider
             end
 
@@ -302,7 +305,12 @@ namespace Services
             end
 
             services.AddHttpsRedirection(httpsConfig)
+
+            ;;-------------------------------------------------------
+            ;;Add "Cross Origin Resource Sharing" (CORS) support
+
             services.AddCors()
+
             ;;If there is a ConfigureServicesCustom method, call it
             ConfigureServicesCustom(services)
 
@@ -458,24 +466,22 @@ namespace Services
             end
 
             ;;-------------------------------------------------------
+            ;;Add "Cross Origin Resource Sharing" (CORS) support
+
+            lambda corsOptions(builder)
+            begin
+                builder.AllowAnyOrigin()
+                &    .AllowAnyMethod()
+                &    .AllowAnyHeader()
+            end
+
+            app.UseCors(corsOptions)
+
+            ;;-------------------------------------------------------
             ;;Enable MVC
 
             ;;If there is a ConfigureCustomBeforeMvc method, call it
             ConfigureCustomBeforeMvc(app,env)
-
-
-			;;-------------------------------------------------------
-			;;Add "Cross Origin Resource Sharing" (CORS) support
-
-			lambda corsOptions(builder)
-			begin
-				builder.AllowAnyOrigin()
-				&	.AllowAnyMethod()
-				&	.AllowAnyHeader()
-			end
-
-			app.UseCors(corsOptions)
-
 
             app.UseMvc(mvcBuilder)
 

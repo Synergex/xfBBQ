@@ -1,8 +1,8 @@
 ;;*****************************************************************************
 ;;
-;; Title:       FavoritesController.dbl
+;; Title:       PotluckItemsController.dbl
 ;;
-;; Description: OData controller for the FAVORITE structure.
+;; Description: OData controller for the POTLUCK_ITEMS structure.
 ;;
 ;;*****************************************************************************
 ;; WARNING: GENERATED CODE!
@@ -33,11 +33,11 @@ namespace Services.Controllers
 
     {Authorize}
     {ApiVersion("1")}
-    {ODataRoutePrefix("Favorites")}
+    {ODataRoutePrefix("PotluckItems")}
     ;;; <summary>
-    ;;; OData controller for Favorites
+    ;;; OData controller for PotluckItems
     ;;; </summary>
-    public partial class FavoritesController extends ODataController
+    public partial class PotluckItemsController extends ODataController
     
         ;;Services provided via dependency injection
         private _DbContext, @Services.Models.DBContext
@@ -45,12 +45,12 @@ namespace Services.Controllers
         private _AppSettings, @IOptions<AppSettings>
 
         ;;; <summary>
-        ;;; Constructs a new instance of FavoritesController
+        ;;; Constructs a new instance of PotluckItemsController
         ;;; </summary>
         ;;; <param name="aDbContext">Database context instance (DI)</param>
         ;;; <param name="aServiceProvider">Service provider instance (DI)</param>
         ;;; <param name="aAppSettings">Application settings</param>
-        public method FavoritesController
+        public method PotluckItemsController
             aDbContext, @Services.Models.DBContext
             aServiceProvider, @IServiceProvider
             aAppSettings, @IOptions<AppSettings>
@@ -62,52 +62,73 @@ namespace Services.Controllers
 
         {ODataRoute}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(ODataValue<IEnumerable<Favorite>>),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckItem>>),StatusCodes.Status200OK)}
         {EnableQuery(MaxExpansionDepth=4)}
         ;;; <summary>
-        ;;; Get all Favorites
+        ;;; Get all PotluckItems
         ;;; </summary>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetFavorites, @IActionResult
+        public method GetPotluckItems, @IActionResult
         proc
-            mreturn Ok(_DbContext.Favorites.AsNoTracking())
+            mreturn Ok(_DbContext.PotluckItems.AsNoTracking())
         endmethod
 
         {ODataRoute("(Id={aId})")}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(Favorite),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(PotluckItem),StatusCodes.Status200OK)}
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {EnableQuery(MaxExpansionDepth=4)}
         ;;; <summary>
-        ;;; Get a single Favorite by primary key.
+        ;;; Get a single PotluckItem by primary key.
         ;;; </summary>
-        ;;; <param name="aId">ID of favorite</param>
+        ;;; <param name="aId">Potluck Item id</param>
         ;;; <returns>Returns a SingleResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetFavorite, @SingleResult<Favorite>
+        public method GetPotluckItem, @SingleResult<PotluckItem>
             {FromODataUri}
             required in aId, int
         proc
-            mreturn new SingleResult<Favorite>(_DbContext.Favorites.AsNoTracking().FindQuery<Favorite>(_DbContext, aId))
+            mreturn new SingleResult<PotluckItem>(_DbContext.PotluckItems.AsNoTracking().FindQuery<PotluckItem>(_DbContext, aId))
         endmethod
 
-        {ODataRoute("(Userid={aUserid})")}
+        {ODataRoute}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(ODataValue<IEnumerable<Favorite>>),StatusCodes.Status200OK)}
-        {ProducesResponseType(StatusCodes.Status404NotFound)}
-        {EnableQuery(MaxExpansionDepth=4)}
+        {ProducesResponseType(^typeof(PotluckItem),StatusCodes.Status200OK)}
+        {ProducesResponseType(StatusCodes.Status400BadRequest)}
+        {HttpPost}
         ;;; <summary>
-        ;;; Get favorites by alternate key key Userid.
+        ;;; Create a new potluckItem (automatically assigned primary key).
         ;;; </summary>
-        ;;; <param name="aUserid">ID of user who favored</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetFavoritesByUserid, @IActionResult
-            {FromODataUri}
-            required in aUserid, int
+        public method PostPotluckItem, @IActionResult
+            {FromBody}
+            required in aPotluckItem, @PotluckItem
         proc
-            data result = _DbContext.Favorites.AsNoTracking().FindAlternate("Userid",aUserid)
-            if (result == ^null)
-                mreturn NotFound()
-            mreturn Ok(result)
+            ;;Remove the primary key fields from ModelState
+            ModelState.Remove("Id")
+
+            ;; Validate inbound data
+            if (!ModelState.IsValid)
+                mreturn ValidationHelper.ReturnValidationError(ModelState)
+
+            ;;Get the next available primary key value
+            disposable data keyFactory = (@IPrimaryKeyFactory)_ServiceProvider.GetService(^typeof(IPrimaryKeyFactory))
+            KeyFactory.AssignPrimaryKey(aPotluckItem)
+
+            ;;Add the new potluckItem
+            try
+            begin
+                _DbContext.PotluckItems.Add(aPotluckItem)
+                _DbContext.SaveChanges(keyFactory)
+            end
+            catch (e, @ValidationException)
+            begin
+                ModelState.AddModelError("RelationValidation",e.Message)
+                mreturn ValidationHelper.ReturnValidationError(ModelState)
+            end
+            endtry
+
+            mreturn Created(aPotluckItem)
+
         endmethod
 
         {ODataRoute("(Id={aId})")}
@@ -117,37 +138,37 @@ namespace Services.Controllers
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {HttpPut}
         ;;; <summary>
-        ;;; Create (with a client-supplied primary key) or replace a favorite.
+        ;;; Create (with a client-supplied primary key) or replace a potluckItem.
         ;;; </summary>
 
-        ;;; <param name="aId">ID of favorite</param>
+        ;;; <param name="aId">Potluck Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method PutFavorite, @IActionResult
+        public method PutPotluckItem, @IActionResult
             {FromODataUri}
             required in aId, int
             {FromBody}
-            required in aFavorite, @Favorite
+            required in aPotluckItem, @PotluckItem
         proc
             ;; Validate inbound data
             if (!ModelState.IsValid)
                 mreturn ValidationHelper.ReturnValidationError(ModelState)
 
             ;;Ensure that the key values in the URI win over any data that may be in the model object
-            aFavorite.Id = aId
+            aPotluckItem.Id = aId
 
             try
             begin
                 ;;Add and commit
-                data existing = _DbContext.Favorites.Find(aId)
+                data existing = _DbContext.PotluckItems.Find(aId)
                 if(existing == ^null) then
                 begin
-                    _DbContext.Favorites.Add(aFavorite)
+                    _DbContext.PotluckItems.Add(aPotluckItem)
                     _DbContext.SaveChanges()
-                    mreturn Created(aFavorite)
+                    mreturn Created(aPotluckItem)
                 end
                 else
                 begin
-                    aFavorite.CopyTo(existing)
+                    aPotluckItem.CopyTo(existing)
                     _DbContext.SaveChanges()
                     mreturn NoContent()
                 end
@@ -171,38 +192,38 @@ namespace Services.Controllers
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {HttpPatch}
         ;;; <summary>
-        ;;; Patch  (partial update) a favorite.
+        ;;; Patch  (partial update) a potluckItem.
         ;;; </summary>
-        ;;; <param name="aId">ID of favorite</param>
+        ;;; <param name="aId">Potluck Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method PatchFavorite, @IActionResult
+        public method PatchPotluckItem, @IActionResult
             {FromODataUri}
             required in aId, int
             {FromBody}
-            required in aFavorite, @JsonPatchDocument<Favorite>
+            required in aPotluckItem, @JsonPatchDocument<PotluckItem>
         proc
             ;; Validate inbound data
             if (!ModelState.IsValid)
                 mreturn ValidationHelper.ReturnValidationError(ModelState)
 
-            ;;Patch the existing favorite
+            ;;Patch the existing potluckItem
             try
             begin
-                ;;Get the favorite to be updated
-                data favoriteToUpdate = _DbContext.Favorites.Find(aId)
+                ;;Get the potluckItem to be updated
+                data potluckItemToUpdate = _DbContext.PotluckItems.Find(aId)
                 data patchError, @JsonPatchError, ^null
                 ;;Did we find it?
-                if(favoriteToUpdate == ^null)
+                if(potluckItemToUpdate == ^null)
                     mreturn NotFound()
 
-                ;;Apply the changes to the favorite we read
-                aFavorite.ApplyTo(favoriteToUpdate, lambda(error) { patchError = error })
+                ;;Apply the changes to the potluckItem we read
+                aPotluckItem.ApplyTo(potluckItemToUpdate, lambda(error) { patchError = error })
                 ;;if the patchdoc was bad return the error info
                 if(patchError != ^null)
                     mreturn BadRequest(string.Format("Error applying patch document: error message {0}, caused by {1}", patchError.ErrorMessage, JsonConvert.SerializeObject(patchError.Operation)))
 
                 ;;Update and commit
-                _DbContext.Favorites.Update(favoriteToUpdate)
+                _DbContext.PotluckItems.Update(potluckItemToUpdate)
                 _DbContext.SaveChanges()
             end
             catch (e, @InvalidOperationException)
@@ -224,23 +245,23 @@ namespace Services.Controllers
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {HttpDelete}
         ;;; <summary>
-        ;;; Delete a favorite.
+        ;;; Delete a potluckItem.
         ;;; </summary>
-        ;;; <param name="aId">ID of favorite</param>
+        ;;; <param name="aId">Potluck Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method DeleteFavorite, @IActionResult
+        public method DeletePotluckItem, @IActionResult
             {FromODataUri}
             required in aId, int
         proc
-            ;;Get the favorite to be deleted
-            data favoriteToRemove = _DbContext.Favorites.Find(aId)
+            ;;Get the potluckItem to be deleted
+            data potluckItemToRemove = _DbContext.PotluckItems.Find(aId)
 
             ;;Did we find it?
-            if (favoriteToRemove == ^null)
+            if (potluckItemToRemove == ^null)
                 mreturn NotFound()
 
             ;;Delete and commit
-            _DbContext.Favorites.Remove(favoriteToRemove)
+            _DbContext.PotluckItems.Remove(potluckItemToRemove)
             _DbContext.SaveChanges()
 
             mreturn NoContent()

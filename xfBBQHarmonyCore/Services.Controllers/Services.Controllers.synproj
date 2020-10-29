@@ -62,6 +62,9 @@
     <Compile Include="IsolatedMethodsBase.dbl" />
     <Compile Include="OrdersController.Custom.dbl" />
     <Compile Include="OrdersController.dbl" />
+    <Compile Include="PotluckFullfillmentsController.dbl" />
+    <Compile Include="PotluckItemsController.dbl" />
+    <Compile Include="PotluckWishlistsController.dbl" />
     <Compile Include="UsersController.Custom.dbl" />
     <Compile Include="UsersController.dbl" />
   </ItemGroup>

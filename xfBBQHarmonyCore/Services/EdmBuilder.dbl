@@ -99,6 +99,9 @@ namespace Services
             builder.EntitySet<Order>("Orders")
             builder.EntitySet<User>("Users")
             builder.EntitySet<Favorite>("Favorites")
+            builder.EntitySet<PotluckFullfillment>("PotluckFullfillments")
+            builder.EntitySet<PotluckItem>("PotluckItems")
+            builder.EntitySet<PotluckWishlist>("PotluckWishlists")
 
             ;;Entities with a single primary key segment have the key declared to EF via a
             ;;{Key} attribute on the appropriate property in the data model, but only one {key}
@@ -127,6 +130,20 @@ namespace Services
 
             data favoriteType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.Favorite")
             tempModel.AddAlternateKeyAnnotation(favoriteType, new Dictionary<string, IEdmProperty>() {{"Userid",favoriteType.FindProperty("Userid")}})
+      
+      
+      
+
+            data potluckFullfillmentType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.PotluckFullfillment")
+            tempModel.AddAlternateKeyAnnotation(potluckFullfillmentType, new Dictionary<string, IEdmProperty>() {{"Bbqid",potluckFullfillmentType.FindProperty("Bbqid")},{"Itemid",potluckFullfillmentType.FindProperty("Itemid")}})
+            tempModel.AddAlternateKeyAnnotation(potluckFullfillmentType, new Dictionary<string, IEdmProperty>() {{"Userid",potluckFullfillmentType.FindProperty("Userid")},{"Bbqid",potluckFullfillmentType.FindProperty("Bbqid")},{"Itemid",potluckFullfillmentType.FindProperty("Itemid")}})
+            tempModel.AddAlternateKeyAnnotation(potluckFullfillmentType, new Dictionary<string, IEdmProperty>() {{"Itemid",potluckFullfillmentType.FindProperty("Itemid")}})
+
+            data potluckItemType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.PotluckItem")
+      
+
+            data potluckWishlistType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.PotluckWishlist")
+            tempModel.AddAlternateKeyAnnotation(potluckWishlistType, new Dictionary<string, IEdmProperty>() {{"Bbqid",potluckWishlistType.FindProperty("Bbqid")},{"Itemid",potluckWishlistType.FindProperty("Itemid")}})
 
             ;;-----------------------------------------------
             ;;If we have a PostEdmModelCustom method, call it 
