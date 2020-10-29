@@ -128,7 +128,7 @@ namespace Services.Host
                     Startup.LogicalNames.Add(fileSpec)
             end
 
-            fileSpec = "DAT:POTLUCK_FULLFILlment.ism"
+            fileSpec = "DAT:POTLUCK_FULLFILLMENT.ism"
             if (fileSpec.Contains(":")) then
             begin
                 logical = fileSpec.Split(":")[1].ToUpper()
@@ -154,7 +154,7 @@ namespace Services.Host
                     Startup.LogicalNames.Add(fileSpec)
             end
 
-            fileSpec = "DAT:POTLUC_WISKLIST.ism"
+            fileSpec = "DAT:POTLUCK_WISHLIST.ism"
             if (fileSpec.Contains(":")) then
             begin
                 logical = fileSpec.Split(":")[1].ToUpper()
@@ -248,7 +248,7 @@ namespace Services.Host
 
             ;;Create and load the potluckFullfillments file
 
-            dataFile = "DAT:POTLUCK_FULLFILlment.ism"
+            dataFile = "DAT:POTLUCK_FULLFILLMENT.ism"
             xdlFile = "@" + dataFile.ToLower().Replace(".ism",".xdl")
 
             data potluckFullfillment, @PotluckFullfillment
@@ -270,7 +270,7 @@ namespace Services.Host
 
             ;;Create and load the potluckWishlists file
 
-            dataFile = "DAT:POTLUC_WISKLIST.ism"
+            dataFile = "DAT:POTLUCK_WISHLIST.ism"
             xdlFile = "@" + dataFile.ToLower().Replace(".ism",".xdl")
 
             data potluckWishlist, @PotluckWishlist
@@ -330,7 +330,7 @@ namespace Services.Host
             ;;Delete the potluckFullfillments file
             try
             begin
-                xcall delet("DAT:POTLUCK_FULLFILlment.ism")
+                xcall delet("DAT:POTLUCK_FULLFILLMENT.ism")
             end
             catch (e, @NoFileFoundException)
             begin
@@ -352,7 +352,7 @@ namespace Services.Host
             ;;Delete the potluckWishlists file
             try
             begin
-                xcall delet("DAT:POTLUC_WISKLIST.ism")
+                xcall delet("DAT:POTLUCK_WISHLIST.ism")
             end
             catch (e, @NoFileFoundException)
             begin
@@ -440,7 +440,7 @@ namespace Services.Host
 
         public static method loadPotluckFullfillments, @List<PotluckFullfillment>
         proc
-            data dataFile = "DAT:POTLUCK_FULLFILlment.ism"
+            data dataFile = "DAT:POTLUCK_FULLFILLMENT.ism"
             data textFile = dataFile.ToLower().Replace(".ism",".txt")
             data potluckFullfillmentCh, int, 0
             data potluckFullfillmentRec, strPotluckFullfillment
@@ -478,7 +478,7 @@ namespace Services.Host
 
         public static method loadPotluckWishlists, @List<PotluckWishlist>
         proc
-            data dataFile = "DAT:POTLUC_WISKLIST.ism"
+            data dataFile = "DAT:POTLUCK_WISHLIST.ism"
             data textFile = dataFile.ToLower().Replace(".ism",".txt")
             data potluckWishlistCh, int, 0
             data potluckWishlistRec, strPotluckWishlist
