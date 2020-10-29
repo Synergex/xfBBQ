@@ -2,7 +2,7 @@ import { handleResponse, handleError } from "./apiUtils";
 import * as tokenApi from "./tokenApi";
 const baseUrlPotluckItems = "https://localhost:8086/odata/v1/PotluckItems";
 const baseUrlPotluckWishlist = "https://localhost:8086/odata/v1/PotluckWishlists";
-const baseUrlPotluckFullfillment = "https://localhost:8086/odata/v1/PotluckFullfillments";
+const baseUrlPotluckFulfillment = "https://localhost:8086/odata/v1/PotluckFulfillments";
 
 //top level items
 export async function getItems() {
@@ -62,7 +62,7 @@ export async function getItems() {
   export async function getUnfulfilledItems(bbqid) {
     try {
         let wishlist = await getWishlistItems(bbqid);
-        let fulfilled = await getFullfillmentItems(bbqid);
+        let fulfilled = await getFulfillmentItems(bbqid);
 
         //iterate fulfilled items and subtract the amount fulfilled from the corisponding wishlist item
         for(const fulfilledItem of fulfilled) {
@@ -107,11 +107,11 @@ export async function getItems() {
     }
   }
 
-  //fullfillments
+  //Fulfillments
 
-  export async function getFullfillmentItems(bbqid) {
+  export async function getFulfillmentItems(bbqid) {
     try {
-      let response = await fetch(baseUrlPotluckFullfillment + '?$filter=bbqid eq ' + bbqid, {
+      let response = await fetch(baseUrlPotluckFulfillment + '?$filter=bbqid eq ' + bbqid, {
         headers: { authorization: `Bearer ${tokenApi.authToken}` },
       });
       return handleResponse(response);
@@ -120,9 +120,9 @@ export async function getItems() {
     }
   }
   
-  export async function deleteFullfillmentItem(fullfillmentId) {
+  export async function deleteFulfillmentItem(FulfillmentId) {
     try {
-      let response = await fetch(`${baseUrlPotluckFullfillment}/${fullfillmentId}`, {
+      let response = await fetch(`${baseUrlPotluckFulfillment}/${FulfillmentId}`, {
         method: "DELETE",
         headers: { authorization: `Bearer ${tokenApi.authToken}` },
       });
@@ -132,9 +132,9 @@ export async function getItems() {
     }
   }
   
-  export async function saveFullfillmentItem(item) {
+  export async function saveFulfillmentItem(item) {
     try {
-      let response = await fetch(`${baseUrlPotluckFullfillment}/${item.Id || ""}`, {
+      let response = await fetch(`${baseUrlPotluckFulfillment}/${item.Id || ""}`, {
         method: item.Id ? "PUT" : "POST",
         headers: {
           "content-type": "application/json",
@@ -150,14 +150,14 @@ export async function getItems() {
   }
 
   //create custom wishlist item for my unasked for potluck item
-  export async function saveCustomFullfillmentItem(itemDescription, itemQuantity, bbqid, userid) {
+  export async function saveCustomFulfillmentItem(itemDescription, itemQuantity, bbqid, userid) {
     try {
       let customItem = { Description: itemDescription, Icon: "customitem.png" };
       let madeItem = saveItem(customItem);
       let customWishlist = { Bbqid: bbqid, Itemid: madeItem.Id, Qty: itemQuantity };
       let madeWishlistItem = await saveWishlistItem(customWishlist);
       let customFulfillment = { Bbqid: bbqid, Itemid: madeItem.Id, Qty: itemQuantity, Userid: userid };
-      let madeFulfillment = await saveFullfillmentItem(customFulfillment);
+      let madeFulfillment = await saveFulfillmentItem(customFulfillment);
       return handleResponse(madeFulfillment);
     } catch (error) {
       return handleError(error);
