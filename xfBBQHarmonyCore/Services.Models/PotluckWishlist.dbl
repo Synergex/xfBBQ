@@ -125,6 +125,21 @@ namespace Services.Models
             endmethod
         endproperty
 
+        ;;; <summary>
+        ;;; Custom item (not on original wishlist)
+        ;;; </summary>
+        {Range(0,9, ErrorMessage="Custom item (not on original wishlist) must be between 0 and 9. ")}
+        public property CustomItem, int
+            method get
+            proc
+                mreturn (int)mSynergyData.custom_item
+            endmethod
+            method set
+            proc
+                mSynergyData.custom_item = value
+            endmethod
+        endproperty
+
 .endregion
 
 .region "Other attributes"
@@ -185,7 +200,7 @@ namespace Services.Models
         public override method InternalGetValues, [#]@object
         proc
             ;;TODO: This should be returning boxed values for each of our fields
-            mreturn new Object[4]
+            mreturn new Object[5]
         endmethod
 
 .endregion

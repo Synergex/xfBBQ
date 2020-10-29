@@ -1,10 +1,10 @@
-00000001Green Salas
+00000001Green Salad
 00000002Coleslaw
-00000003Potato Salas
+00000003Potato Salad
 00000004Sauerkraut
 00000005Cucumber Tomato Salad
 00000006Baked Garlic Parmesan Puffs
-00000007Garlic Parmesan Poasted Shrip with mango diupping sauce
+00000007Garlic Parmesan Poasted Shrimp with Mango Dipping Sauce
 00000008Ham, Chease and Spinach puffs
 00000009Pinapple Salsa with Sesame Tortilla Chips
 00000010Ham and Cheese Quiche

@@ -5,7 +5,7 @@
 ;                 : E:\DEV\xfbbq\xfBBQ\xfBBQHarmonyCore\Repository\bin\Debug\rpstext.ism
 ;                 : Version 11.1.1c
 ;
-;  GENERATED      : 29-OCT-2020, 11:00:29
+;  GENERATED      : 29-OCT-2020, 12:54:40
 ;                 : Version 11.1.1f
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -219,6 +219,9 @@ Field ITEMID   Type DECIMAL   Size 8
  
 Field QTY   Type DECIMAL   Size 4
    Description "Quantity"
+ 
+Field CUSTOM_ITEM   Type DECIMAL   Size 1
+   Description "Custom item (not on original wishlist)"
  
 Key ID   ACCESS   Order ASCENDING   Dups NO
    Description "ID"
