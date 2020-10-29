@@ -302,7 +302,7 @@ namespace Services
             end
 
             services.AddHttpsRedirection(httpsConfig)
-
+            services.AddCors()
             ;;If there is a ConfigureServicesCustom method, call it
             ConfigureServicesCustom(services)
 
@@ -462,6 +462,20 @@ namespace Services
 
             ;;If there is a ConfigureCustomBeforeMvc method, call it
             ConfigureCustomBeforeMvc(app,env)
+
+
+			;;-------------------------------------------------------
+			;;Add "Cross Origin Resource Sharing" (CORS) support
+
+			lambda corsOptions(builder)
+			begin
+				builder.AllowAnyOrigin()
+				&	.AllowAnyMethod()
+				&	.AllowAnyHeader()
+			end
+
+			app.UseCors(corsOptions)
+
 
             app.UseMvc(mvcBuilder)
 
