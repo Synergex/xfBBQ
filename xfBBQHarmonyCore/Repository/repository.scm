@@ -5,7 +5,7 @@
 ;                 : E:\DEV\xfbbq\xfBBQ\xfBBQHarmonyCore\Repository\bin\Debug\rpstext.ism
 ;                 : Version 11.1.1c
 ;
-;  GENERATED      : 29-OCT-2020, 10:35:37
+;  GENERATED      : 29-OCT-2020, 11:00:29
 ;                 : Version 11.1.1f
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -314,7 +314,7 @@ File POTLUCK_ITEMS   DBL ISAM   "DAT:POTLUCK_ITEMS.ism"
    Page Size 4096   Compress
    Assign POTLUCK_ITEMS
  
-File POTLUCK_WISHLIST   DBL ISAM   "DAT:POTLUC_WISKLIST.ism"
+File POTLUCK_WISHLIST   DBL ISAM   "DAT:POTLUCK_WISHLIST.ism"
    Description "Potluck wishlist items"
    Page Size 4096   Compress
    Assign POTLUCK_WISHLIST
