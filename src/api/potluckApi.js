@@ -57,6 +57,26 @@ export async function getItems() {
       return handleError(error);
     }
   }
+
+//make endpoint for unfufilled items
+  export async function getUnfulfilledItems(bbqid) {
+    try {
+        let wishlist = await getWishlistItems(bbqid);
+        let fulfilled = await getFullfillmentItems(bbqid);
+
+        //iterate fulfilled items and subtract the amount fulfilled from the corisponding wishlist item
+        for(const fulfilledItem of fulfilled) {
+            const itemid = fulfilledItem.Itemid;
+            const foundWishlistItem = wishlist.find(wishItem => wishItem.itemid === itemid);
+            foundWishlistItem.Qty -= fulfilledItem.Qty;
+        }
+
+        let result = wishlist.filter(item => item.Qty > 0);
+        return handleResponse(result);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
   
   export async function deleteWishlistItem(wishlistId) {
     try {
@@ -124,6 +144,21 @@ export async function getItems() {
       });
   
       return handleResponse(response);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  //create custom wishlist item for my unasked for potluck item
+  export async function saveCustomFullfillmentItem(itemDescription, itemQuantity, bbqid, userid) {
+    try {
+      let customItem = { Description: itemDescription, Icon: "customitem.png" };
+      let madeItem = saveItem(customItem);
+      let customWishlist = { Bbqid: bbqid, Itemid: madeItem.Id, Qty: itemQuantity };
+      let madeWishlistItem = await saveWishlistItem(customWishlist);
+      let customFulfillment = { Bbqid: bbqid, Itemid: madeItem.Id, Qty: itemQuantity, Userid: userid };
+      let madeFulfillment = await saveFullfillmentItem(customFulfillment);
+      return handleResponse(madeFulfillment);
     } catch (error) {
       return handleError(error);
     }
