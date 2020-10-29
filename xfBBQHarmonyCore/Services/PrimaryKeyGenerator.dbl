@@ -34,6 +34,9 @@ namespace Services
         nextOrder, strSysParams
         nextUser, strSysParams
         nextFavorite, strSysParams
+        nextPotluckItem, strSysParams
+        nextPotluckWishlist, strSysParams
+        nextPotluckFullfillment, strSysParams
 
         lockObj, @Object, new Object()
 
@@ -46,6 +49,9 @@ namespace Services
             init nextOrder
             init nextUser
             init nextFavorite
+            init nextPotluckItem
+            init nextPotluckWishlist
+            init nextPotluckFullfillment
         endmethod
 
         protected override method IncrementKeyImplementation, @a
@@ -83,6 +89,30 @@ namespace Services
                 nextFavorite.param_value += 1
                 write(mChannel,nextFavorite,4)
                 mreturn (@a)%string(nextFavorite.param_value-1)
+            end
+            ("POTLUCK_ITEMS"),
+            begin
+                if (!nextPotluckItem.param_value)
+                    read(mChannel,nextPotluckItem,5,LOCK:Q_MANUAL_LOCK, wait:1)
+                nextPotluckItem.param_value += 1
+                write(mChannel,nextPotluckItem,5)
+                mreturn (@a)%string(nextPotluckItem.param_value-1)
+            end
+            ("POTLUCK_FULLFILLMENT"),
+            begin
+                if (!nextPotluckFullfillment.param_value)
+                    read(mChannel,nextPotluckFullfillment,6,LOCK:Q_MANUAL_LOCK, wait:1)
+                nextPotluckFullfillment.param_value += 1
+                write(mChannel,nextPotluckFullfillment,6)
+                mreturn (@a)%string(nextPotluckFullfillment.param_value-1)
+            end
+            ("POTLUCK_WISHLIST"),
+            begin
+                if (!nextPotluckWishlist.param_value)
+                    read(mChannel,nextPotluckWishlist,7,LOCK:Q_MANUAL_LOCK, wait:1)
+                nextPotluckWishlist.param_value += 1
+                write(mChannel,nextPotluckWishlist,7)
+                mreturn (@a)%string(nextPotluckWishlist.param_value-1)
             end
             endusing
         endmethod
