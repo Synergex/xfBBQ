@@ -44,6 +44,7 @@ namespace Services.Models
             AddFieldInfo("Bbqid", "DECIMAL", 8, 9, 0, false)
             AddFieldInfo("Itemid", "DECIMAL", 8, 17, 0, false)
             AddFieldInfo("Qty", "DECIMAL", 4, 25, 0, false)
+            AddFieldInfo("CustomItem", "DECIMAL", 1, 29, 0, false)
 
             ;; Define relations
             AddFieldInfo("REL_Bbq", "DATAOBJECT", 0, 0, 0, false)
