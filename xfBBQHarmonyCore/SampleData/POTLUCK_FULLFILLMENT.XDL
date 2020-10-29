@@ -1,0 +1,48 @@
+FILE
+	NAME		"POTLUCK_FULLFILLMENT.ISm"
+	ADDRESSING	32
+	NETWORK_ENCRYPT	no
+	TRACK_CHANGES	no
+	KEYS		4
+
+RECORD
+	SIZE		36
+	FORMAT		fixed
+	COMPRESS_DATA	no
+
+KEY 0
+	START		1
+	LENGTH		8
+	TYPE		alpha
+	ORDER		ascending
+	NAME		"ID"
+	DUPLICATES	no
+	MODIFIABLE	no
+
+KEY 1
+	START		9:17
+	LENGTH		8:8
+	TYPE		alpha:alpha
+	ORDER		ascending:ascending
+	DUPLICATES	yes
+	DUPLICATE_ORDER	fifo
+	MODIFIABLE	no
+
+KEY 2
+	START		9:17:25
+	LENGTH		8:8:8
+	TYPE		alpha:alpha:alpha
+	ORDER		ascending:ascending:ascending
+	DUPLICATES	yes
+	DUPLICATE_ORDER	fifo
+	MODIFIABLE	no
+
+KEY 3
+	START		17
+	LENGTH		8
+	TYPE		alpha
+	ORDER		ascending
+	NAME		"ITEMID"
+	DUPLICATES	yes
+	DUPLICATE_ORDER	fifo
+	MODIFIABLE	no
