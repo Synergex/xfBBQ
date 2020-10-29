@@ -1,9 +1,9 @@
 ;;*****************************************************************************
 ;;
-;; Title:       PotluckFullfillment.dbl
+;; Title:       PotluckFulfillment.dbl
 ;;
 ;; Description: Data model representing data defined by the repository
-;;              structure POTLUCK_FULLFILLMENT and from the data file DAT:POTLUCK_FULLFILLMENT.ism.
+;;              structure POTLUCK_FULFILLMENT and from the data file DAT:POTLUCK_FULFILLMENT.ism.
 ;;
 ;;*****************************************************************************
 ;; WARNING: GENERATED CODE!
@@ -23,26 +23,26 @@ import Microsoft.Extensions.DependencyInjection
 
 namespace Services.Models
 
-    public partial class PotluckFullfillment extends DataObjectBase
+    public partial class PotluckFulfillment extends DataObjectBase
 
         ;;make the record available and a copy
-        private mSynergyData, strPotluckFullfillment
-        private mOriginalSynergyData, strPotluckFullfillment
+        private mSynergyData, strPotluckFulfillment
+        private mOriginalSynergyData, strPotluckFulfillment
 
-        private static sMetadata, @PotluckFullfillmentMetadata
+        private static sMetadata, @PotluckFulfillmentMetadata
 
 .region "Constructors"
 
-        static method PotluckFullfillment
+        static method PotluckFulfillment
         proc
-            sMetadata = new PotluckFullfillmentMetadata()
-            DataObjectMetadataBase.MetadataLookup.TryAdd(^typeof(PotluckFullfillment), sMetadata)
+            sMetadata = new PotluckFulfillmentMetadata()
+            DataObjectMetadataBase.MetadataLookup.TryAdd(^typeof(PotluckFulfillment), sMetadata)
         endmethod
 
         ;;; <summary>
         ;;;  Constructor, initialise the base fields
         ;;; </summary>
-        public method PotluckFullfillment
+        public method PotluckFulfillment
             parent()
         proc
             init mSynergyData, mOriginalSynergyData
@@ -51,7 +51,7 @@ namespace Services.Models
         ;;; <summary>
         ;;;  Alternate Constructor, accepts the structured data
         ;;; </summary>
-        public method PotluckFullfillment
+        public method PotluckFulfillment
             required in inData, a
             required in inGrfa, a
             parent()
@@ -209,25 +209,25 @@ namespace Services.Models
 
         ;;; <summary>
         ;;; Relationship (Type C)
-        ;;; POTLUCK_FULLFILLMENT.BBQID (one) --> (one) BBQ.ID
+        ;;; POTLUCK_FULFILLMENT.BBQID (one) --> (one) BBQ.ID
         ;;; </summary>
         public readwrite property REL_Bbq, @Bbq
 
         ;;; <summary>
         ;;; Relationship (Type E)
-        ;;; POTLUCK_FULLFILLMENT.BBQID (one) --> (many) POTLUCK_WISHLIST.BBQID
+        ;;; POTLUCK_FULFILLMENT.BBQID (one) --> (many) POTLUCK_WISHLIST.BBQID
         ;;; </summary>
         public readwrite property REL_PotluckWishlists, @ICollection<PotluckWishlist>
 
         ;;; <summary>
         ;;; Relationship (Type C)
-        ;;; POTLUCK_FULLFILLMENT.USER (one) --> (one) USER.ID
+        ;;; POTLUCK_FULFILLMENT.USER (one) --> (one) USER.ID
         ;;; </summary>
         public readwrite property REL_User, @User
 
         ;;; <summary>
         ;;; Relationship (Type C)
-        ;;; POTLUCK_FULLFILLMENT.ITEMID (one) --> (one) POTLUCK_ITEM.ID
+        ;;; POTLUCK_FULFILLMENT.ITEMID (one) --> (one) POTLUCK_ITEM.ID
         ;;; </summary>
         public readwrite property REL_PotluckItem, @PotluckItem
 

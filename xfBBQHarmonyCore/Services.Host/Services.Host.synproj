@@ -11,6 +11,9 @@
     <Prefer32Bit>False</Prefer32Bit>
     <GenerateMvcApplicationPartsAssemblyAttributes>false</GenerateMvcApplicationPartsAssemblyAttributes>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath />
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="IdentityModel">
       <Version>4.1.1</Version>

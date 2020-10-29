@@ -29,8 +29,8 @@
     <Compile Include="FavoriteMetaData.dbl" />
     <Compile Include="Order.dbl" />
     <Compile Include="OrderMetaData.dbl" />
-    <Compile Include="PotluckFullfillment.dbl" />
-    <Compile Include="PotluckFullfillmentMetaData.dbl" />
+    <Compile Include="PotluckFulfillment.dbl" />
+    <Compile Include="PotluckFulfillmentMetaData.dbl" />
     <Compile Include="PotluckItem.dbl" />
     <Compile Include="PotluckItemMetaData.dbl" />
     <Compile Include="PotluckWishlist.dbl" />

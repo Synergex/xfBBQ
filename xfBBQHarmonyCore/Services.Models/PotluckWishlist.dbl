@@ -221,9 +221,9 @@ namespace Services.Models
 
         ;;; <summary>
         ;;; Relationship (Type E)
-        ;;; POTLUCK_WISHLIST.ITEMID (one) --> (many) POTLUCK_FULLFILLMENT.ITEMID
+        ;;; POTLUCK_WISHLIST.ITEMID (one) --> (many) POTLUCK_FULFILLMENT.ITEMID
         ;;; </summary>
-        public readwrite property REL_PotluckFullfillments, @ICollection<PotluckFullfillment>
+        public readwrite property REL_PotluckFulfillments, @ICollection<PotluckFulfillment>
 
 .endregion
 

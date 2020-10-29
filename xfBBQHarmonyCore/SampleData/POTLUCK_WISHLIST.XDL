@@ -6,7 +6,7 @@ FILE
 	KEYS		2
 
 RECORD
-	SIZE		28
+	SIZE		29
 	FORMAT		fixed
 	COMPRESS_DATA	no
 

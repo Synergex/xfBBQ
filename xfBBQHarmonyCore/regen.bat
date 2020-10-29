@@ -28,7 +28,7 @@ set TraditionalBridgeProject=TraditionalBridge
 rem ================================================================================================================================
 rem Specify the names of the repository structures to generate code from:
 
-set DATA_STRUCTURES=BBQ ORDER USER FAVORITE POTLUCK_FULLFILLMENT POTLUCK_ITEMS POTLUCK_WISHLIST
+set DATA_STRUCTURES=BBQ ORDER USER FAVORITE POTLUCK_FULFILLMENT POTLUCK_ITEMS POTLUCK_WISHLIST
 set DATA_ALIASES=%DATA_STRUCTURES%
 set DATA_FILES=%DATA_STRUCTURES%
 

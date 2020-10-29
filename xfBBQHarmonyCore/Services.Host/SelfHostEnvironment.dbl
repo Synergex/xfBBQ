@@ -128,7 +128,7 @@ namespace Services.Host
                     Startup.LogicalNames.Add(fileSpec)
             end
 
-            fileSpec = "DAT:POTLUCK_FULLFILLMENT.ism"
+            fileSpec = "DAT:POTLUCK_FULFILLMENT.ism"
             if (fileSpec.Contains(":")) then
             begin
                 logical = fileSpec.Split(":")[1].ToUpper()
@@ -198,7 +198,7 @@ namespace Services.Host
             data orders = loadOrders()
             data users = loadUsers()
             data favorites = loadFavorites()
-            data potluckFullfillments = loadPotluckFullfillments()
+            data potluckFulfillments = loadPotluckFulfillments()
             data potluckItems = loadPotluckItems()
             data potluckWishlists = loadPotluckWishlists()
 
@@ -246,15 +246,15 @@ namespace Services.Host
                 store(chout,favorite.SynergyRecord)
             close chout
 
-            ;;Create and load the potluckFullfillments file
+            ;;Create and load the potluckFulfillments file
 
-            dataFile = "DAT:POTLUCK_FULLFILLMENT.ism"
+            dataFile = "DAT:POTLUCK_FULFILLMENT.ism"
             xdlFile = "@" + dataFile.ToLower().Replace(".ism",".xdl")
 
-            data potluckFullfillment, @PotluckFullfillment
+            data potluckFulfillment, @PotluckFulfillment
             open(chout=0,o:i,dataFile,FDL:xdlFile)
-            foreach potluckFullfillment in potluckFullfillments
-                store(chout,potluckFullfillment.SynergyRecord)
+            foreach potluckFulfillment in potluckFulfillments
+                store(chout,potluckFulfillment.SynergyRecord)
             close chout
 
             ;;Create and load the potluckItems file
@@ -327,10 +327,10 @@ namespace Services.Host
             end
             endtry
 
-            ;;Delete the potluckFullfillments file
+            ;;Delete the potluckFulfillments file
             try
             begin
-                xcall delet("DAT:POTLUCK_FULLFILLMENT.ism")
+                xcall delet("DAT:POTLUCK_FULFILLMENT.ism")
             end
             catch (e, @NoFileFoundException)
             begin
@@ -438,23 +438,23 @@ namespace Services.Host
             mreturn favorites
         endmethod
 
-        public static method loadPotluckFullfillments, @List<PotluckFullfillment>
+        public static method loadPotluckFulfillments, @List<PotluckFulfillment>
         proc
-            data dataFile = "DAT:POTLUCK_FULLFILLMENT.ism"
+            data dataFile = "DAT:POTLUCK_FULFILLMENT.ism"
             data textFile = dataFile.ToLower().Replace(".ism",".txt")
-            data potluckFullfillmentCh, int, 0
-            data potluckFullfillmentRec, strPotluckFullfillment
-            data potluckFullfillments = new List<PotluckFullfillment>()
+            data potluckFulfillmentCh, int, 0
+            data potluckFulfillmentRec, strPotluckFulfillment
+            data potluckFulfillments = new List<PotluckFulfillment>()
             data grfa, a10
-            open(potluckFullfillmentCh,i:s,textFile)
+            open(potluckFulfillmentCh,i:s,textFile)
             repeat
             begin
-                reads(potluckFullfillmentCh,potluckFullfillmentRec,eof)
-                potluckFullfillments.Add(new PotluckFullfillment(potluckFullfillmentRec, grfa))
+                reads(potluckFulfillmentCh,potluckFulfillmentRec,eof)
+                potluckFulfillments.Add(new PotluckFulfillment(potluckFulfillmentRec, grfa))
             end
         eof,
-            close potluckFullfillmentCh
-            mreturn potluckFullfillments
+            close potluckFulfillmentCh
+            mreturn potluckFulfillments
         endmethod
 
         public static method loadPotluckItems, @List<PotluckItem>

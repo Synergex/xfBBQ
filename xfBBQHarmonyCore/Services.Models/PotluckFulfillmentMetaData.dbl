@@ -1,8 +1,8 @@
 ;;*****************************************************************************
 ;;
-;; Title:       PotluckFullfillmentMetaData.dbl
+;; Title:       PotluckFulfillmentMetaData.dbl
 ;;
-;; Description: Defines meta data associated with a PotluckFullfillment model.
+;; Description: Defines meta data associated with a PotluckFulfillment model.
 ;;
 ;;*****************************************************************************
 ;; WARNING: GENERATED CODE!
@@ -19,25 +19,25 @@ import Harmony.Core.Converters
 namespace Services.Models
 
     ;;; <summary>
-    ;;; Global structure representing a PotluckFullfillment record.
+    ;;; Global structure representing a PotluckFulfillment record.
     ;;; </summary>
-    .include "POTLUCK_FULLFILLMENT" repository, public structure="strPotluckFullfillment", end
+    .include "POTLUCK_FULFILLMENT" repository, public structure="strPotluckFulfillment", end
 
     ;;; <summary>
-    ;;; Exposes metadata relating to the PotluckFullfillment model class.
+    ;;; Exposes metadata relating to the PotluckFulfillment model class.
     ;;; </summary>
-    public partial class PotluckFullfillmentMetadata extends DataObjectMetadataBase
+    public partial class PotluckFulfillmentMetadata extends DataObjectMetadataBase
 
         ;; Define custom property formatters
 
         ;;; <summary>
-        ;;; Constructs an new PotluckFullfillmentMetadata object.
+        ;;; Constructs an new PotluckFulfillmentMetadata object.
         ;;; </summary>
-        public method PotluckFullfillmentMetadata
+        public method PotluckFulfillmentMetadata
         proc
             ;; Define structure name and size
-            RPSStructureName = "POTLUCK_FULLFILLMENT"
-            RPSStructureSize = ^size(strPotluckFullfillment)
+            RPSStructureName = "POTLUCK_FULFILLMENT"
+            RPSStructureSize = ^size(strPotluckFulfillment)
 
             ;; Define fields
             AddFieldInfo("Id", "DECIMAL", 8, 1, 0, false)
@@ -89,24 +89,24 @@ namespace Services.Models
         endmethod
 
         ;;; <summary>
-        ;;; Returns a new PotluckFullfillment object containing data from a record and a GRFA.
+        ;;; Returns a new PotluckFulfillment object containing data from a record and a GRFA.
         ;;; The related data properties (REL_Bbq, REL_PotluckWishlists, REL_User and REL_PotluckItem) will not be populated.
         ;;; </summary>
-        ;;; <param name="dataArea">The record containing the data for the new PotluckFullfillment object.</param>
+        ;;; <param name="dataArea">The record containing the data for the new PotluckFulfillment object.</param>
         ;;; <param name="grfa">The GRFA associated with the current state of the data.</param>
         ;;; <returns></returns>
         public override method MakeNew, @DataObjectBase
             required in dataArea, a
             required in grfa, a
         proc
-            mreturn new PotluckFullfillment(dataArea, grfa)
+            mreturn new PotluckFulfillment(dataArea, grfa)
         endmethod
 
         ;;; <summary>
-        ;;; Returns a new PotluckFullfillment object containing data from a record and a GRFA.
+        ;;; Returns a new PotluckFulfillment object containing data from a record and a GRFA.
         ;;; The related data properties (REL_Bbq, REL_PotluckWishlists, REL_User and REL_PotluckItem) will be populated.
         ;;; </summary>
-        ;;; <param name="dataArea">The record containing the data for the new PotluckFullfillment object.</param>
+        ;;; <param name="dataArea">The record containing the data for the new PotluckFulfillment object.</param>
         ;;; <param name="grfa">The GRFA associated with the current state of the data.</param>
         ;;; <param name="joinedObjects">Data to allow the related data properties (REL_Bbq, REL_PotluckWishlists, REL_User and REL_PotluckItem) to be populated.</param>
         ;;; <returns></returns>
@@ -115,23 +115,23 @@ namespace Services.Models
             required in grfa, a
             required in joinedObjects, [#]KeyValuePair<String, Object>
         proc
-            data newPotluckFullfillment = new PotluckFullfillment(dataArea, grfa)
+            data newPotluckFulfillment = new PotluckFulfillment(dataArea, grfa)
             data joinedObject, KeyValuePair<String, Object>
             foreach joinedObject in joinedObjects
             begin
                 using joinedObject.Key select
                 ("REL_Bbq"),
-                    newPotluckFullfillment.REL_Bbq = (@Bbq)joinedObject.Value
+                    newPotluckFulfillment.REL_Bbq = (@Bbq)joinedObject.Value
                 ("REL_PotluckWishlists"),
-                    newPotluckFullfillment.REL_PotluckWishlists = (@ICollection<PotluckWishlist>)joinedObject.Value
+                    newPotluckFulfillment.REL_PotluckWishlists = (@ICollection<PotluckWishlist>)joinedObject.Value
                 ("REL_User"),
-                    newPotluckFullfillment.REL_User = (@User)joinedObject.Value
+                    newPotluckFulfillment.REL_User = (@User)joinedObject.Value
                 ("REL_PotluckItem"),
-                    newPotluckFullfillment.REL_PotluckItem = (@PotluckItem)joinedObject.Value
+                    newPotluckFulfillment.REL_PotluckItem = (@PotluckItem)joinedObject.Value
                 endusing
             end
 
-            mreturn newPotluckFullfillment
+            mreturn newPotluckFulfillment
 
         endmethod
 
@@ -199,7 +199,7 @@ namespace Services.Models
             end
             endusing
 
-            throw new ApplicationException(String.Format("Invalid key number {0} encountered in PotluckFullfillmentMetadata.FormatKeyLiteral",keyNumber))
+            throw new ApplicationException(String.Format("Invalid key number {0} encountered in PotluckFulfillmentMetadata.FormatKeyLiteral",keyNumber))
 
         endmethod
 

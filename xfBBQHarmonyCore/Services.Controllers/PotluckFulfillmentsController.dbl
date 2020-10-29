@@ -1,8 +1,8 @@
 ;;*****************************************************************************
 ;;
-;; Title:       PotluckFullfillmentsController.dbl
+;; Title:       PotluckFulfillmentsController.dbl
 ;;
-;; Description: OData controller for the POTLUCK_FULLFILLMENT structure.
+;; Description: OData controller for the POTLUCK_FULFILLMENT structure.
 ;;
 ;;*****************************************************************************
 ;; WARNING: GENERATED CODE!
@@ -33,11 +33,11 @@ namespace Services.Controllers
 
     {Authorize}
     {ApiVersion("1")}
-    {ODataRoutePrefix("PotluckFullfillments")}
+    {ODataRoutePrefix("PotluckFulfillments")}
     ;;; <summary>
-    ;;; OData controller for PotluckFullfillments
+    ;;; OData controller for PotluckFulfillments
     ;;; </summary>
-    public partial class PotluckFullfillmentsController extends ODataController
+    public partial class PotluckFulfillmentsController extends ODataController
     
         ;;Services provided via dependency injection
         private _DbContext, @Services.Models.DBContext
@@ -45,12 +45,12 @@ namespace Services.Controllers
         private _AppSettings, @IOptions<AppSettings>
 
         ;;; <summary>
-        ;;; Constructs a new instance of PotluckFullfillmentsController
+        ;;; Constructs a new instance of PotluckFulfillmentsController
         ;;; </summary>
         ;;; <param name="aDbContext">Database context instance (DI)</param>
         ;;; <param name="aServiceProvider">Service provider instance (DI)</param>
         ;;; <param name="aAppSettings">Application settings</param>
-        public method PotluckFullfillmentsController
+        public method PotluckFulfillmentsController
             aDbContext, @Services.Models.DBContext
             aServiceProvider, @IServiceProvider
             aAppSettings, @IOptions<AppSettings>
@@ -62,52 +62,52 @@ namespace Services.Controllers
 
         {ODataRoute}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFullfillment>>),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFulfillment>>),StatusCodes.Status200OK)}
         {EnableQuery(MaxExpansionDepth=4)}
         ;;; <summary>
-        ;;; Get all PotluckFullfillments
+        ;;; Get all PotluckFulfillments
         ;;; </summary>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetPotluckFullfillments, @IActionResult
+        public method GetPotluckFulfillments, @IActionResult
         proc
-            mreturn Ok(_DbContext.PotluckFullfillments.AsNoTracking())
+            mreturn Ok(_DbContext.PotluckFulfillments.AsNoTracking())
         endmethod
 
         {ODataRoute("(Id={aId})")}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(PotluckFullfillment),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(PotluckFulfillment),StatusCodes.Status200OK)}
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {EnableQuery(MaxExpansionDepth=4)}
         ;;; <summary>
-        ;;; Get a single PotluckFullfillment by primary key.
+        ;;; Get a single PotluckFulfillment by primary key.
         ;;; </summary>
         ;;; <param name="aId">Item id</param>
         ;;; <returns>Returns a SingleResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetPotluckFullfillment, @SingleResult<PotluckFullfillment>
+        public method GetPotluckFulfillment, @SingleResult<PotluckFulfillment>
             {FromODataUri}
             required in aId, int
         proc
-            mreturn new SingleResult<PotluckFullfillment>(_DbContext.PotluckFullfillments.AsNoTracking().FindQuery<PotluckFullfillment>(_DbContext, aId))
+            mreturn new SingleResult<PotluckFulfillment>(_DbContext.PotluckFulfillments.AsNoTracking().FindQuery<PotluckFulfillment>(_DbContext, aId))
         endmethod
 
         {ODataRoute("(Bbqid={aBbqid},Itemid={aItemid})")}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFullfillment>>),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFulfillment>>),StatusCodes.Status200OK)}
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {EnableQuery(MaxExpansionDepth=4)}
         ;;; <summary>
-        ;;; Get potluckFullfillments by alternate key key Bbqid.
+        ;;; Get potluckFulfillments by alternate key key Bbqid.
         ;;; </summary>
         ;;; <param name="aBbqid">BBQ id</param>
         ;;; <param name="aItemid">Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetPotluckFullfillmentsByBbqid, @IActionResult
+        public method GetPotluckFulfillmentsByBbqid, @IActionResult
             {FromODataUri}
             required in aBbqid, int
             {FromODataUri}
             required in aItemid, int
         proc
-            data result = _DbContext.PotluckFullfillments.AsNoTracking().FindAlternate("Bbqid",aBbqid,"Itemid",aItemid)
+            data result = _DbContext.PotluckFulfillments.AsNoTracking().FindAlternate("Bbqid",aBbqid,"Itemid",aItemid)
             if (result == ^null)
                 mreturn NotFound()
             mreturn Ok(result)
@@ -115,17 +115,17 @@ namespace Services.Controllers
 
         {ODataRoute("(Userid={aUserid},Bbqid={aBbqid},Itemid={aItemid})")}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFullfillment>>),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFulfillment>>),StatusCodes.Status200OK)}
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {EnableQuery(MaxExpansionDepth=4)}
         ;;; <summary>
-        ;;; Get potluckFullfillments by alternate key key User.
+        ;;; Get potluckFulfillments by alternate key key User.
         ;;; </summary>
         ;;; <param name="aUserid">user id bringing item</param>
         ;;; <param name="aBbqid">BBQ id</param>
         ;;; <param name="aItemid">Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetPotluckFullfillmentsByUser, @IActionResult
+        public method GetPotluckFulfillmentsByUser, @IActionResult
             {FromODataUri}
             required in aUserid, int
             {FromODataUri}
@@ -133,7 +133,7 @@ namespace Services.Controllers
             {FromODataUri}
             required in aItemid, int
         proc
-            data result = _DbContext.PotluckFullfillments.AsNoTracking().FindAlternate("Userid",aUserid,"Bbqid",aBbqid,"Itemid",aItemid)
+            data result = _DbContext.PotluckFulfillments.AsNoTracking().FindAlternate("Userid",aUserid,"Bbqid",aBbqid,"Itemid",aItemid)
             if (result == ^null)
                 mreturn NotFound()
             mreturn Ok(result)
@@ -141,19 +141,19 @@ namespace Services.Controllers
 
         {ODataRoute("(Itemid={aItemid})")}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFullfillment>>),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(ODataValue<IEnumerable<PotluckFulfillment>>),StatusCodes.Status200OK)}
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {EnableQuery(MaxExpansionDepth=4)}
         ;;; <summary>
-        ;;; Get potluckFullfillments by alternate key key Itemid.
+        ;;; Get potluckFulfillments by alternate key key Itemid.
         ;;; </summary>
         ;;; <param name="aItemid">Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method GetPotluckFullfillmentsByItemid, @IActionResult
+        public method GetPotluckFulfillmentsByItemid, @IActionResult
             {FromODataUri}
             required in aItemid, int
         proc
-            data result = _DbContext.PotluckFullfillments.AsNoTracking().FindAlternate("Itemid",aItemid)
+            data result = _DbContext.PotluckFulfillments.AsNoTracking().FindAlternate("Itemid",aItemid)
             if (result == ^null)
                 mreturn NotFound()
             mreturn Ok(result)
@@ -161,16 +161,16 @@ namespace Services.Controllers
 
         {ODataRoute}
         {Produces("application/json")}
-        {ProducesResponseType(^typeof(PotluckFullfillment),StatusCodes.Status200OK)}
+        {ProducesResponseType(^typeof(PotluckFulfillment),StatusCodes.Status200OK)}
         {ProducesResponseType(StatusCodes.Status400BadRequest)}
         {HttpPost}
         ;;; <summary>
-        ;;; Create a new potluckFullfillment (automatically assigned primary key).
+        ;;; Create a new potluckFulfillment (automatically assigned primary key).
         ;;; </summary>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method PostPotluckFullfillment, @IActionResult
+        public method PostPotluckFulfillment, @IActionResult
             {FromBody}
-            required in aPotluckFullfillment, @PotluckFullfillment
+            required in aPotluckFulfillment, @PotluckFulfillment
         proc
             ;;Remove the primary key fields from ModelState
             ModelState.Remove("Id")
@@ -181,12 +181,12 @@ namespace Services.Controllers
 
             ;;Get the next available primary key value
             disposable data keyFactory = (@IPrimaryKeyFactory)_ServiceProvider.GetService(^typeof(IPrimaryKeyFactory))
-            KeyFactory.AssignPrimaryKey(aPotluckFullfillment)
+            KeyFactory.AssignPrimaryKey(aPotluckFulfillment)
 
-            ;;Add the new potluckFullfillment
+            ;;Add the new potluckFulfillment
             try
             begin
-                _DbContext.PotluckFullfillments.Add(aPotluckFullfillment)
+                _DbContext.PotluckFulfillments.Add(aPotluckFulfillment)
                 _DbContext.SaveChanges(keyFactory)
             end
             catch (e, @ValidationException)
@@ -196,7 +196,7 @@ namespace Services.Controllers
             end
             endtry
 
-            mreturn Created(aPotluckFullfillment)
+            mreturn Created(aPotluckFulfillment)
 
         endmethod
 
@@ -207,37 +207,37 @@ namespace Services.Controllers
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {HttpPut}
         ;;; <summary>
-        ;;; Create (with a client-supplied primary key) or replace a potluckFullfillment.
+        ;;; Create (with a client-supplied primary key) or replace a potluckFulfillment.
         ;;; </summary>
 
         ;;; <param name="aId">Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method PutPotluckFullfillment, @IActionResult
+        public method PutPotluckFulfillment, @IActionResult
             {FromODataUri}
             required in aId, int
             {FromBody}
-            required in aPotluckFullfillment, @PotluckFullfillment
+            required in aPotluckFulfillment, @PotluckFulfillment
         proc
             ;; Validate inbound data
             if (!ModelState.IsValid)
                 mreturn ValidationHelper.ReturnValidationError(ModelState)
 
             ;;Ensure that the key values in the URI win over any data that may be in the model object
-            aPotluckFullfillment.Id = aId
+            aPotluckFulfillment.Id = aId
 
             try
             begin
                 ;;Add and commit
-                data existing = _DbContext.PotluckFullfillments.Find(aId)
+                data existing = _DbContext.PotluckFulfillments.Find(aId)
                 if(existing == ^null) then
                 begin
-                    _DbContext.PotluckFullfillments.Add(aPotluckFullfillment)
+                    _DbContext.PotluckFulfillments.Add(aPotluckFulfillment)
                     _DbContext.SaveChanges()
-                    mreturn Created(aPotluckFullfillment)
+                    mreturn Created(aPotluckFulfillment)
                 end
                 else
                 begin
-                    aPotluckFullfillment.CopyTo(existing)
+                    aPotluckFulfillment.CopyTo(existing)
                     _DbContext.SaveChanges()
                     mreturn NoContent()
                 end
@@ -261,38 +261,38 @@ namespace Services.Controllers
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {HttpPatch}
         ;;; <summary>
-        ;;; Patch  (partial update) a potluckFullfillment.
+        ;;; Patch  (partial update) a potluckFulfillment.
         ;;; </summary>
         ;;; <param name="aId">Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method PatchPotluckFullfillment, @IActionResult
+        public method PatchPotluckFulfillment, @IActionResult
             {FromODataUri}
             required in aId, int
             {FromBody}
-            required in aPotluckFullfillment, @JsonPatchDocument<PotluckFullfillment>
+            required in aPotluckFulfillment, @JsonPatchDocument<PotluckFulfillment>
         proc
             ;; Validate inbound data
             if (!ModelState.IsValid)
                 mreturn ValidationHelper.ReturnValidationError(ModelState)
 
-            ;;Patch the existing potluckFullfillment
+            ;;Patch the existing potluckFulfillment
             try
             begin
-                ;;Get the potluckFullfillment to be updated
-                data potluckFullfillmentToUpdate = _DbContext.PotluckFullfillments.Find(aId)
+                ;;Get the potluckFulfillment to be updated
+                data potluckFulfillmentToUpdate = _DbContext.PotluckFulfillments.Find(aId)
                 data patchError, @JsonPatchError, ^null
                 ;;Did we find it?
-                if(potluckFullfillmentToUpdate == ^null)
+                if(potluckFulfillmentToUpdate == ^null)
                     mreturn NotFound()
 
-                ;;Apply the changes to the potluckFullfillment we read
-                aPotluckFullfillment.ApplyTo(potluckFullfillmentToUpdate, lambda(error) { patchError = error })
+                ;;Apply the changes to the potluckFulfillment we read
+                aPotluckFulfillment.ApplyTo(potluckFulfillmentToUpdate, lambda(error) { patchError = error })
                 ;;if the patchdoc was bad return the error info
                 if(patchError != ^null)
                     mreturn BadRequest(string.Format("Error applying patch document: error message {0}, caused by {1}", patchError.ErrorMessage, JsonConvert.SerializeObject(patchError.Operation)))
 
                 ;;Update and commit
-                _DbContext.PotluckFullfillments.Update(potluckFullfillmentToUpdate)
+                _DbContext.PotluckFulfillments.Update(potluckFulfillmentToUpdate)
                 _DbContext.SaveChanges()
             end
             catch (e, @InvalidOperationException)
@@ -314,23 +314,23 @@ namespace Services.Controllers
         {ProducesResponseType(StatusCodes.Status404NotFound)}
         {HttpDelete}
         ;;; <summary>
-        ;;; Delete a potluckFullfillment.
+        ;;; Delete a potluckFulfillment.
         ;;; </summary>
         ;;; <param name="aId">Item id</param>
         ;;; <returns>Returns an IActionResult indicating the status of the operation and containing any data that was returned.</returns>
-        public method DeletePotluckFullfillment, @IActionResult
+        public method DeletePotluckFulfillment, @IActionResult
             {FromODataUri}
             required in aId, int
         proc
-            ;;Get the potluckFullfillment to be deleted
-            data potluckFullfillmentToRemove = _DbContext.PotluckFullfillments.Find(aId)
+            ;;Get the potluckFulfillment to be deleted
+            data potluckFulfillmentToRemove = _DbContext.PotluckFulfillments.Find(aId)
 
             ;;Did we find it?
-            if (potluckFullfillmentToRemove == ^null)
+            if (potluckFulfillmentToRemove == ^null)
                 mreturn NotFound()
 
             ;;Delete and commit
-            _DbContext.PotluckFullfillments.Remove(potluckFullfillmentToRemove)
+            _DbContext.PotluckFulfillments.Remove(potluckFulfillmentToRemove)
             _DbContext.SaveChanges()
 
             mreturn NoContent()

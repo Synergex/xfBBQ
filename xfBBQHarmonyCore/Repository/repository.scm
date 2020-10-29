@@ -5,7 +5,7 @@
 ;                 : E:\DEV\xfbbq\xfBBQ\xfBBQHarmonyCore\Repository\bin\Debug\rpstext.ism
 ;                 : Version 11.1.1c
 ;
-;  GENERATED      : 29-OCT-2020, 12:54:40
+;  GENERATED      : 29-OCT-2020, 13:03:08
 ;                 : Version 11.1.1f
 ;  EXPORT OPTIONS : [ALL] 
  
@@ -142,7 +142,7 @@ Relation  1   ORDER USERID   USER ID
  
 Relation  2   ORDER BBQID   BBQ ID
  
-Structure POTLUCK_FULLFILLMENT   DBL ISAM
+Structure POTLUCK_FULFILLMENT   DBL ISAM
    Description "Potluck items being brought"
  
 Field ID   Type DECIMAL   Size 8
@@ -180,13 +180,13 @@ Key ITEMID   ACCESS   Order ASCENDING   Dups YES   Insert END   Krf 003
    Description "item id"
    Segment FIELD   ITEMID
  
-Relation  1   POTLUCK_FULLFILLMENT BBQID   BBQ ID
+Relation  1   POTLUCK_FULFILLMENT BBQID   BBQ ID
  
-Relation  2   POTLUCK_FULLFILLMENT BBQID   POTLUCK_WISHLIST BBQID
+Relation  2   POTLUCK_FULFILLMENT BBQID   POTLUCK_WISHLIST BBQID
  
-Relation  3   POTLUCK_FULLFILLMENT USER   USER ID
+Relation  3   POTLUCK_FULFILLMENT USER   USER ID
  
-Relation  4   POTLUCK_FULLFILLMENT ITEMID   POTLUCK_ITEMS ID
+Relation  4   POTLUCK_FULFILLMENT ITEMID   POTLUCK_ITEMS ID
  
 Structure POTLUCK_ITEMS   DBL ISAM
    Description "Potluck items"
@@ -240,7 +240,7 @@ Relation  1   POTLUCK_WISHLIST BBQID   BBQ ID
  
 Relation  2   POTLUCK_WISHLIST ITEMID   POTLUCK_ITEMS ID
  
-Relation  3   POTLUCK_WISHLIST ITEMID   POTLUCK_FULLFILLMENT ITEMID
+Relation  3   POTLUCK_WISHLIST ITEMID   POTLUCK_FULFILLMENT ITEMID
  
 Structure SYSPARAMS   RELATIVE
    Description "System parameter file"
@@ -307,10 +307,10 @@ File ORDER   DBL ISAM   "DAT:Order.ism"
    Description "Order File"
    Assign ORDER
  
-File POTLUCK_FULLFILLMENT   DBL ISAM   "DAT:POTLUCK_FULLFILLMENT.ism"
+File POTLUCK_FULFILLMENT   DBL ISAM   "DAT:POTLUCK_FULFILLMENT.ism"
    Description "Potluck Fulfillment"
    Page Size 4096   Compress
-   Assign POTLUCK_FULLFILLMENT
+   Assign POTLUCK_FULFILLMENT
  
 File POTLUCK_ITEMS   DBL ISAM   "DAT:POTLUCK_ITEMS.ism"
    Description "Potluck items"

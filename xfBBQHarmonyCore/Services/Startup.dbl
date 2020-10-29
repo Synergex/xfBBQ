@@ -157,7 +157,7 @@ namespace Services
                 objectProvider.AddDataObjectMapping<Order>("DAT:Order.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<User>("DAT:User.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<Favorite>("DAT:FAVORITE.ism", FileOpenMode.UpdateIndexed)
-                objectProvider.AddDataObjectMapping<PotluckFullfillment>("DAT:POTLUCK_FULLFILLMENT.ism", FileOpenMode.UpdateIndexed)
+                objectProvider.AddDataObjectMapping<PotluckFulfillment>("DAT:POTLUCK_FULFILLMENT.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<PotluckItem>("DAT:POTLUCK_ITEMS.ism", FileOpenMode.UpdateIndexed)
                 objectProvider.AddDataObjectMapping<PotluckWishlist>("DAT:POTLUCK_WISHLIST.ism", FileOpenMode.UpdateIndexed)
                 mreturn objectProvider

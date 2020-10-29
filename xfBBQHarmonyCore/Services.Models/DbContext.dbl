@@ -56,9 +56,9 @@ namespace Services.Models
         public readwrite property Favorites, @DbSet<Favorite>
 
         ;;; <summary>
-        ;;; Exposes PotluckFullfillment data.
+        ;;; Exposes PotluckFulfillment data.
         ;;; </summary>
-        public readwrite property PotluckFullfillments, @DbSet<PotluckFullfillment>
+        public readwrite property PotluckFulfillments, @DbSet<PotluckFulfillment>
 
         ;;; <summary>
         ;;; Exposes PotluckItem data.
@@ -146,32 +146,32 @@ namespace Services.Models
 
              parm.AddOneToOneToManyRelation<Favorite, User>("REL_User", "KEY_USERID", "REL_UserFavorites", "KEY_ID")
             ;;--------------------------------------
-            ;; Relationships from POTLUCK_FULLFILLMENT
+            ;; Relationships from POTLUCK_FULFILLMENT
 
-            ;; POTLUCK_FULLFILLMENT.BBQID (one) --> (one) BBQ.ID
+            ;; POTLUCK_FULFILLMENT.BBQID (one) --> (one) BBQ.ID
             ;;    Type          : C
             ;;    From segments : BBQID(D8) 
             ;;    To segments   : ID(D8) 
 
-            parm.AddOneToOneRelation<PotluckFullfillment, Bbq>("REL_Bbq", "KEY_BBQID", "KEY_ID")
-            ;; POTLUCK_FULLFILLMENT.BBQID (one) --> (many) POTLUCK_WISHLIST.BBQID
+            parm.AddOneToOneRelation<PotluckFulfillment, Bbq>("REL_Bbq", "KEY_BBQID", "KEY_ID")
+            ;; POTLUCK_FULFILLMENT.BBQID (one) --> (many) POTLUCK_WISHLIST.BBQID
             ;;    Type          : E
             ;;    From segments : BBQID(D8), ITEMID(D8) 
             ;;    To segments   : BBQID(D8), ITEMID(D8) 
 
-            parm.AddOneToManyRelation<PotluckFullfillment, PotluckWishlist>("REL_PotluckWishlists", "KEY_BBQID", "KEY_BBQID")
-            ;; POTLUCK_FULLFILLMENT.USER (one) --> (one) USER.ID
+            parm.AddOneToManyRelation<PotluckFulfillment, PotluckWishlist>("REL_PotluckWishlists", "KEY_BBQID", "KEY_BBQID")
+            ;; POTLUCK_FULFILLMENT.USER (one) --> (one) USER.ID
             ;;    Type          : C
             ;;    From segments : USERID(D8) 
             ;;    To segments   : ID(D8) 
 
-            parm.AddOneToOneRelation<PotluckFullfillment, User>("REL_User", "KEY_USER", "KEY_ID")
-            ;; POTLUCK_FULLFILLMENT.ITEMID (one) --> (one) POTLUCK_ITEM.ID
+            parm.AddOneToOneRelation<PotluckFulfillment, User>("REL_User", "KEY_USER", "KEY_ID")
+            ;; POTLUCK_FULFILLMENT.ITEMID (one) --> (one) POTLUCK_ITEM.ID
             ;;    Type          : C
             ;;    From segments : ITEMID(D8) 
             ;;    To segments   : ID(D8) 
 
-            parm.AddOneToOneRelation<PotluckFullfillment, PotluckItem>("REL_PotluckItem", "KEY_ITEMID", "KEY_ID")
+            parm.AddOneToOneRelation<PotluckFulfillment, PotluckItem>("REL_PotluckItem", "KEY_ITEMID", "KEY_ID")
             ;;--------------------------------------
             ;; Relationships from POTLUCK_WISHLIST
 
@@ -187,12 +187,12 @@ namespace Services.Models
             ;;    To segments   : ID(D8) 
 
             parm.AddOneToOneRelation<PotluckWishlist, PotluckItem>("REL_PotluckItem", "KEY_ITEMID", "KEY_ID")
-            ;; POTLUCK_WISHLIST.ITEMID (one) --> (many) POTLUCK_FULLFILLMENT.ITEMID
+            ;; POTLUCK_WISHLIST.ITEMID (one) --> (many) POTLUCK_FULFILLMENT.ITEMID
             ;;    Type          : E
             ;;    From segments : ITEMID(D8) 
             ;;    To segments   : ITEMID(D8) 
 
-            parm.AddOneToManyRelation<PotluckWishlist, PotluckFullfillment>("REL_PotluckFullfillments", "KEY_ITEMID", "KEY_ITEMID")
+            parm.AddOneToManyRelation<PotluckWishlist, PotluckFulfillment>("REL_PotluckFulfillments", "KEY_ITEMID", "KEY_ITEMID")
 .endregion
 
             parent.OnModelCreating(parm)

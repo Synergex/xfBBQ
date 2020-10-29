@@ -99,7 +99,7 @@ namespace Services
             builder.EntitySet<Order>("Orders")
             builder.EntitySet<User>("Users")
             builder.EntitySet<Favorite>("Favorites")
-            builder.EntitySet<PotluckFullfillment>("PotluckFullfillments")
+            builder.EntitySet<PotluckFulfillment>("PotluckFulfillments")
             builder.EntitySet<PotluckItem>("PotluckItems")
             builder.EntitySet<PotluckWishlist>("PotluckWishlists")
 
@@ -134,10 +134,10 @@ namespace Services
       
       
 
-            data potluckFullfillmentType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.PotluckFullfillment")
-            tempModel.AddAlternateKeyAnnotation(potluckFullfillmentType, new Dictionary<string, IEdmProperty>() {{"Bbqid",potluckFullfillmentType.FindProperty("Bbqid")},{"Itemid",potluckFullfillmentType.FindProperty("Itemid")}})
-            tempModel.AddAlternateKeyAnnotation(potluckFullfillmentType, new Dictionary<string, IEdmProperty>() {{"Userid",potluckFullfillmentType.FindProperty("Userid")},{"Bbqid",potluckFullfillmentType.FindProperty("Bbqid")},{"Itemid",potluckFullfillmentType.FindProperty("Itemid")}})
-            tempModel.AddAlternateKeyAnnotation(potluckFullfillmentType, new Dictionary<string, IEdmProperty>() {{"Itemid",potluckFullfillmentType.FindProperty("Itemid")}})
+            data potluckFulfillmentType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.PotluckFulfillment")
+            tempModel.AddAlternateKeyAnnotation(potluckFulfillmentType, new Dictionary<string, IEdmProperty>() {{"Bbqid",potluckFulfillmentType.FindProperty("Bbqid")},{"Itemid",potluckFulfillmentType.FindProperty("Itemid")}})
+            tempModel.AddAlternateKeyAnnotation(potluckFulfillmentType, new Dictionary<string, IEdmProperty>() {{"Userid",potluckFulfillmentType.FindProperty("Userid")},{"Bbqid",potluckFulfillmentType.FindProperty("Bbqid")},{"Itemid",potluckFulfillmentType.FindProperty("Itemid")}})
+            tempModel.AddAlternateKeyAnnotation(potluckFulfillmentType, new Dictionary<string, IEdmProperty>() {{"Itemid",potluckFulfillmentType.FindProperty("Itemid")}})
 
             data potluckItemType = (@EdmEntityType)tempModel.FindDeclaredType("Services.Models.PotluckItem")
       
