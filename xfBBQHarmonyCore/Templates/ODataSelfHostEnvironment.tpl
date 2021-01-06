@@ -135,7 +135,7 @@ namespace <NAMESPACE>
             ;;If we have a SetLogicalsCustom method, call it
             SetLogicalsCustom(Startup.LogicalNames)
 
-<IF NOT_DEFINED_DO_NOT_SET_FILE_LOGICALS>
+<IF NOT DEFINED_DO_NOT_SET_FILE_LOGICALS>
             ;;Now we'll check each logical. If it already has a value we'll do nothing, otherwise
             ;;we'll set the logical to point to the local folder whose name is identified by the
             ;;user-defined token DATA_FOLDER
@@ -152,7 +152,7 @@ namespace <NAMESPACE>
                 end
             end
 
-</IF NOT_DEFINED_DO_NOT_SET_FILE_LOGICALS>
+</IF>
         endmethod
 
 <IF DEFINED_ENABLE_CREATE_TEST_FILES>
