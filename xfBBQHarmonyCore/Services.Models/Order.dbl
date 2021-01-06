@@ -20,6 +20,7 @@ import Harmony.Core.Converters
 import Harmony.Core.Context
 import Harmony.Core.FileIO
 import Microsoft.Extensions.DependencyInjection
+import System.Runtime.Serialization
 
 namespace Services.Models
 
@@ -28,6 +29,7 @@ namespace Services.Models
         ;;make the record available and a copy
         private mSynergyData, strOrder
         private mOriginalSynergyData, strOrder
+        protected mGlobalRFA  ,a10
 
         private static sMetadata, @OrderMetadata
 
@@ -264,6 +266,17 @@ namespace Services.Models
             endmethod
         endproperty
 
+        public override property GlobalRFA, [#]byte
+			method get
+			proc
+                mreturn mGlobalRFA
+			endmethod
+			method set
+			proc
+                mGlobalRFA = value
+			endmethod
+		endproperty
+
 .endregion
 
 .region "Public methods"
@@ -275,13 +288,6 @@ namespace Services.Models
             targetMethod, @AlphaAction
         proc
             targetMethod(mSynergyData, mGlobalRFA)
-        endmethod
-
-        ;;; <summary>
-        ;;; Allow the host to validate all fields. Each field will fire the validation method.
-        ;;; </summary>
-        public override method InitialValidateData, void
-        proc
         endmethod
 
         ;;; <summary>
@@ -337,14 +343,44 @@ namespace Services.Models
 
         ;;Access keys
 
-        private _KEY_ID, string, ""
-        public readonly property KEY_ID, string, ""
+        {IgnoreDataMember}
+        public property KEY_ID, string
+            method get
+            proc
+                mreturn Id.ToString()
+                
+            endmethod
+            method set
+            proc
+                
+            endmethod
+        endproperty
 
-        private _KEY_USERID, string, ""
-        public readonly property KEY_USERID, string, ""
+        {IgnoreDataMember}
+        public property KEY_USERID, string
+            method get
+            proc
+                mreturn Userid.ToString()
+                
+            endmethod
+            method set
+            proc
+                
+            endmethod
+        endproperty
 
-        private _KEY_BBQID, string, ""
-        public readonly property KEY_BBQID, string, ""
+        {IgnoreDataMember}
+        public property KEY_BBQID, string
+            method get
+            proc
+                mreturn Bbqid.ToString()
+                
+            endmethod
+            method set
+            proc
+                
+            endmethod
+        endproperty
 
 .endregion
 

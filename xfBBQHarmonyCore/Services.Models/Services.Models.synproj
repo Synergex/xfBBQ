@@ -11,13 +11,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Harmony.Core">
-      <Version>3.1.90</Version>
+      <Version>3.1.273</Version>
     </PackageReference>
     <PackageReference Include="Harmony.Core.EF">
-      <Version>3.1.90</Version>
+      <Version>3.1.273</Version>
     </PackageReference>
-    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1030.2704" />
-    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1031" />
+    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1060.2805" />
+    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1060" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.dbl" />

@@ -101,17 +101,34 @@ namespace Services.Models
             required in joinedObjects, [#]KeyValuePair<String, Object>
         proc
             data newFavorite = new Favorite(dataArea, grfa)
+            UpdateExistingJoin(newFavorite, joinedObjects)
+            mreturn newFavorite
+        endmethod
+        
+        public override method UpdateExistingJoin, void
+            required in existing, @DataObjectBase
+            required in joinedObjects, [#]KeyValuePair<String, Object>
+        proc
+            UpdateExistingJoin((@Favorite)existing, joinedObjects)
+        endmethod
+
+        public method UpdateExistingJoin, void
+            required in existing, @Favorite
+            required in joinedObjects, [#]KeyValuePair<String, Object>
+        proc
             data joinedObject, KeyValuePair<String, Object>
             foreach joinedObject in joinedObjects
             begin
                 using joinedObject.Key select
                 ("REL_User"),
-                    newFavorite.REL_User = (@User)joinedObject.Value
+                begin
+                    if(existing.REL_User == ^null)
+                    begin
+                        existing.REL_User = (@User)joinedObject.Value
+                    end
+                end
                 endusing
             end
-
-            mreturn newFavorite
-
         endmethod
 
         ;;; <summary>

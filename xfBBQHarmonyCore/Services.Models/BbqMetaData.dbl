@@ -90,17 +90,34 @@ namespace Services.Models
             required in joinedObjects, [#]KeyValuePair<String, Object>
         proc
             data newBbq = new Bbq(dataArea, grfa)
+            UpdateExistingJoin(newBbq, joinedObjects)
+            mreturn newBbq
+        endmethod
+        
+        public override method UpdateExistingJoin, void
+            required in existing, @DataObjectBase
+            required in joinedObjects, [#]KeyValuePair<String, Object>
+        proc
+            UpdateExistingJoin((@Bbq)existing, joinedObjects)
+        endmethod
+
+        public method UpdateExistingJoin, void
+            required in existing, @Bbq
+            required in joinedObjects, [#]KeyValuePair<String, Object>
+        proc
             data joinedObject, KeyValuePair<String, Object>
             foreach joinedObject in joinedObjects
             begin
                 using joinedObject.Key select
                 ("REL_BBQOrders"),
-                    newBbq.REL_BBQOrders = (@ICollection<Order>)joinedObject.Value
+                begin
+                    if(existing.REL_BBQOrders == ^null)
+                    begin
+                        existing.REL_BBQOrders = (@ICollection<Order>)joinedObject.Value
+                    end
+                end
                 endusing
             end
-
-            mreturn newBbq
-
         endmethod
 
         ;;; <summary>

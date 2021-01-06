@@ -1,15 +1,20 @@
-<CODEGEN_FILENAME>TestConstants.Values.dbl</CODEGEN_FILENAME>
+<CODEGEN_FILENAME><INTERFACE_NAME>TestValues.dbl</CODEGEN_FILENAME>
 <REQUIRES_CODEGEN_VERSION>5.5.3</REQUIRES_CODEGEN_VERSION>
+<REQUIRES_OPTION>TF</REQUIRES_OPTION>
+<CODEGEN_FOLDER>UnitTests</CODEGEN_FOLDER>
+<REQUIRES_USERTOKEN>CLIENT_MODELS_NAMESPACE</REQUIRES_USERTOKEN>
+<REQUIRES_USERTOKEN>DTOS_NAMESPACE</REQUIRES_USERTOKEN>
 ;//****************************************************************************
 ;//
-;// Title:       ODataTestConstantsValues.tpl
+;// Title:       InterfaceUnitTests.tpl
 ;//
 ;// Type:        CodeGen Template
 ;//
-;// Description: Generates a test context class with static values that can
-;//              be used to feed data into unit tests.
+;// Description: Generates a partial class containing values to be used when
+;//              unit testing controllers based on methods in an xfServerPlus
+;//              interface.
 ;//
-;// Copyright (c) 2018, Synergex International, Inc. All rights reserved.
+;// Copyright (c) 2020, Synergex International, Inc. All rights reserved.
 ;//
 ;// Redistribution and use in source and binary forms, with or without
 ;// modification, are permitted provided that the following conditions are met:
@@ -35,7 +40,7 @@
 ;//
 ;;*****************************************************************************
 ;;
-;; Title:       TestConstants.Values.dbl
+;; Title:       <INTERFACE_NAME>TestValues.dbl
 ;;
 ;; Description: Test context class with static values that can be used to feed
 ;;              data into unit tests.
@@ -52,69 +57,26 @@ import Microsoft.VisualStudio.TestTools.UnitTesting
 import Newtonsoft.Json
 import System.Collections.Generic
 import System.Net.Http
+import <CLIENT_MODELS_NAMESPACE>
+import <DTOS_NAMESPACE>
 
 namespace <NAMESPACE>
 
-    public static partial class TestConstants
+    public partial class <INTERFACE_NAME>Tests
 
-        static method TestConstants
+        public method <INTERFACE_NAME>Tests
         proc
-<STRUCTURE_LOOP>
-  <IF STRUCTURE_ISAM>
+<METHOD_LOOP>
+  <IF IN_OR_INOUT>
+            m<METHOD_NAME>_Request = new <METHOD_NAME>_Request()
+  <PARAMETER_LOOP>
+    <IF IN_OR_INOUT>
+            m<METHOD_NAME>_Request.<PARAMETER_NAME> = 
+    </IF IN_OR_INOUT>
+  </PARAMETER_LOOP>
 
-            ;;------------------------------------------------------------
-            ;;Test data for <StructureNoplural>
-            ;;
-    <IF DEFINED_ENABLE_GET_ALL>
-            Get<StructurePlural>_Count = 0
-    </IF DEFINED_ENABLE_GET_ALL>
-;//
-    <PRIMARY_KEY>
-      <SEGMENT_LOOP>
-            Get<StructureNoplural>_<SegmentName> = <FIELD_CSDEFAULT>
-      </SEGMENT_LOOP>
-    </PRIMARY_KEY>
-;//
-;//
-;//
-    <IF DEFINED_ENABLE_RELATIONS>
-      <IF STRUCTURE_RELATIONS>
-        <RELATION_LOOP_RESTRICTED>
-          <PRIMARY_KEY>
-            <SEGMENT_LOOP>
-            Get<StructureNoplural>_Expand_<IF MANY_TO_ONE_TO_MANY><HARMONYCORE_RELATION_NAME></IF MANY_TO_ONE_TO_MANY><IF ONE_TO_ONE><HARMONYCORE_RELATION_NAME></IF ONE_TO_ONE><IF ONE_TO_MANY_TO_ONE><HARMONYCORE_RELATION_NAME></IF ONE_TO_MANY_TO_ONE><IF ONE_TO_MANY><HARMONYCORE_RELATION_NAME></IF ONE_TO_MANY>_<SegmentName> = <FIELD_CSDEFAULT>
-            </SEGMENT_LOOP>
-          </PRIMARY_KEY>
-        </RELATION_LOOP_RESTRICTED>
-      </IF STRUCTURE_RELATIONS>
-    </IF DEFINED_ENABLE_RELATIONS>
-;//
-;//
-;//
-    <PRIMARY_KEY>
-      <SEGMENT_LOOP>
-            Get<StructureNoplural>_Expand_All_<SegmentName> = <FIELD_CSDEFAULT>
-      </SEGMENT_LOOP>
-    </PRIMARY_KEY>
-;//
-;//
-;//
-    <ALTERNATE_KEY_LOOP_UNIQUE>
-      <SEGMENT_LOOP>
-            Get<StructureNoplural>_ByAltKey_<KeyName>_<SegmentName> = <FIELD_CSDEFAULT>
-      </SEGMENT_LOOP>
-    </ALTERNATE_KEY_LOOP_UNIQUE>
-;//
-;//
-;//
-    <PRIMARY_KEY>
-      <SEGMENT_LOOP>
-            Update<StructureNoplural>_<SegmentName> = <FIELD_CSDEFAULT>
-      </SEGMENT_LOOP>
-    </PRIMARY_KEY>
-  </IF STRUCTURE_ISAM>
-</STRUCTURE_LOOP>
-
+  </IF IN_OR_INOUT>
+</METHOD_LOOP>
         endmethod
 
     endclass

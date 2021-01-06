@@ -8,19 +8,19 @@
     <EnableCommonProperties>True</EnableCommonProperties>
     <ProjectGuid>{FE9D44F7-8992-4274-86BA-8099C9ED94B8}</ProjectGuid>
     <Prefer32Bit>False</Prefer32Bit>
-  </PropertyGroup>
+  <GenerateMvcApplicationPartsAssemblyAttributes>false</GenerateMvcApplicationPartsAssemblyAttributes></PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Harmony.Core">
-      <Version>3.1.90</Version>
+      <Version>3.1.273</Version>
     </PackageReference>
     <PackageReference Include="Harmony.Core.AspNetCore">
-      <Version>3.1.90</Version>
+      <Version>3.1.273</Version>
     </PackageReference>
     <PackageReference Include="Harmony.Core.EF">
-      <Version>3.1.90</Version>
+      <Version>3.1.273</Version>
     </PackageReference>
     <PackageReference Include="Harmony.Core.OData">
-      <Version>3.1.90</Version>
+      <Version>3.1.273</Version>
     </PackageReference>
     <PackageReference Include="IdentityServer4.AccessTokenValidation">
       <Version>3.0.1</Version>
@@ -44,12 +44,12 @@
       <Version>3.1.5</Version>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore">
-      <Version>5.2.1</Version>
+      <Version>5.5.1</Version>
     </PackageReference>
-    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1030.2704" />
-    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1031" />
-    <PackageReference Include="HarmonyCore.CodeDomProvider" Version="1.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
+    <PackageReference Include="Synergex.SynergyDE.Build" Version="11.1.1060.2805" />
+    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="11.1.1060" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.6" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.synproj">

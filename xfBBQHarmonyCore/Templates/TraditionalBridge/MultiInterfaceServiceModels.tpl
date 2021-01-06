@@ -1,5 +1,5 @@
 <CODEGEN_FILENAME><INTERFACE_NAME>ServiceModels.dbl</CODEGEN_FILENAME>
-<REQUIRES_CODEGEN_VERSION>5.4.6</REQUIRES_CODEGEN_VERSION>
+<REQUIRES_CODEGEN_VERSION>5.4.9</REQUIRES_CODEGEN_VERSION>
 <REQUIRES_USERTOKEN>MODELS_NAMESPACE</REQUIRES_USERTOKEN>
 ;//****************************************************************************
 ;//
@@ -50,18 +50,12 @@
 
 import System
 import System.ComponentModel.DataAnnotations
-
 import <MODELS_NAMESPACE>
 
 namespace <NAMESPACE>
-<ENUM_LOOP>
-.ifndef <ENUM_NAME>
-.include "<ENUM_NAME>" repository, enum
-.endc
-</ENUM_LOOP>
-<METHOD_LOOP>
-
-;;--------------------------------------------------------------------------------
+  public class <INTERFACE_NAME>
+  <METHOD_LOOP>
+  ;;--------------------------------------------------------------------------------
 ;; <METHOD_NAME>
 ;//
 ;// REQUEST MODEL
@@ -136,4 +130,5 @@ namespace <NAMESPACE>
     ;; This method does not return any data!
   </IF RETURNS_DATA>
 </METHOD_LOOP>
+  endclass
 endnamespace

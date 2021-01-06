@@ -1,12 +1,12 @@
-<CODEGEN_FILENAME><INTERFACE_NAME>Dispatcher.dbl</CODEGEN_FILENAME>
+<CODEGEN_FILENAME>MetadataInit.dbl</CODEGEN_FILENAME>
 <REQUIRES_CODEGEN_VERSION>5.4.6</REQUIRES_CODEGEN_VERSION>
 ;//****************************************************************************
 ;//
-;// Title:       InterfaceDispatcher.tpl
+;// Title:       DataObjectMetaData.tpl
 ;//
 ;// Type:        CodeGen Template
 ;//
-;// Description: Creates a class that declares dispacher classes for exposed methods
+;// Description: Template to define meta data associated with a data object
 ;//
 ;// Copyright (c) 2018, Synergex International, Inc. All rights reserved.
 ;//
@@ -34,9 +34,9 @@
 ;//
 ;;*****************************************************************************
 ;;
-;; Title:       <INTERFACE_NAME>Dispatcher.dbl
+;; Title:       MetaDataInit.dbl
 ;;
-;; Description: Declares dispacher classes for exposed methods
+;; Description: Defines init routine to set up metadata objects.
 ;;
 ;;*****************************************************************************
 ;; WARNING: GENERATED CODE!
@@ -45,31 +45,14 @@
 ;;*****************************************************************************
 
 import Harmony.TraditionalBridge
-import <NAMESPACE>.<INTERFACE_NAME>
 
-namespace <NAMESPACE>
+subroutine MetaDataInit
+record
+	dataObj, @DataObjectMetadataBase
+proc
 
-    public partial class <INTERFACE_NAME>Dispatcher extends RoutineDispatcher
-
-        public method <INTERFACE_NAME>Dispatcher
-        proc
-<IF DEFINED_ENABLE_BRIDGE_SAMPLE_DISPATCHERS>
-            ;;Declare dispatcher classes fotr the sample methods
-            mDispatchStubs.Add("AddTwoNumbers", new AddTwoNumbersDispatcher())
-            mDispatchStubs.Add("GetEnvironment", new GetEnvironmentDispatcher())
-            mDispatchStubs.Add("GetLogicalName", new GetLogicalNameDispatcher())
-
-</IF DEFINED_ENABLE_BRIDGE_SAMPLE_DISPATCHERS>
-            ;;Declare dispatcher classes for the '<INTERFACE_NAME>' interface methods
-            <METHOD_LOOP>
-            mDispatchStubs.Add("<METHOD_NAME>", new <METHOD_NAME>_Dispatcher())
-            </METHOD_LOOP>
-<IF DEFINED_ENABLE_BRIDGE_INIT>
-            ;;Initialize all data object metadata
-            this.initMetaData()
-</IF DEFINED_ENABLE_BRIDGE_INIT>
-        endmethod
-
-    endclass
-
-endnamespace
+<STRUCTURE_LOOP>
+	xcall Meta<StructureNoplural>(dataObj)
+	DataObjectMetadataBase.ForceLookupType("<StructureNoplural>", dataObj)
+</STRUCTURE_LOOP>
+endsubroutine

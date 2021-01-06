@@ -1,12 +1,12 @@
 {
     "info": {
-        "_postman_id": "53c24666-32d0-4c78-82c4-e41566d1a952",
+        "_postman_id": "f1ab079f-9848-442d-a978-1c810ca1e504",
         "name": "Harmony Core Sample API",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
         {
-            "name": "Get Access Token (Jodah)",
+            "name": "Get Access Token",
             "request": {
                 "auth": {
                     "type": "noauth"
@@ -15,66 +15,34 @@
                 "header": [
                     {
                         "key": "Content-Type",
-                        "value": "application/x-www-form-urlencoded"
+                        "value": "application/json"
                     }
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "grant_type=password&username=jodah&password=P@ssw0rd&client_id=ro.client&client_secret=CBF7EBE6-D46E-41A7-903B-766A280616C3"
+                    "raw": "{ \"Username\": \"<CUSTOM_AUTH_USERNAME>\", \"Password\": \"<CUSTOM_AUTH_PASSWORD>\"}"
                 },
                 "url": {
-                    "raw": "http://localhost:5000/connect/token",
-                    "protocol": "http",
+                    "raw": "{{ServerAuthUri}}/<CUSTOM_AUTH_CONTROLLER_PATH>/<CUSTOM_AUTH_ENDPOINT_PATH>",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
-                    "port": "5000",
+                    "port": "8086",
                     "path": [
-                        "connect",
-                        "token"
+                        "<CUSTOM_AUTH_CONTROLLER_PATH>",
+                        "<CUSTOM_AUTH_ENDPOINT_PATH>"
                     ]
                 }
             },
             "response": []
         },
         {
-            "name": "Get Access Token (Manny)",
-            "request": {
-                "auth": {
-                    "type": "noauth"
-                },
-                "method": "POST",
-                "header": [
-                    {
-                        "key": "Content-Type",
-                        "value": "application/x-www-form-urlencoded"
-                    }
-                ],
-                "body": {
-                    "mode": "raw",
-                    "raw": "grant_type=password&username=manny&password=P@ssw0rd&client_id=ro.client&client_secret=CBF7EBE6-D46E-41A7-903B-766A280616C3"
-                },
-                "url": {
-                    "raw": "http://localhost:5000/connect/token",
-                    "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "5000",
-                    "path": [
-                        "connect",
-                        "token"
-                    ]
-                }
-            },
-            "response": []
-        },
-        {
-            "_postman_id": "9a759e70-d9b5-44dc-bcfe-ddc4bd1c0733",
+            "_postman_id": "ac890894-1e2a-4f91-9d3c-ab92656e3f03",
             "name": "Bbq Tests",
             "item": [
                 {
-                    "_postman_id": "2657ac01-7458-48dd-960a-518118830350",
+                    "_postman_id": "ae7a229d-1e75-49a7-9795-bc36aaa726f6",
                     "name": "Read bbqs",
                     "request": {
                         "method": "GET",
@@ -82,6 +50,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -102,7 +75,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "37ceee8e-a17d-418b-9c4c-51892f6116d6",
+                    "_postman_id": "80c9f00a-499e-4487-9754-0ad73378d324",
                     "name": "Count bbqs",
                     "request": {
                         "method": "GET",
@@ -110,6 +83,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -131,7 +109,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "6b78cc08-6e03-4ac4-a824-a82091bbf734",
+                    "_postman_id": "aab04581-7b4c-4e1c-81cf-9e84a06e65db",
                     "name": "Read bbq",
                     "request": {
                     "method": "GET",
@@ -139,6 +117,11 @@
                         {
                         "key": "Accept",
                         "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -159,14 +142,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "a5ce8e30-76bf-4f39-bbf4-f3881939e614",
+                    "_postman_id": "79d3efa4-2df7-4d74-a073-06acbb17f217",
                     "name": "Create bbq (auto assign key)",
                     "request": {
                     "method": "POST",
                     "header": [
                         {
-                        "key": "Content-Type",
-                        "value": "application/json"
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -187,14 +175,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "b9a65218-ed7a-44ad-915b-8a12bbe54804",
+                    "_postman_id": "d85cf29c-64ba-48a6-8adc-f0ab03475baa",
                     "name": "Create or update bbq",
                     "request": {
                     "method": "PUT",
                     "header": [
                         {
-                        "key": "Content-Type",
-                        "value": "application/json"
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -222,6 +215,11 @@
                             {
                                 "key": "Content-Type",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -240,42 +238,14 @@
                     },
                     "response": []
                 }
-                ,
-                {
-                    "_postman_id": "1945077a-dfb7-4f9e-bf36-25ac63bad371",
-                    "name": "Delete bbq",
-                    "request": {
-                    "method": "DELETE",
-                    "header": [
-                        {
-                        "key": "Accept",
-                        "value": "application/json"
-                        }
-                    ],
-                    "body": {
-                        "mode": "raw",
-                        "raw": ""
-                    },
-                    "url": {
-                        "raw": "{{ServerBaseUri}}/Bbqs(Id=123)",
-                        "host": [
-                            "{{ServerBaseUri}}"
-                        ],
-                        "path": [
-                            "Bbqs(Id=123)"
-                        ]
-                    }
-                    },
-                    "response": []
-                }
             ]
         },
         {
-            "_postman_id": "0cc0059f-f5a8-4712-84f1-a807c85c5423",
+            "_postman_id": "c764b4a4-1ea4-47f6-b7d4-f2f466af90f9",
             "name": "Order Tests",
             "item": [
                 {
-                    "_postman_id": "ed2e335f-8da8-448b-a56d-8cafe5551e2d",
+                    "_postman_id": "83b56b82-8097-4256-b6f0-5c01f35863ab",
                     "name": "Read orders",
                     "request": {
                         "method": "GET",
@@ -283,6 +253,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -303,7 +278,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "1bd60520-1964-4b59-b7af-a833f0c7affe",
+                    "_postman_id": "85d86d57-0303-4aea-b331-99db91bc8d8d",
                     "name": "Count orders",
                     "request": {
                         "method": "GET",
@@ -311,6 +286,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -332,7 +312,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "cc16d950-a44b-44f5-8a21-46f1ad4bd2e7",
+                    "_postman_id": "d392588c-0bbb-494b-97b1-764af164c12b",
                     "name": "Read order",
                     "request": {
                     "method": "GET",
@@ -340,6 +320,11 @@
                         {
                         "key": "Accept",
                         "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -360,14 +345,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "e52bef7c-cf54-4163-ada2-b3fa5330fd9f",
+                    "_postman_id": "8495deee-ff73-404a-bbca-afbf3cea9d97",
                     "name": "Read orders by Userid",
                     "request": {
                     "method": "GET",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -388,14 +378,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "7051016f-98d8-4260-bf08-71ddabac4af9",
+                    "_postman_id": "5cbd470b-5477-46bd-b6fb-9bc5e4ce0e27",
                     "name": "Count orders by Userid",
                     "request": {
                     "method": "GET",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -417,14 +412,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "2046643b-ff29-4c47-b9fa-682cb5c1dd42",
+                    "_postman_id": "ee52f5f7-9d7a-426b-95f2-e07e210bc072",
                     "name": "Read orders by Bbqid",
                     "request": {
                     "method": "GET",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -445,14 +445,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "44041642-9b12-4c4f-bd8d-b4c4983449e5",
+                    "_postman_id": "e38863e0-5513-4241-9023-073a83249ddd",
                     "name": "Count orders by Bbqid",
                     "request": {
                     "method": "GET",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -474,42 +479,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "1092467e-6ebb-434f-ad61-a6291282a4bb",
-                    "name": "Create order (auto assign key)",
-                    "request": {
-                    "method": "POST",
-                    "header": [
-                        {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                        }
-                    ],
-                    "body": {
-                        "mode": "raw",
-                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": 123,\n    \"Orderdate\": 123,\n    \"Userid\": 123,\n    \"Bbqid\": 123\n}"
-                    },
-                    "url": {
-                        "raw": "{{ServerBaseUri}}/Orders",
-                        "host": [
-                            "{{ServerBaseUri}}"
-                        ],
-                        "path": [
-                            "Orders"
-                        ]
-                    }
-                    },
-                    "response": []
-                }
-                ,
-                {
-                    "_postman_id": "a83e112f-e0dd-4603-a677-6a3714fd63fc",
+                    "_postman_id": "68f4e925-5554-46ae-afde-1cb60845475b",
                     "name": "Create or update order",
                     "request": {
                     "method": "PUT",
                     "header": [
                         {
-                        "key": "Content-Type",
-                        "value": "application/json"
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -537,6 +519,11 @@
                             {
                                 "key": "Content-Type",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -557,14 +544,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "34547a07-17a8-4001-ac9f-2877b61cbf52",
+                    "_postman_id": "85fd6c22-0082-40b5-85d4-c1225f1ec3cb",
                     "name": "Delete order",
                     "request": {
                     "method": "DELETE",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -586,11 +578,11 @@
             ]
         },
         {
-            "_postman_id": "23fe5ab6-ac10-4a7d-891c-f10fcfdd8e33",
+            "_postman_id": "41dafdad-6f76-4c15-825a-3a8dddd8fa90",
             "name": "User Tests",
             "item": [
                 {
-                    "_postman_id": "fcad8945-e3ec-4c9e-a941-f7b059c26b1b",
+                    "_postman_id": "644f4a7e-069f-48ee-b3ec-661e2ff6fd21",
                     "name": "Read users",
                     "request": {
                         "method": "GET",
@@ -598,6 +590,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -618,7 +615,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "95b24b3f-170c-4b27-9de8-acbb060bc237",
+                    "_postman_id": "9da58437-fb2b-4f7d-a805-d903d7b14488",
                     "name": "Count users",
                     "request": {
                         "method": "GET",
@@ -626,6 +623,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -647,7 +649,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "7355faab-0fbc-4e0b-9637-63d977bad6cc",
+                    "_postman_id": "631716b3-8035-4053-b208-4753c8f4fb34",
                     "name": "Read user",
                     "request": {
                     "method": "GET",
@@ -655,6 +657,11 @@
                         {
                         "key": "Accept",
                         "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -675,42 +682,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "84ff7beb-616a-4fcd-9fd3-f23f7e3b2c18",
-                    "name": "Create user (auto assign key)",
-                    "request": {
-                    "method": "POST",
-                    "header": [
-                        {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                        }
-                    ],
-                    "body": {
-                        "mode": "raw",
-                         "raw": "{\n    \"Id\": 123,\n    \"Joindate\": 123,\n    \"Type\": 123,\n    \"Email\": \"ABC\",\n    \"Lastlogindate\": 123,\n    \"Hash\": \"ABC\",\n    \"Name\": \"ABC\",\n    \"Recoverycode\": \"ABC\"\n}"
-                    },
-                    "url": {
-                        "raw": "{{ServerBaseUri}}/Users",
-                        "host": [
-                            "{{ServerBaseUri}}"
-                        ],
-                        "path": [
-                            "Users"
-                        ]
-                    }
-                    },
-                    "response": []
-                }
-                ,
-                {
-                    "_postman_id": "a34c7362-837d-4f9d-82f7-fb02b5781cf7",
+                    "_postman_id": "a5c9eab7-5c45-4321-8b81-8d01b74e7521",
                     "name": "Create or update user",
                     "request": {
                     "method": "PUT",
                     "header": [
                         {
-                        "key": "Content-Type",
-                        "value": "application/json"
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -738,6 +722,11 @@
                             {
                                 "key": "Content-Type",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -756,42 +745,14 @@
                     },
                     "response": []
                 }
-                ,
-                {
-                    "_postman_id": "dedd5878-34b2-46c3-86f2-2c6c8af40814",
-                    "name": "Delete user",
-                    "request": {
-                    "method": "DELETE",
-                    "header": [
-                        {
-                        "key": "Accept",
-                        "value": "application/json"
-                        }
-                    ],
-                    "body": {
-                        "mode": "raw",
-                        "raw": ""
-                    },
-                    "url": {
-                        "raw": "{{ServerBaseUri}}/Users(Id=123)",
-                        "host": [
-                            "{{ServerBaseUri}}"
-                        ],
-                        "path": [
-                            "Users(Id=123)"
-                        ]
-                    }
-                    },
-                    "response": []
-                }
             ]
         },
         {
-            "_postman_id": "a41b6604-b726-4590-84a2-7c7a4fdbce2a",
+            "_postman_id": "426d4620-5516-40f7-a3b8-488660b3e10d",
             "name": "Favorite Tests",
             "item": [
                 {
-                    "_postman_id": "c5b461fd-5900-4779-8fa0-8cc0b5c44f5d",
+                    "_postman_id": "4f592a7e-bcab-4c00-b63e-3dab1bb71ce4",
                     "name": "Read favorites",
                     "request": {
                         "method": "GET",
@@ -799,6 +760,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -819,7 +785,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "b6cb3b79-6e9e-4f37-8a3c-0278b2663b92",
+                    "_postman_id": "52fffe75-023a-4427-a6fb-6759e080ac41",
                     "name": "Count favorites",
                     "request": {
                         "method": "GET",
@@ -827,6 +793,11 @@
                             {
                                 "key": "Accept",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -848,7 +819,7 @@
                 }
                 ,
                 {
-                    "_postman_id": "7f5326a1-fc73-474f-8f4e-5f9a28faf477",
+                    "_postman_id": "40ffa0db-0380-4a71-9429-c3264ed42ee6",
                     "name": "Read favorite",
                     "request": {
                     "method": "GET",
@@ -856,6 +827,11 @@
                         {
                         "key": "Accept",
                         "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -876,14 +852,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "89840688-fe85-4306-acf2-8c55f6ad643a",
+                    "_postman_id": "30d56a88-0849-412b-a4c7-5ce9ce93904b",
                     "name": "Read favorites by Userid",
                     "request": {
                     "method": "GET",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -904,14 +885,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "44f338db-63e3-4724-a7c6-5754c8bb1906",
+                    "_postman_id": "85af8dcb-deda-40da-89af-846e0a2961ec",
                     "name": "Count favorites by Userid",
                     "request": {
                     "method": "GET",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -933,42 +919,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "60c0badc-b3e6-4c40-ac1b-c74f869048a0",
-                    "name": "Create favorite (auto assign key)",
-                    "request": {
-                    "method": "POST",
-                    "header": [
-                        {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                        }
-                    ],
-                    "body": {
-                        "mode": "raw",
-                         "raw": "{\n    \"Id\": 123,\n    \"Meat\": 123,\n    \"Cheese\": 123,\n    \"Doneness\": 123,\n    \"Spicy\": 123,\n    \"Type\": 123,\n    \"Count\": 123,\n    \"Burnt\": 123,\n    \"Userid\": 123\n}"
-                    },
-                    "url": {
-                        "raw": "{{ServerBaseUri}}/Favorites",
-                        "host": [
-                            "{{ServerBaseUri}}"
-                        ],
-                        "path": [
-                            "Favorites"
-                        ]
-                    }
-                    },
-                    "response": []
-                }
-                ,
-                {
-                    "_postman_id": "c7682d6f-45d2-47d4-be14-424d1c605e13",
+                    "_postman_id": "3778e354-3414-481d-8334-bd3da36d6e5b",
                     "name": "Create or update favorite",
                     "request": {
                     "method": "PUT",
                     "header": [
                         {
-                        "key": "Content-Type",
-                        "value": "application/json"
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -996,6 +959,11 @@
                             {
                                 "key": "Content-Type",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "x-tenant-id",
+                                "value": "{{TenantID}}",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -1016,14 +984,19 @@
                 }
                 ,
                 {
-                    "_postman_id": "b1358436-5603-416a-bf9b-776ba5d7276e",
+                    "_postman_id": "829a21b1-9d97-4e25-9681-97ddb0df41d6",
                     "name": "Delete favorite",
                     "request": {
                     "method": "DELETE",
                     "header": [
                         {
-                        "key": "Accept",
-                        "value": "application/json"
+                            "key": "Accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "x-tenant-id",
+                            "value": "{{TenantID}}",
+                            "type": "text"
                         }
                     ],
                     "body": {
@@ -1049,7 +1022,7 @@
         {
             "listen": "prerequest",
             "script": {
-                "id": "bd98c193-e4b6-41fa-8542-bb4f49ce9094",
+                "id": "c15002f1-2359-4b13-9208-bcf3acf07592",
                 "type": "text/javascript",
                 "exec": [
                     ""
@@ -1059,7 +1032,7 @@
         {
             "listen": "test",
             "script": {
-                "id": "f4bf6665-f6b2-4e60-b48a-e0c4c13ab6bb",
+                "id": "4db16908-677d-4ca4-8aa2-3bef0414def6",
                 "type": "text/javascript",
                 "exec": [
                     ""
@@ -1069,15 +1042,21 @@
     ],
     "variable": [
         {
-            "id": "bd6f096f-5211-4e1d-ba95-e944e7e7b89a",
-            "key": "AccessToken",
+            "id": "95e6ff2e-1b5c-482c-b580-beea2b388206",
+            "key": "TenantID",
             "value": "",
             "type": "string"
         },
         {
-            "id": "516455e6-1f03-436c-83a5-2d1fb2499807",
+            "id": "52dd5580-9e4f-4049-a458-1e8157c54ca9",
             "key": "ServerBaseUri",
             "value": "https://localhost:8086/odata/v1",
+            "type": "string"
+        },
+        {
+            "id": "4a61f470-0016-46cd-b36a-74a9decfbb89",
+            "key": "ServerAuthUri",
+            "value": "https://localhost:8086",
             "type": "string"
         }
     ]

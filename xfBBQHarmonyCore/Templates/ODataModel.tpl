@@ -57,14 +57,19 @@ import Harmony.OData
 import Harmony.Core.Context
 import Harmony.Core.FileIO
 import Microsoft.Extensions.DependencyInjection
+import System.Runtime.Serialization
 
 namespace <NAMESPACE>
 
+    <IF DEFINED_ENABLE_NEWTONSOFT>
+    {Newtonsoft.Json.JsonObject(Newtonsoft.Json.MemberSerialization.OptIn)}
+    </IF>
     public partial class <StructureNoplural> extends DataObjectBase
 
         ;;make the record available and a copy
         private mSynergyData, str<StructureNoplural>
         private mOriginalSynergyData, str<StructureNoplural>
+        protected mGlobalRFA  ,a10
 
         private static sMetadata, @<StructureNoplural>Metadata
 
@@ -143,6 +148,9 @@ namespace <NAMESPACE>
 ;//
 ;// Field property
 ;//
+      <IF DEFINED_ENABLE_NEWTONSOFT>
+        {Newtonsoft.Json.JsonProperty}
+      </IF>
       <IF DEFINED_ENABLE_FIELD_SECURITY>
         <IF CUSTOM_HARMONY_AUTHENTICATE>
         {AuthorizeField}
@@ -330,6 +338,17 @@ namespace <NAMESPACE>
             endmethod
         endproperty
 
+        public override property GlobalRFA, [#]byte
+			method get
+			proc
+                mreturn mGlobalRFA
+			endmethod
+			method set
+			proc
+                mGlobalRFA = value
+			endmethod
+		endproperty
+
 .endregion
 
 .region "Public methods"
@@ -341,13 +360,6 @@ namespace <NAMESPACE>
             targetMethod, @AlphaAction
         proc
             targetMethod(mSynergyData, mGlobalRFA)
-        endmethod
-
-        ;;; <summary>
-        ;;; Allow the host to validate all fields. Each field will fire the validation method.
-        ;;; </summary>
-        public override method InitialValidateData, void
-        proc
         endmethod
 
         ;;; <summary>
@@ -370,6 +382,9 @@ namespace <NAMESPACE>
 
     <RELATION_LOOP_RESTRICTED>
       <COUNTER_1_INCREMENT>
+      <IF DEFINED_ENABLE_NEWTONSOFT>
+        {Newtonsoft.Json.JsonProperty(DefaultValueHandling=DefaultValueHandling.Ignore)}
+      </IF>
 ;//
 ;//
 ;//
@@ -615,8 +630,24 @@ namespace <NAMESPACE>
         ;;Access keys
 
   <KEY_LOOP_UNIQUE>
-        private _KEY_<KEY_NAME>, string, ""
-        public readonly property KEY_<KEY_NAME>, string, ""
+        {IgnoreDataMember}
+        public property KEY_<KEY_NAME>, string
+            method get
+            proc
+            <IF SINGLE_SEGMENT>
+                <SEGMENT_LOOP>
+                mreturn <FieldSqlname>.ToString()
+                </SEGMENT_LOOP>
+            <ELSE>
+                mreturn string.Join('|',  <SEGMENT_LOOP><IF SEG_TYPE_LITERAL>"<SEGMENT_LITVAL>"<ELSE><FieldSqlname></IF><,></SEGMENT_LOOP>)
+            </IF>
+                
+            endmethod
+            method set
+            proc
+                
+            endmethod
+        endproperty
 
   </KEY_LOOP_UNIQUE>
   <FOREIGN_KEY_LOOP>
@@ -624,8 +655,24 @@ namespace <NAMESPACE>
         ;;Foreign keys
 
     </IF FIRST>
-        private _KEY_<KEY_NAME>, string, ""
-        public readonly property KEY_<KEY_NAME>, string, ""
+        {IgnoreDataMember}
+        public property KEY_<KEY_NAME>, string
+            method get
+            proc
+            <IF SINGLE_SEGMENT>
+                <SEGMENT_LOOP>
+                mreturn <FieldSqlname>.ToString()
+                </SEGMENT_LOOP>
+            <ELSE>
+                mreturn string.Join('|',  <SEGMENT_LOOP><IF SEG_TYPE_LITERAL>"<SEGMENT_LITVAL>"<ELSE><FieldSqlname></IF><,></SEGMENT_LOOP>)
+            </IF>
+                
+            endmethod
+            method set
+            proc
+                
+            endmethod
+        endproperty
 
   </FOREIGN_KEY_LOOP>
 .endregion

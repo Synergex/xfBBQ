@@ -96,19 +96,41 @@ namespace Services.Models
             required in joinedObjects, [#]KeyValuePair<String, Object>
         proc
             data newUser = new User(dataArea, grfa)
+            UpdateExistingJoin(newUser, joinedObjects)
+            mreturn newUser
+        endmethod
+        
+        public override method UpdateExistingJoin, void
+            required in existing, @DataObjectBase
+            required in joinedObjects, [#]KeyValuePair<String, Object>
+        proc
+            UpdateExistingJoin((@User)existing, joinedObjects)
+        endmethod
+
+        public method UpdateExistingJoin, void
+            required in existing, @User
+            required in joinedObjects, [#]KeyValuePair<String, Object>
+        proc
             data joinedObject, KeyValuePair<String, Object>
             foreach joinedObject in joinedObjects
             begin
                 using joinedObject.Key select
                 ("REL_UserFavorites"),
-                    newUser.REL_UserFavorites = (@ICollection<Favorite>)joinedObject.Value
+                begin
+                    if(existing.REL_UserFavorites == ^null)
+                    begin
+                        existing.REL_UserFavorites = (@ICollection<Favorite>)joinedObject.Value
+                    end
+                end
                 ("REL_UserOrders"),
-                    newUser.REL_UserOrders = (@ICollection<Order>)joinedObject.Value
+                begin
+                    if(existing.REL_UserOrders == ^null)
+                    begin
+                        existing.REL_UserOrders = (@ICollection<Order>)joinedObject.Value
+                    end
+                end
                 endusing
             end
-
-            mreturn newUser
-
         endmethod
 
         ;;; <summary>

@@ -1,4 +1,4 @@
-﻿<CODEGEN_FILENAME>DbContext.dbl</CODEGEN_FILENAME>
+<CODEGEN_FILENAME>DbContext.dbl</CODEGEN_FILENAME>
 <REQUIRES_CODEGEN_VERSION>5.4.6</REQUIRES_CODEGEN_VERSION>
 <REQUIRES_USERTOKEN>MODELS_NAMESPACE</REQUIRES_USERTOKEN>
 ;//****************************************************************************
@@ -102,7 +102,7 @@ namespace <NAMESPACE>
             </PRIMARY_KEY>
             </IF STRUCTURE_ISAM>
             <IF STRUCTURE_RELATIVE>
-            parm.Entity<<StructureNoplural>>().HasKey(RecordNumber)
+            parm.Entity<<StructureNoplural>>().HasKey("RecordNumber")
             </IF STRUCTURE_RELATIVE>
             </STRUCTURE_LOOP>
 
@@ -156,7 +156,7 @@ namespace <NAMESPACE>
 .region "Entity Relationships"
 
             <STRUCTURE_LOOP>
-            <IF STRUCTURE_RELATIONS>
+            <IF STRUCTURE_RELATIONS AND HARMONYCORE_RELATIONS_ENABLED>
             ;;--------------------------------------
             ;; Relationships from <STRUCTURE_NOPLURAL>
 

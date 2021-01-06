@@ -15,8 +15,8 @@ dotnet publish -c Debug -r win7-x64 -o %DeployDir%
 popd
 
 rem Copy in the TraditionalBridge files
-copy TraditionalBridge\bin\Debug\x64\TraditionalBridgeHost.dbr  %DeployDir%
-copy TraditionalBridge\bin\Debug\x64\launch.bat                 %DeployDir%
+rem copy TraditionalBridge\bin\Debug\x64\TraditionalBridgeHost.dbr  %DeployDir%
+rem copy TraditionalBridge\bin\Debug\x64\launch.bat                 %DeployDir%
 
 popd
 endlocal

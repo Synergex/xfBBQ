@@ -16,6 +16,7 @@ import Harmony.AspNetCore.Context
 import Harmony.Core
 import Harmony.Core.Context
 import Harmony.Core.FileIO
+import Harmony.Core.Interface
 import Harmony.Core.Utility
 import Harmony.OData
 import Harmony.OData.Adapter
@@ -527,6 +528,15 @@ namespace Services
         partial method ConfigureCustomBeforeMvc, void
             required in app, @IApplicationBuilder
             required in env, @IHostingEnvironment
+        endmethod
+
+        ;;; <summary>
+        ;;; Declare the MvcConfigCustom partial method
+        ;;; Developers can use this to inject custom options into the MVC environemnt
+        ;;; </summary>
+        ;;; <param name="options">MVC options</param>
+        partial method MvcConfigCustom, void
+            options, @MvcOptions
         endmethod
 
         .endregion
