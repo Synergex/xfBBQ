@@ -1,5 +1,5 @@
 import { handleError } from "./apiUtils";
-const baseUrl = "https://localhost:8086/Authentication/GetToken";
+const baseUrl = "https://xfbbq.azurewebsites.net/Authentication/GetToken";
 
 export let authToken;
 export function setToken(token) {

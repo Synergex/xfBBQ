@@ -1,6 +1,6 @@
 import { handleResponse, handleError } from "../api/apiUtils";
 import * as tokenApi from "./tokenApi";
-const baseUrl = "https://localhost:8086/odata/v1/";
+const baseUrl = "https://xfbbq.azurewebsites.net/odata/v1/";
 
 /**
  * Returns the result of an OData query

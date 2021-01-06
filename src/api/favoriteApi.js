@@ -1,6 +1,6 @@
 import { handleResponse, handleError } from "./apiUtils";
 import * as tokenApi from "./tokenApi";
-const baseUrl = "https://localhost:8086/odata/v1/Favorites";
+const baseUrl = "https://xfbbq.azurewebsites.net/odata/v1/Favorites";
 
 export async function getFavorites(opts) {
   try {

@@ -1,6 +1,6 @@
 import { handleResponse, handleError } from "./apiUtils";
 import * as tokenApi from "./tokenApi";
-const baseUrl = "https://localhost:8086/odata/v1/Orders";
+const baseUrl = "https://xfbbq.azurewebsites.net/odata/v1/Orders";
 
 export async function getOrders(opts) {
   try {
